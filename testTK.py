@@ -66,9 +66,25 @@ def initWhiteList():
 
 
 def ajoutWhiteList():
+    mdp = StringVar()
+    iden = StringVar()
     popup = Toplevel()
-    popup.config(background='#1B2B4B')
+    popup.config(background="#DADADA")
+    popup.attributes("-topmost", 1)
+    framePop = Frame(popup, background="#DADADA")
+    logi = Label(popup, text="Logiciel bloqué", font=(
+    "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
+    id = Entry(framePop, bg="white", textvariable=iden)
+    passW = Entry(framePop, bg="white", textvariable=mdp)
+    valid = Button(framePop, bg='#403E3E', fg='#DADADA', text="Valider", font=("Space Ranger", 12))
+    logi.pack()
+    id.pack()
+    passW.pack()
+    valid.pack()
+    framePop.pack(pady=10, padx=10)
     popup.mainloop()
+
+####################################################
 # window
 window = Tk()
 window.title("Ransomtion Proteware")
