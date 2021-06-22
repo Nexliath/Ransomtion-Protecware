@@ -1,0 +1,27 @@
+@startuml
+skinparam usecase {
+BackgroundColor AliceBlue
+BorderColor MidnightBlue
+ArrowColor Salmon
+}
+
+left to right direction
+
+actor utilisateur #AliceBlue;line:MidnightBlue;line.bold;text:Black
+
+rectangle "Ransomtion Protecware" {
+  :utilisateur: -- (Login)
+  :utilisateur: -- (Utilisation de backup)
+  (Login) .left.> (Utilisation de backup) : include
+  :utilisateur: -- (Ajout à la whitelist)
+  (Login) .right.> (Ajout à la whitelist) : include
+  usecase UC1 as "Relancer logiciel bloqué
+  --
+  **Extension points**
+  Ajout à la whitelist
+  "
+  (Ajout à la whitelist) <.down. UC1 : extends
+  :utilisateur: -- (FeedBack et aide)
+
+}
+@enduml
