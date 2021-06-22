@@ -13,14 +13,18 @@ class Logiciel(object):
 
 
 def changeColorsNB():
-    button["fg"] = 'white'
-    button["bg"] = 'grey'
-    label_title["bg"] = 'white'
-    label_title["fg"] = 'darkgrey'
-    label_subtitle["bg"] = 'white'
-    label_subtitle["fg"] = 'darkgrey'
-    window.config(background="white")
-
+    window.config(background="#DADADA")
+    button["fg"] = '#DADADA'
+    button["bg"] = '#403E3E'
+    label_title["bg"] = '#DADADA'
+    label_title["fg"] = '#403E3E'
+    label_subtitle["bg"] = '#DADADA'
+    label_subtitle["fg"] = '#403E3E'
+    white_list["bg"] = "#DADADA"
+    white_list["fg"] = "#403E3E"
+    ajout["fg"] = '#DADADA'
+    ajout["bg"] = '#403E3E'
+    frameWL["bg"] = '#DADADA'
 
 def changeColors():
     button["fg"] = '#1B2B4B'
@@ -30,6 +34,11 @@ def changeColors():
     label_subtitle["bg"] = '#1B2B4B'
     label_subtitle["fg"] = '#E07B6A'
     window.config(background='#1B2B4B')
+    white_list["bg"] = "#E07B6A"
+    white_list["fg"] = "#1B2B4B"
+    ajout["fg"] = '#1B2B4B'
+    ajout["bg"] = '#E07B6A'
+    frameWL["bg"] = '#1B2B4B'
 
 
 # initialisation de la whitelist
@@ -56,6 +65,10 @@ def initWhiteList():
         sqliteConnection.close()
 
 
+def ajoutWhiteList():
+    popup = Toplevel()
+    popup.config(background='#1B2B4B')
+    popup.mainloop()
 # window
 window = Tk()
 window.title("Ransomtion Proteware")
@@ -83,16 +96,22 @@ label_subtitle = Label(window, text="Logiciel actif...", font=(
     "Space Ranger", 25), bg='#1B2B4B', fg='#E07B6A', pady=15)
 
 # Bouton éteindre
-button = Button(window, text="eteindre", font=("Space Ranger", 18),
+button = Button(window, text="eteindre", font=("Space Ranger", 12),
                 bg='#E07B6A', fg='#1B2B4B', command=window.destroy)
-
+# frame whitlist
+frameWL = Frame(window, background="#1B2B4B")
 # whitelist
-white_list = Listbox(window, bg='#E07B6A', fg='#1B2B4B', bd=0, padx=15)
+white_list = Listbox(frameWL, bg='#E07B6A', fg='#1B2B4B', bd=0, relief=GROOVE, borderwidth=4)
+white_list.pack()
 initWhiteList()
+# bouton ajouter whitelist
+ajout = Button(frameWL, text="Ajouter", font=("Space Ranger", 15),
+                bg='#E07B6A', fg='#1B2B4B', command=ajoutWhiteList)
+ajout.pack(pady=10, padx=20)
 
 # grid
 label_title.grid(row=0, column=1)
 label_subtitle.grid(row=1, column=1)
 button.grid(row=10, column=10)
-white_list.grid(row=2, column=0)
+frameWL.grid(row=2, column=0, padx=25, pady=10)
 window.mainloop()
