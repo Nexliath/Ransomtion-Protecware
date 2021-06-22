@@ -1,6 +1,8 @@
 from tkinter import *
+import sqlite3
+from sqlite3 import Error as Err
 
-class logiciel(newPath, newName):
+class Logiciel(object):
     path = ""
     name = ""
     def __init__(self, newPath, newName):
@@ -26,6 +28,31 @@ def changeColors():
     label_subtitle["bg"] = '#1B2B4B'
     label_subtitle["fg"] = '#E07B6A'
     window.config(background='#1B2B4B')
+
+#initialisation de la whitelist
+def initWhiteList():
+
+    try:
+        sqliteConnection = sqlite3.connect('Ransomtion-Protecware.db')
+        dest = sqlite3.connect(':memory:')
+        sqliteConnection.backup(dest)
+        c = sqliteConnection.cursor()
+        req = c.execute('SELECT name FROM whitelist')
+        i = 0
+        for row in req.fetchall():
+            print(row)
+            white_list.insert(i, row[0])
+            i=i+1
+            print(i)
+            
+    except sqlite3.Error as er:
+        print('SQLite error: %s' % (' '.join(er.args)))
+        print("Exception class is: ", er.__class__)
+        print('SQLite traceback: ')
+        exc_type, exc_value, exc_tb = sys.exc_info()
+        print(traceback.format_exception(exc_type, exc_value, exc_tb))
+    finally:
+        sqliteConnection.close()
 
 # window
 window = Tk()
@@ -56,7 +83,7 @@ button = Button(window, text="eteindre", font=("Space Ranger", 18), bg='#E07B6A'
 
 # whitelist
 white_list = Listbox(window, bg='#E07B6A', fg='#1B2B4B', bd=0)
-white_list.insert(0, logiciel)
+initWhiteList()
 
 # grid
 label_title.grid(row=0, column=1)
