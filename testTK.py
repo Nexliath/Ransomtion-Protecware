@@ -63,6 +63,20 @@ def initWhiteList():
         print(traceback.format_exception(exc_type, exc_value, exc_tb))
     finally:
         sqliteConnection.close()
+# _____________EXIT_______________
+
+
+def EXIT():
+    exitsure = tk.Toplevel()
+
+    areyousure = tk.Label(exitsure, text="Are you sure you want to exit?")
+    areyousure.grid(column=0, row=0)
+
+    ExitYes = tk.Button(exitsure, text="Yes", command=quit)
+    ExitYes.grid(column=0, row=2)
+
+    NoYes = tk.Button(exitsure, text="No", command=exitsure.destroy)
+    NoYes.grid(column=2, row=2)
 
 
 def ajoutWhiteList():
@@ -113,7 +127,7 @@ label_subtitle = Label(window, text="Logiciel actif...", font=(
 
 # Bouton éteindre
 button = Button(window, text="eteindre", font=("Space Ranger", 12),
-                bg='#E07B6A', fg='#1B2B4B', command=window.destroy)
+                bg='#E07B6A', fg='#1B2B4B', command=EXIT)
 # frame whitlist
 frameWL = Frame(window, background="#1B2B4B")
 # whitelist
