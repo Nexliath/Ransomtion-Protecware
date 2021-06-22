@@ -1,6 +1,6 @@
+import traceback
 from tkinter import *
 import sqlite3
-from sqlite3 import Error as Err
 
 
 class Logiciel(object):
@@ -32,7 +32,7 @@ def changeColors():
     window.config(background='#1B2B4B')
 
 
-#initialisation de la whitelist
+# initialisation de la whitelist
 def initWhiteList():
 
     try:
@@ -44,8 +44,8 @@ def initWhiteList():
         i = 0
         for row in req.fetchall():
             white_list.insert(i, row[0])
-            i=i+1
-            
+            i = i+1
+
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
         print("Exception class is: ", er.__class__)
@@ -60,7 +60,7 @@ def initWhiteList():
 window = Tk()
 window.title("Ransomtion Proteware")
 # window.geometry("1080x720")
-#window.minsize(1080,720)
+# window.minsize(1080,720)
 window.config(background='#1B2B4B')
 
 # menu
@@ -75,13 +75,16 @@ menu_bar.add_cascade(label="Propriétés", menu=prop_menu)
 window.config(menu=menu_bar)
 
 # Titre
-label_title = Label(window, text="Ransomtion Protecware", font=("Space Ranger", 40), bg='#1B2B4B', fg='#E07B6A', pady=20)
+label_title = Label(window, text="Ransomtion Protecware", font=(
+    "Space Ranger", 40), bg='#1B2B4B', fg='#E07B6A', pady=20)
 
 # Sous titre
-label_subtitle = Label(window, text="Logiciel actif...", font=("Space Ranger", 25), bg='#1B2B4B', fg='#E07B6A', pady=15)
+label_subtitle = Label(window, text="Logiciel actif...", font=(
+    "Space Ranger", 25), bg='#1B2B4B', fg='#E07B6A', pady=15)
 
 # Bouton éteindre
-button = Button(window, text="eteindre", font=("Space Ranger", 18), bg='#E07B6A', fg='#1B2B4B', command=window.destroy)
+button = Button(window, text="eteindre", font=("Space Ranger", 18),
+                bg='#E07B6A', fg='#1B2B4B', command=window.destroy)
 
 # whitelist
 white_list = Listbox(window, bg='#E07B6A', fg='#1B2B4B', bd=0, padx=15)
