@@ -67,14 +67,13 @@ def initWhiteList():
     finally:
         sqliteConnection.close()
 
-# center
+# --------------- Center Functions
 
 
 def centerWindow(wantedWindow):
     # Gets the requested values of the height and widht.
     windowWidth = wantedWindow.winfo_reqwidth()
     windowHeight = wantedWindow.winfo_reqheight()
-    print("Width", windowWidth, "Height", windowHeight)
 
     # Gets both half the screen width/height and window width/height
     positionRight = int(wantedWindow.winfo_screenwidth() /
@@ -87,8 +86,25 @@ def centerWindow(wantedWindow):
 # Exit confirmation
 
 
+def centerPopup(wantedWindow):
+    # Gets the requested values of the height and widht.
+    windowWidth = wantedWindow.winfo_reqwidth()
+    windowHeight = wantedWindow.winfo_reqheight()
+
+    # Gets both half the screen width/height and window width/height
+    positionRight = int(wantedWindow.winfo_screenwidth() /
+                        2 - 100)
+    positionDown = int(wantedWindow.winfo_screenheight() /
+                       2 - windowHeight + 150)
+
+    # Positions the window in the center of the page.
+    wantedWindow.geometry("+{}+{}".format(positionRight, positionDown))
+# Exit confirmation
+
+
 def EXIT():
     exitsure = tk.Toplevel()
+    centerPopup(exitsure)
 
     areyousure = tk.Label(exitsure, text="Are you sure you want to exit?")
     areyousure.grid(column=0, row=0)
@@ -118,6 +134,7 @@ def ajoutWhiteList():
     passW.pack()
     valid.pack()
     framePop.pack(pady=10, padx=10)
+    centerPopup(popup)
     popup.mainloop()
 
 
@@ -162,7 +179,6 @@ initWhiteList()
 ajout = Button(frameWL, text="Ajouter", font=("Space Ranger", 15),
                bg='#E07B6A', fg='#1B2B4B', command=ajoutWhiteList)
 ajout.pack(pady=10, padx=20)
-
 
 # center
 # grid
