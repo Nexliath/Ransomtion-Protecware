@@ -1,6 +1,7 @@
 import traceback
 from tkinter import *
 import tkinter as tk
+from PyQt5 import QtGui, QtWidgets
 import sqlite3
 
 
@@ -65,7 +66,25 @@ def initWhiteList():
         print(traceback.format_exception(exc_type, exc_value, exc_tb))
     finally:
         sqliteConnection.close()
-# _____________EXIT_______________
+
+# center
+
+
+def centerWindow(wantedWindow):
+    # Gets the requested values of the height and widht.
+    windowWidth = wantedWindow.winfo_reqwidth()
+    windowHeight = wantedWindow.winfo_reqheight()
+    print("Width", windowWidth, "Height", windowHeight)
+
+    # Gets both half the screen width/height and window width/height
+    positionRight = int(wantedWindow.winfo_screenwidth() /
+                        2 - 430)
+    positionDown = int(wantedWindow.winfo_screenheight() /
+                       2 - windowHeight)
+
+    # Positions the window in the center of the page.
+    wantedWindow.geometry("+{}+{}".format(positionRight, positionDown))
+# Exit confirmation
 
 
 def EXIT():
@@ -144,9 +163,12 @@ ajout = Button(frameWL, text="Ajouter", font=("Space Ranger", 15),
                bg='#E07B6A', fg='#1B2B4B', command=ajoutWhiteList)
 ajout.pack(pady=10, padx=20)
 
+
+# center
 # grid
 label_title.grid(row=0, column=1)
 label_subtitle.grid(row=1, column=1)
 button.grid(row=10, column=10)
 frameWL.grid(row=2, column=0, padx=25, pady=10)
+centerWindow(window)
 window.mainloop()
