@@ -1,5 +1,6 @@
 import traceback
 from tkinter import *
+import tkinter as tk
 import sqlite3
 
 
@@ -25,6 +26,7 @@ def changeColorsNB():
     ajout["fg"] = '#DADADA'
     ajout["bg"] = '#403E3E'
     frameWL["bg"] = '#DADADA'
+
 
 def changeColors():
     button["fg"] = '#1B2B4B'
@@ -53,7 +55,7 @@ def initWhiteList():
         i = 0
         for row in req.fetchall():
             white_list.insert(i, row[0])
-            i = i+1
+            i = i + 1
 
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
@@ -87,16 +89,18 @@ def ajoutWhiteList():
     popup.attributes("-topmost", 1)
     framePop = Frame(popup, background="#DADADA")
     logi = Label(popup, text="Logiciel bloqué", font=(
-    "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
+        "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
     id = Entry(framePop, bg="white", textvariable=iden)
     passW = Entry(framePop, bg="white", textvariable=mdp)
-    valid = Button(framePop, bg='#403E3E', fg='#DADADA', text="Valider", font=("Space Ranger", 12))
+    valid = Button(framePop, bg='#403E3E', fg='#DADADA',
+                   text="Valider", font=("Space Ranger", 12))
     logi.pack()
     id.pack()
     passW.pack()
     valid.pack()
     framePop.pack(pady=10, padx=10)
     popup.mainloop()
+
 
 ####################################################
 # window
@@ -131,12 +135,13 @@ button = Button(window, text="eteindre", font=("Space Ranger", 12),
 # frame whitlist
 frameWL = Frame(window, background="#1B2B4B")
 # whitelist
-white_list = Listbox(frameWL, bg='#E07B6A', fg='#1B2B4B', bd=0, relief=GROOVE, borderwidth=4)
+white_list = Listbox(frameWL, bg='#E07B6A', fg='#1B2B4B',
+                     bd=0, relief=GROOVE, borderwidth=4)
 white_list.pack()
 initWhiteList()
 # bouton ajouter whitelist
 ajout = Button(frameWL, text="Ajouter", font=("Space Ranger", 15),
-                bg='#E07B6A', fg='#1B2B4B', command=ajoutWhiteList)
+               bg='#E07B6A', fg='#1B2B4B', command=ajoutWhiteList)
 ajout.pack(pady=10, padx=20)
 
 # grid
