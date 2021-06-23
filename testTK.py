@@ -1,6 +1,8 @@
 import traceback
 from tkinter import *
 import tkinter as tk
+from tkinter.font import BOLD
+
 from PyQt5 import QtGui, QtWidgets
 import sqlite3
 
@@ -103,17 +105,20 @@ def centerPopup(wantedWindow):
 
 
 def EXIT():
-    exitsure = tk.Toplevel()
+    exitsure = Toplevel()
+    exitsure.config(background="#DADADA")
     centerPopup(exitsure)
 
-    areyousure = tk.Label(exitsure, text="Are you sure you want to exit?")
-    areyousure.grid(column=0, row=0)
+    areyousure = Label(exitsure, text="Êtes vous sûr de vouloir quitter ?", bg='#DADADA', fg='#403E3E', font=("Arial", 12, 'bold'))
+    areyousure.grid(column=1, row=0, pady=10)
 
-    ExitYes = tk.Button(exitsure, text="Yes", command=quit)
-    ExitYes.grid(column=0, row=2)
+    ExitYes = Button(exitsure, text="OUI", command=quit, font=("Space Ranger", 12),
+                bg='#403E3E', fg='#DADADA')
+    ExitYes.grid(column=0, row=1, padx=10, pady=5)
 
-    NoYes = tk.Button(exitsure, text="No", command=exitsure.destroy)
-    NoYes.grid(column=2, row=2)
+    NoYes = Button(exitsure, text="NON", command=exitsure.destroy, font=("Space Ranger", 12),
+                bg='#403E3E', fg='#DADADA')
+    NoYes.grid(column=2, row=1, padx=10, pady=5)
 
 
 def ajoutWhiteList():
