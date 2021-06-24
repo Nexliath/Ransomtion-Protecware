@@ -3,7 +3,6 @@ from tkinter import *
 import tkinter as tk
 from tkinter.font import BOLD
 
-from PyQt5 import QtGui, QtWidgets
 import sqlite3
 
 
