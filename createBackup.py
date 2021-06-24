@@ -1,3 +1,4 @@
+from os import X_OK
 import os.path
 import getpass
 
@@ -27,13 +28,18 @@ def initBackup():
     os.system("(crontab -u " + username + " -l; echo \"" + line + "\" ) | crontab -u " + username + " -") 
     os.system("sudo service cron reload")
  
-def initRestoreBackup():
+def restoreBackup():
     print(f"Creating Backup file")
+    f = open(homedir + "/.backup.sh")
+    data = f.readlines() [2]
+    f.close()
+    print (data)
+
 
 def main():
     if backupFile == False:
         initBackup()
-        initRestoreBackup()
+        restoreBackup()
     
 
 if __name__ == "__main__":
