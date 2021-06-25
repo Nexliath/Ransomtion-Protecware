@@ -33,6 +33,11 @@ def changeColorsNB():
     frameNB["bg"] = '#DADADA'
     bloque["bg"] = '#DADADA'
     bloque["fg"] = '#403E3E'
+    frameBL["bg"] = '#DADADA'
+    history["bg"] = '#DADADA'
+    history["fg"] = '#403E3E'
+    ajoutHist["bg"] = '#403E3E'
+    ajoutHist["fg"] = '#DADADA'
 
 def changeColors():
     button["fg"] = '#1B2B4B'
