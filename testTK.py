@@ -38,6 +38,10 @@ def changeColorsNB():
     history["fg"] = '#403E3E'
     ajoutHist["bg"] = '#403E3E'
     ajoutHist["fg"] = '#DADADA'
+    titreWL["bg"] = '#DADADA'
+    titreWL["fg"] = '#403E3E'
+    titreBL["bg"] = '#DADADA'
+    titreBL["fg"] = '#403E3E'
 
 def changeColors():
     button["fg"] = '#1B2B4B'
@@ -52,7 +56,20 @@ def changeColors():
     ajout["fg"] = '#1B2B4B'
     ajout["bg"] = '#E07B6A'
     frameWL["bg"] = '#1B2B4B'
-
+    titreWL["bg"] = '#1B2B4B'
+    titreWL["fg"] = '#E07B6A'
+    titreBL["bg"] = '#1B2B4B'
+    titreBL["fg"] = '#E07B6A'
+    nbLabel["bg"] = '#1B2B4B'
+    nbLabel["fg"] = '#E07B6A'
+    frameNB["bg"] = '#1B2B4B'
+    bloque["bg"] = '#1B2B4B'
+    bloque["fg"] = '#E07B6A'
+    frameBL["bg"] = '#1B2B4B'
+    history["bg"] = '#E07B6A'
+    history["fg"] = '#1B2B4B'
+    ajoutHist["bg"] = '#E07B6A'
+    ajoutHist["fg"] = '#1B2B4B'
 
 # initialisation de la whitelist
 def initWhiteList():
@@ -292,6 +309,11 @@ button = Button(window, text="eteindre", font=("Space Ranger", 12),
 # frame whitlist
 frameWL = Frame(window, background="#1B2B4B")
 
+# titre white list
+titreWL = Label(frameWL, text="WhiteList\n", font=(
+    "Space Ranger", 12), bg='#1B2B4B', fg='#E07B6A', pady=5)
+titreWL.pack()
+
 # whitelist
 white_list = Listbox(frameWL, bg='#E07B6A', fg='#1B2B4B',
                     bd=0, relief=GROOVE, borderwidth=4)
@@ -324,6 +346,11 @@ frameNB.grid(row=2, column=1)
 
 # frame history
 frameBL = Frame(window, background="#1B2B4B")
+
+# titre liste bloqué
+titreBL = Label(frameBL, text="Liste des \nlogiciels bloqués", font=(
+    "Space Ranger", 12), bg='#1B2B4B', fg='#E07B6A', pady=5)
+titreBL.pack()
 
 # history
 history = Listbox(frameBL, bg='#E07B6A', fg='#1B2B4B',
