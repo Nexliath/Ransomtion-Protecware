@@ -28,6 +28,9 @@ def changeColorsNB():
     frameWL["bg"] = '#DADADA'
     nbLabel["bg"] = '#DADADA'
     nbLabel["fg"] = '#403E3E'
+    frameNB["bg"] = '#DADADA'
+    bloque["bg"] = '#DADADA'
+    bloque["fg"] = '#403E3E'
 
 def changeColors():
     button["fg"] = '#1B2B4B'
@@ -184,14 +187,24 @@ ajout = Button(frameWL, text="Ajouter", font=("Space Ranger", 15),
             bg='#E07B6A', fg='#1B2B4B', command=ajoutWhiteList)
 ajout.pack(pady=10, padx=20)
 
+# frame
+frameNB = Frame(window, background="#1B2B4B")
+
+# logiciels bloqués
+bloque = Label(frameNB, text="Nombre de malware bloqués", font=(
+    "Space Ranger", 12), bg='#1B2B4B', fg='#E07B6A', pady=5)
+bloque.pack()
+
 # nombre de ransom évités
 file = open("nb.txt", "r")
 nb = StringVar()
 nb.set(file.read())
-nbLabel = Label(window, textvariable=nb, font=(
-    "Space Ranger", 35), bg='#1B2B4B', fg='#E07B6A', pady=20)
-nbLabel.grid(row=2, column=1)
+nbLabel = Label(frameNB, textvariable=nb, font=(
+    "Space Ranger", 18), bg='#1B2B4B', fg='#E07B6A', pady=5)
+nbLabel.pack()
 file.close()
+
+frameNB.grid(row=2, column=1)
 
 # center
 # grid
