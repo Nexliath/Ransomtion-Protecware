@@ -23,15 +23,6 @@ def verifPath(path, conn):
         return False
 
 
-def verifId(id, conn):
-    cur = conn.cursor()
-    cur.execute("SELECT id FROM whitelist where id = ?;", id)
-    if cur.fetchone():
-        return True
-    else:
-        return False
-
-
 def addToWhitelist(name, path, conn):
     cur = conn.cursor()
     if (verifPath(path, conn)):
@@ -43,13 +34,13 @@ def addToWhitelist(name, path, conn):
         conn.commit()
 
 
-def deleteFromWhitelist(id, conn):
+def deleteFromWhitelist():
     cur = conn.cursor()
-
-    if (verifId(id, conn)):
-        cur.execute("DELETE FROM whitelist(id) VALUES(?);",
-                    (id))
+    if (verifPath(path, conn)):
+        cur.execute("INSERT INTO whitelist(path,name) VALUES(?,?);",
+                    ((path), (name)))
         conn.commit()
+
     else:
         print("Error, not in the db")
 
