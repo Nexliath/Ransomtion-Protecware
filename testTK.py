@@ -1,8 +1,6 @@
 import traceback
 from tkinter import *
-import tkinter as tk
 from tkinter.font import BOLD
-
 import sqlite3
 
 
@@ -28,7 +26,8 @@ def changeColorsNB():
     ajout["fg"] = '#DADADA'
     ajout["bg"] = '#403E3E'
     frameWL["bg"] = '#DADADA'
-
+    nbLabel["bg"] = '#DADADA'
+    nbLabel["fg"] = '#403E3E'
 
 def changeColors():
     button["fg"] = '#1B2B4B'
@@ -141,7 +140,6 @@ def ajoutWhiteList():
     centerPopup(popup)
     popup.mainloop()
 
-
 ####################################################
 # window
 window = Tk()
@@ -163,26 +161,37 @@ window.config(menu=menu_bar)
 
 # Titre
 label_title = Label(window, text="Ransomtion Protecware", font=(
-    "Space Ranger", 40), bg='#1B2B4B', fg='#E07B6A', pady=20)
+    "Space Ranger", 35), bg='#1B2B4B', fg='#E07B6A', pady=20)
 
 # Sous titre
 label_subtitle = Label(window, text="Logiciel actif...", font=(
-    "Space Ranger", 25), bg='#1B2B4B', fg='#E07B6A', pady=15)
+    "Space Ranger", 18), bg='#1B2B4B', fg='#E07B6A', pady=15)
 
 # Bouton éteindre
 button = Button(window, text="eteindre", font=("Space Ranger", 12),
                 bg='#E07B6A', fg='#1B2B4B', command=EXIT)
 # frame whitlist
 frameWL = Frame(window, background="#1B2B4B")
+
 # whitelist
 white_list = Listbox(frameWL, bg='#E07B6A', fg='#1B2B4B',
-                     bd=0, relief=GROOVE, borderwidth=4)
+                    bd=0, relief=GROOVE, borderwidth=4)
 white_list.pack()
 initWhiteList()
+
 # bouton ajouter whitelist
 ajout = Button(frameWL, text="Ajouter", font=("Space Ranger", 15),
-               bg='#E07B6A', fg='#1B2B4B', command=ajoutWhiteList)
+            bg='#E07B6A', fg='#1B2B4B', command=ajoutWhiteList)
 ajout.pack(pady=10, padx=20)
+
+# nombre de ransom évités
+file = open("nb.txt", "r")
+nb = StringVar()
+nb.set(file.read())
+nbLabel = Label(window, textvariable=nb, font=(
+    "Space Ranger", 35), bg='#1B2B4B', fg='#E07B6A', pady=20)
+nbLabel.grid(row=2, column=1)
+file.close()
 
 # center
 # grid
