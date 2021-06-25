@@ -2,15 +2,17 @@ import traceback
 from tkinter import *
 from tkinter.font import BOLD
 import sqlite3
+import whitelist as WL
+from sqlite3 import Error
 
 
-class Logiciel(object):
-    path = ""
-    name = ""
-
-    def __init__(self, newPath, newName):
-        self.path = newPath
-        self.name = newName
+# class Logiciel(object):
+#     path = ""
+#     name = ""
+#
+#     def __init__(self, newPath, newName):
+#         self.path = newPath
+#         self.name = newName
 
 
 def changeColorsNB():
@@ -70,6 +72,9 @@ def initWhiteList():
     finally:
         sqliteConnection.close()
 
+# insertion du nouveau logiciel dans la white list
+def insertNew(name):
+    white_list.insert(END, name)
 
 # initialisation de la whitelist
 def initHistory():
@@ -110,8 +115,6 @@ def centerWindow(wantedWindow):
 
     # Positions the window in the center of the page.
     wantedWindow.geometry("+{}+{}".format(positionRight, positionDown))
-# Exit confirmation
-
 
 def centerPopup(wantedWindow):
     # Gets the requested values of the height and widht.
@@ -126,6 +129,9 @@ def centerPopup(wantedWindow):
 
     # Positions the window in the center of the page.
     wantedWindow.geometry("+{}+{}".format(positionRight, positionDown))
+
+
+
 # Exit confirmation
 
 
@@ -146,16 +152,83 @@ def EXIT():
     NoYes.grid(column=2, row=1, padx=10, pady=5)
 
 
-def ajoutWhiteList():
-    #ajout à la white list depuis une entry
+def validation(popup, id, passW, mode):
+    if(id.get() == "admin" and passW.get() == "admin"):
+        conn = sqlite3.connect("Ransomtion-Protecware.db")
+        try:
+            popup.destroy()
+            addPopup = Toplevel()
+            centerPopup(addPopup)
+            addPopup.config(background="#DADADA")
+            addPopup.attributes("-topmost", 1)
+            if mode == 0: # ajout manuel
+                newPath = StringVar()
+                newName = StringVar()
+                frameMA = Frame(addPopup, background="#DADADA")
+                newWhite = Label(frameMA, text="Informations du logiciel", font=(
+                    "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
+                path = Entry(frameMA, bg="white", textvariable=newPath)
+                path.insert(0, "Path")
+                name = Entry(frameMA, bg="white", textvariable=newName)
+                name.insert(0, "Name")
+                valida = Button(frameMA, bg='#403E3E', fg='#DADADA', text="Valider", font=("Space Ranger", 12),
+                                command=lambda: [WL.addToWhitelist(name.get(), path.get(), conn), insertNew(name.get())])
+                newWhite.pack()
+                path.pack()
+                name.pack()
+                valida.pack()
+                frameMA.pack(pady=10, padx=10)
 
-    # def valid():
-    #     if(id.get() == "admin" and passW.get() == "admin"):
-    #         popup.destroy()
-    #         addPopup = Toplevel()
-    #         centerPopup(addPopup)
-    #         addPopup.config(background="#DADADA")
-    #         popup.attributes("-topmost", 1)
+            elif mode == 1: # ajout automatique
+
+                dest = sqlite3.connect(':memory:')
+                conn.backup(dest)
+                c = conn.cursor()
+
+                currentName = history.get(ACTIVE)
+                print(currentName)
+                cmd = "SELECT path FROM history WHERE name='" + currentName + "'"
+                print(cmd)
+                req = c.execute(cmd)
+                row = req.fetchone()
+                currentPath = row[0]
+                frameAuto = Frame(addPopup, background="#DADADA")
+                labelAuto = Label(frameAuto, text="Informations du logiciel", font=(
+                    "Space Ranger", 15), bg='#DADADA', fg='#403E3E', pady=10)
+                pa = StringVar()
+                tmp = "Path : " + currentName
+                pa.set(tmp)
+                pathAuto = Label(frameAuto, textvariable=pa, font=(
+                    "Space Ranger", 12), bg='#DADADA', fg='#403E3E', pady=5)
+                na = StringVar()
+                tmp = "Name : " + currentPath
+                na.set(tmp)
+                nameAuto = Label(frameAuto, textvariable=na, font=(
+                    "Space Ranger", 12), bg='#DADADA', fg='#403E3E', pady=5)
+                valida = Button(frameAuto, bg='#403E3E', fg='#DADADA', text="Valider", font=("Space Ranger", 12),
+                                command=lambda: [WL.addToWhitelist(currentName, currentPath, conn),
+                                                 insertNew(currentName)])
+
+                labelAuto.pack()
+                pathAuto.pack()
+                nameAuto.pack()
+                valida.pack()
+                frameAuto.pack(pady=10, padx=10)
+            else:
+                return
+            centerPopup(addPopup)
+            addPopup.mainloop()
+        except sqlite3.Error as er:
+            print('SQLite error: %s' % (' '.join(er.args)))
+            print("Exception class is: ", er.__class__)
+            print('SQLite traceback: ')
+            exc_type, exc_value, exc_tb = sys.exc_info()
+            print(traceback.format_exception(exc_type, exc_value, exc_tb))
+        finally:
+            return
+
+def ajoutWhiteList(mode):
+    #ajout à la white list depuis une entry
 
     popup = Toplevel()
     mdp = StringVar()
@@ -171,7 +244,7 @@ def ajoutWhiteList():
     passW = Entry(framePop, bg="white", textvariable=mdp)
     passW.insert(0, "password")
     valid = Button(framePop, bg='#403E3E', fg='#DADADA',
-                   text="Valider", font=("Space Ranger", 12)) #, command=valid
+                   text="Valider", font=("Space Ranger", 12), command=lambda: validation(popup, id, passW, mode))
     logi.pack()
     id.pack()
     passW.pack()
@@ -180,10 +253,6 @@ def ajoutWhiteList():
     centerPopup(popup)
     popup.mainloop()
 
-
-def ajoutHistory():
-    #ajout à la whitelist depuis la selection dans history
-    return 0
 ####################################################
 
 # window
@@ -226,7 +295,7 @@ initWhiteList()
 
 # bouton ajouter whitelist
 ajout = Button(frameWL, text="Ajouter", font=("Space Ranger", 15),
-            bg='#E07B6A', fg='#1B2B4B', command=ajoutWhiteList)
+            bg='#E07B6A', fg='#1B2B4B', command=lambda: ajoutWhiteList(0))
 ajout.pack(pady=10, padx=20)
 
 # frame number
@@ -259,7 +328,7 @@ initHistory()
 
 # bouton ajouter whitelist depuis history
 ajoutHist = Button(frameBL, text="Ajouter", font=("Space Ranger", 15),
-            bg='#E07B6A', fg='#1B2B4B', command=ajoutHistory)
+            bg='#E07B6A', fg='#1B2B4B', command=lambda: ajoutWhiteList(1))
 ajoutHist.pack(pady=10, padx=20)
 
 frameBL.grid(row=2, column=3)
@@ -268,7 +337,7 @@ frameBL.grid(row=2, column=3)
 # grid
 label_title.grid(row=0, column=1)
 label_subtitle.grid(row=1, column=1)
-button.grid(row=10, column=10)
+button.grid(row=10, column=1)
 frameWL.grid(row=2, column=0, padx=25, pady=10)
 centerWindow(window)
 window.mainloop()
