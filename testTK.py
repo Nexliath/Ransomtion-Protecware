@@ -70,6 +70,30 @@ def initWhiteList():
     finally:
         sqliteConnection.close()
 
+
+# initialisation de la whitelist
+def initHistory():
+
+    try:
+        sqliteConnection = sqlite3.connect('Ransomtion-Protecware.db')
+        dest = sqlite3.connect(':memory:')
+        sqliteConnection.backup(dest)
+        c = sqliteConnection.cursor()
+        req = c.execute('SELECT name FROM history')
+        i = 0
+        for row in req.fetchall():
+            history.insert(i, row[0])
+            i = i + 1
+
+    except sqlite3.Error as er:
+        print('SQLite error: %s' % (' '.join(er.args)))
+        print("Exception class is: ", er.__class__)
+        print('SQLite traceback: ')
+        exc_type, exc_value, exc_tb = sys.exc_info()
+        print(traceback.format_exception(exc_type, exc_value, exc_tb))
+    finally:
+        sqliteConnection.close()
+
 # --------------- Center Functions
 
 
@@ -123,18 +147,31 @@ def EXIT():
 
 
 def ajoutWhiteList():
+    #ajout à la white list depuis une entry
+
+    # def valid():
+    #     if(id.get() == "admin" and passW.get() == "admin"):
+    #         popup.destroy()
+    #         addPopup = Toplevel()
+    #         centerPopup(addPopup)
+    #         addPopup.config(background="#DADADA")
+    #         popup.attributes("-topmost", 1)
+
+    popup = Toplevel()
     mdp = StringVar()
     iden = StringVar()
-    popup = Toplevel()
+
     popup.config(background="#DADADA")
     popup.attributes("-topmost", 1)
     framePop = Frame(popup, background="#DADADA")
     logi = Label(popup, text="Logiciel bloqué", font=(
         "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
     id = Entry(framePop, bg="white", textvariable=iden)
+    id.insert(0, "Login")
     passW = Entry(framePop, bg="white", textvariable=mdp)
+    passW.insert(0, "password")
     valid = Button(framePop, bg='#403E3E', fg='#DADADA',
-                   text="Valider", font=("Space Ranger", 12))
+                   text="Valider", font=("Space Ranger", 12)) #, command=valid
     logi.pack()
     id.pack()
     passW.pack()
@@ -143,7 +180,12 @@ def ajoutWhiteList():
     centerPopup(popup)
     popup.mainloop()
 
+
+def ajoutHistory():
+    #ajout à la whitelist depuis la selection dans history
+    return 0
 ####################################################
+
 # window
 window = Tk()
 window.title("Ransomtion Proteware")
@@ -187,7 +229,7 @@ ajout = Button(frameWL, text="Ajouter", font=("Space Ranger", 15),
             bg='#E07B6A', fg='#1B2B4B', command=ajoutWhiteList)
 ajout.pack(pady=10, padx=20)
 
-# frame
+# frame number
 frameNB = Frame(window, background="#1B2B4B")
 
 # logiciels bloqués
@@ -205,6 +247,22 @@ nbLabel.pack()
 file.close()
 
 frameNB.grid(row=2, column=1)
+
+# frame history
+frameBL = Frame(window, background="#1B2B4B")
+
+# history
+history = Listbox(frameBL, bg='#E07B6A', fg='#1B2B4B',
+                    bd=0, relief=GROOVE, borderwidth=4)
+history.pack()
+initHistory()
+
+# bouton ajouter whitelist depuis history
+ajoutHist = Button(frameBL, text="Ajouter", font=("Space Ranger", 15),
+            bg='#E07B6A', fg='#1B2B4B', command=ajoutHistory)
+ajoutHist.pack(pady=10, padx=20)
+
+frameBL.grid(row=2, column=3)
 
 # center
 # grid
