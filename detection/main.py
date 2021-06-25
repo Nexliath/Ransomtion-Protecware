@@ -46,20 +46,29 @@ def check():
 	time.sleep(3)
 	processes = {proc for proc in processes if proc.cpu_percent() >= 80}
 
-	# Detect writing .WNNCRY, .GNNCRY files etc.
-	for proc in set(*processes):
-		for file in proc.open_files():
-			if file.mode in ["w", "a", "r+", "a+"] and "." in file.path and file.path.split(".")[-1].lower() in extensions:
-				block(proc)
-				processes.remove(proc)
+	if not processes:
+		return
 
-	# Detect at least 10 GB read in 5000 operations + 20 GB written in 10000 operations
-	for proc in set(*processes):
-		counters = proc.io_counters()
-		if counters.write_bytes >= 20 * 1024 * 1024 * 1024 and counters.write_count >= 5000:
-			if counters.read_bytes >= 10 * 1024 * 1024 * 1024 and counters.read_count >= 10000:
-				block(proc)
-				processes.remove(proc)
+	start = time.time()
+	while time.time() < start + 10:
+		# Detect writing .WNNCRY, .GNNCRY files etc.
+		for proc in processes.copy():
+			for file in proc.open_files():
+				print("Process #%d (%s): %s in %s" % (proc.pid, proc.name(), file.path, file.mode))
+				if file.mode in ["w", "a", "r+", "a+"] and "." in file.path and file.path.split(".")[-1].lower() in extensions:
+					block(proc)
+					processes.remove(proc)
+
+		# Detect at least 10 GB read in 5000 operations + 20 GB written in 10000 operations
+		for proc in processes.copy():
+			counters = proc.io_counters()
+			if counters.write_bytes >= 20 * 1024 * 1024 * 1024 and counters.write_count >= 5000:
+				if counters.read_bytes >= 10 * 1024 * 1024 * 1024 and counters.read_count >= 10000:
+					block(proc)
+					processes.remove(proc)
+
+		time.sleep(0.1)
 
 if __name__ == "__main__":
+	os.nice(-39)
 	check()
