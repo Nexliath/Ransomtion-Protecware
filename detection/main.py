@@ -3,6 +3,7 @@ import time
 import json
 import sys
 import os
+import re
 
 with open(os.path.join(os.path.dirname(sys.argv[0]), "extensions.json"), "r") as f:
 	extensions = json.load(f)
@@ -10,10 +11,26 @@ with open(os.path.join(os.path.dirname(sys.argv[0]), "extensions.json"), "r") as
 def check_whitelist(proc):
 	return False # TODO
 
+def dump_ram(proc):
+	with open("/proc/%s/maps" % proc.pid, "r") as maps:
+		for line in maps.readlines():
+			m = re.match(r"([0-9A-Fa-f]+)-([0-9A-Fa-f]+) [-r][-w][-x][-p] [0-9A-Fa-f]+ [0-9A-Fa-f]+:[0-9A-Fa-f]+ [0-9]+\s+(.*)", line)
+			if m and m.group(3) == "[stack]":
+				start = int(m.group(1), 16)
+				end = int(m.group(2), 16)
+
+				with open("/proc/%s/mem" % proc.pid, "rb") as mem:
+					mem.seek(start)
+					chunk = mem.read(end - start)
+
+				with open("%s.bin" % proc.pid, "wb") as dump:
+					dump.write(chunk)
+
 def block(proc):
 	if check_whitelist(proc):
 		return
 
+	dump_ram(proc)
 	print("Should block", proc.name(), proc.exe()) # TODO
 	proc.kill()
 
