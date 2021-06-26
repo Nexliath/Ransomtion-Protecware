@@ -259,18 +259,22 @@ def ajoutWhiteList(mode):
     popup.config(background="#DADADA")
     popup.attributes("-topmost", 1)
     framePop = Frame(popup, background="#DADADA")
-    logi = Label(popup, text="Logiciel bloqué", font=(
+    logi = Label(framePop, text="Logiciel bloqué", font=(
         "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
     id = Entry(framePop, bg="white", textvariable=iden)
-    id.insert(0, "Login")
-    passW = Entry(framePop, bg="white", textvariable=mdp)
-    passW.insert(0, "password")
+    idLabel = Label(framePop, text="Login :", font=(
+        "Space Ranger", 10), bg='#DADADA', fg='#403E3E', pady=10, padx=5)
+    passW = Entry(framePop, bg="white", textvariable=mdp, show='*')
+    passLabel = Label(framePop, text="Password :", font=(
+        "Space Ranger", 10), bg='#DADADA', fg='#403E3E', pady=10, padx=5)
     valid = Button(framePop, bg='#403E3E', fg='#DADADA',
                    text="Valider", font=("Space Ranger", 12), command=lambda: validation(popup, id, passW, mode))
-    logi.pack()
-    id.pack()
-    passW.pack()
-    valid.pack()
+    logi.grid(row=0, column=0, columnspan=2)
+    id.grid(row=1, column=1)
+    idLabel.grid(row=1, column=0, sticky=E)
+    passW.grid(row=2, column=1)
+    passLabel.grid(row=2, column=0, sticky=E)
+    valid.grid(row=3, column=0, columnspan=2)
     framePop.pack(pady=10, padx=10)
     centerPopup(popup)
     popup.mainloop()
@@ -279,7 +283,7 @@ def ajoutWhiteList(mode):
 
 # window
 window = Tk()
-window.title("Ransomtion Proteware")
+window.title("Ransomtion Protecware")
 # window.geometry("1080x720")
 # window.minsize(1080,720)
 window.config(background='#1B2B4B')
@@ -287,13 +291,19 @@ window.config(background='#1B2B4B')
 # menu
 menu_bar = Menu(window)
 file_menu = Menu(menu_bar, tearoff=0)
-file_menu.add_command(label="Quitter", command=window.quit)
+file_menu.add_command(label="Masquer", command=window.quit)
 prop_menu = Menu(menu_bar, tearoff=0)
 prop_menu.add_command(label="Noir et blanc", command=changeColorsNB)
 prop_menu.add_command(label="Couleurs", command=changeColors)
 menu_bar.add_cascade(label="Fichier", menu=file_menu)
 menu_bar.add_cascade(label="Propriétés", menu=prop_menu)
 window.config(menu=menu_bar)
+
+# # Logo
+# logo = Canvas(window, width=200, height=200, bg='#1B2B4B')
+# icon = PhotoImage(file = 'logo.png')
+# logo.create_image(200,200,image = icon)
+
 
 # Titre
 label_title = Label(window, text="Ransomtion Protecware", font=(
