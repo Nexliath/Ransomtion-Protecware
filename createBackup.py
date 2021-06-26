@@ -68,12 +68,16 @@ def restoreBackup():
     folder = folder[7:]
     print(f"fetching from ip: " + ip)
     print(f"folder: " + folder)
-    shell = spur.SshShell(hostname=ip, username="nas", password="123", missing_host_key=spurMissingHostKey.accept)
+    shell = spur.SshShell(hostname=ip, username="nas", password="123", missing_host_key=spur.ssh.MissingHostKey.accept)
+    print(spur)
     user = "\"nas@" + ip + "\""
-    result = shell.run(["shh", user, "ls", "/home/nas/old/"])
+    result = shell.run(["ls", "/home/nas/old/"])
+    backups = result.output.split()
     print(f"Pease choose a backup amongst")
-    for index in backups:
-
+    cnt = 1;
+    for item in backups:
+        print(cnt + ": " + item.decode('UTF-8'))
+    print(f"\n")
     i = input()
     os.system("rsync -aAXv --delete --exclude=\"lost+found\" \"nas@" + ip + 
             ":/home/nas/old/" + i + "/current/\" \"" + folder + "\"")
