@@ -321,10 +321,7 @@ menu_bar.add_cascade(label="Propriétés", menu=prop_menu)
 window.config(menu=menu_bar)
 
 # # Logo
-# logo = Canvas(window, width=200, height=200, bg='#1B2B4B')
-# icon = PhotoImage(file = 'logo.png')
-# logo.create_image(200,200,image = icon)
-
+window.iconbitmap('Logo.ico')
 
 # Titre
 label_title = Label(window, text="Ransomtion Protecware", font=(
