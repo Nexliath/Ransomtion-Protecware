@@ -43,6 +43,8 @@ def changeColorsNB():
     titreWL["fg"] = '#403E3E'
     titreBL["bg"] = '#DADADA'
     titreBL["fg"] = '#403E3E'
+    logo1["bg"] = '#DADADA'
+    logo2["bg"] = '#DADADA'
 
 def changeColors():
     button["fg"] = '#1B2B4B'
@@ -323,10 +325,13 @@ window.config(menu=menu_bar)
 # Logo
 window.iconbitmap('Logo.ico')
 
-logo = Canvas(window, width=192, height=192, bg='#1B2B4B', bd=0, highlightthickness=0)
+logo1 = Canvas(window, width=100, height=100, bg='#1B2B4B', bd=0, highlightthickness=0)
+icon = PhotoImage(file = 'Logo_tres_petit.png')
+logo1.create_image(50, 50, image = icon)
 
-icon = PhotoImage(file = 'Logo_petit.png')
-logo.create_image(96, 96, image = icon)
+logo2 = Canvas(window, width=100, height=100, bg='#1B2B4B', bd=0, highlightthickness=0)
+logo2.create_image(50, 50, image = icon)
+
 # Titre
 label_title = Label(window, text="Ransomtion Protecware", font=(
     "Space Ranger", 35), bg='#1B2B4B', fg='#E07B6A', pady=20)
@@ -394,7 +399,7 @@ ajoutHist = Button(frameBL, text="Ajouter", font=("Space Ranger", 15),
             bg='#E07B6A', fg='#1B2B4B', command=lambda: ajoutWhiteList(1))
 ajoutHist.pack(pady=10, padx=20)
 
-frameBL.grid(row=2, column=3)
+
 
 # raccourcis clavier
 keyboard.add_hotkey('ctrl+alt+s', show)
@@ -406,10 +411,12 @@ window.protocol("WM_DELETE_WINDOW", hide)
 
 # center
 # grid
-logo.grid(row=0, column=0, rowspan=2)
+logo1.grid(row=0, column=0, rowspan=2)
+logo2.grid(row=0, column=3, rowspan=2)
 label_title.grid(row=0, column=1)
 label_subtitle.grid(row=1, column=1)
 button.grid(row=10, column=1)
 frameWL.grid(row=2, column=0, padx=25, pady=10)
+frameBL.grid(row=2, column=3)
 centerWindow(window)
 window.mainloop()
