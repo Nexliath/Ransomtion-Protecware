@@ -280,7 +280,7 @@ def ajoutWhiteList(mode):
     centerPopup(popup)
     popup.mainloop()
 
-
+# fonction pour le masquage et le réaffichage
 def show():
     window.update()
     window.deiconify()
@@ -308,11 +308,6 @@ prop_menu.add_command(label="Couleurs", command=changeColors)
 menu_bar.add_cascade(label="Fichier", menu=file_menu)
 menu_bar.add_cascade(label="Propriétés", menu=prop_menu)
 window.config(menu=menu_bar)
-
-
-keyboard.add_hotkey('ctrl+alt+s', show)
-keyboard.add_hotkey('ctrl+alt+h', hide)
-keyboard.add_hotkey('ctrl+alt+q', EXIT)
 
 # # Logo
 # logo = Canvas(window, width=200, height=200, bg='#1B2B4B')
@@ -389,6 +384,14 @@ ajoutHist = Button(frameBL, text="Ajouter", font=("Space Ranger", 15),
 ajoutHist.pack(pady=10, padx=20)
 
 frameBL.grid(row=2, column=3)
+
+# raccourcis clavier
+keyboard.add_hotkey('ctrl+alt+s', show)
+keyboard.add_hotkey('ctrl+alt+h', hide)
+keyboard.add_hotkey('ctrl+alt+q', EXIT)
+
+# masquer avec la croix
+window.protocol("WM_DELETE_WINDOW", hide)
 
 # center
 # grid
