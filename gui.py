@@ -320,9 +320,13 @@ menu_bar.add_cascade(label="Fichier", menu=file_menu)
 menu_bar.add_cascade(label="Propriétés", menu=prop_menu)
 window.config(menu=menu_bar)
 
-# # Logo
+# Logo
 window.iconbitmap('Logo.ico')
 
+logo = Canvas(window, width=192, height=192, bg='#1B2B4B', bd=0, highlightthickness=0)
+
+icon = PhotoImage(file = 'Logo_petit.png')
+logo.create_image(96, 96, image = icon)
 # Titre
 label_title = Label(window, text="Ransomtion Protecware", font=(
     "Space Ranger", 35), bg='#1B2B4B', fg='#E07B6A', pady=20)
@@ -403,6 +407,7 @@ window.protocol("WM_DELETE_WINDOW", hide)
 
 # center
 # grid
+logo.grid(row=0, column=0, rowspan=2)
 label_title.grid(row=0, column=1)
 label_subtitle.grid(row=1, column=1)
 button.grid(row=10, column=1)
