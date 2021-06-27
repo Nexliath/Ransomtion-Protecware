@@ -4,6 +4,7 @@ from tkinter.font import BOLD
 import sqlite3
 import whitelist as WL
 from sqlite3 import Error
+import keyboard 
 
 
 # class Logiciel(object):
@@ -279,6 +280,15 @@ def ajoutWhiteList(mode):
     centerPopup(popup)
     popup.mainloop()
 
+
+def show():
+    window.update()
+    window.deiconify()
+
+def hide():
+    window.update()
+    window.withdraw()
+
 ####################################################
 
 # window
@@ -291,13 +301,18 @@ window.config(background='#1B2B4B')
 # menu
 menu_bar = Menu(window)
 file_menu = Menu(menu_bar, tearoff=0)
-file_menu.add_command(label="Masquer", command=window.quit)
+file_menu.add_command(label="Masquer", command=hide)
 prop_menu = Menu(menu_bar, tearoff=0)
 prop_menu.add_command(label="Noir et blanc", command=changeColorsNB)
 prop_menu.add_command(label="Couleurs", command=changeColors)
 menu_bar.add_cascade(label="Fichier", menu=file_menu)
 menu_bar.add_cascade(label="Propriétés", menu=prop_menu)
 window.config(menu=menu_bar)
+
+
+keyboard.add_hotkey('ctrl+alt+s', show)
+keyboard.add_hotkey('ctrl+alt+h', hide)
+keyboard.add_hotkey('ctrl+alt+q', EXIT)
 
 # # Logo
 # logo = Canvas(window, width=200, height=200, bg='#1B2B4B')
