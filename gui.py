@@ -94,9 +94,19 @@ def initWhiteList():
     finally:
         sqliteConnection.close()
 
+
 # insertion du nouveau logiciel dans la white list
 def insertNew(name):
-    white_list.insert(END, name)
+    selection = white_list.get(0, END)
+    test = 0
+    for i in selection:
+        if i == name:
+            test = 1
+    popErreur = Tk()
+    Label(popErreur, text="Déjà dans la whitelist", bg='#DADADA', fg='#403E3E', font=("Space Ranger", 12, 'bold'), pady=35, padx=35).pack()
+    centerPopup(popErreur)
+    if(test == 0) :
+        white_list.insert(END, name)
 
 # initialisation de la whitelist
 def initHistory():
@@ -229,12 +239,13 @@ def validation(popup, id, passW, mode):
                     "Space Ranger", 12), bg='#DADADA', fg='#403E3E', pady=5)
                 valida = Button(frameAuto, bg='#403E3E', fg='#DADADA', text="Valider", font=("Space Ranger", 12),
                                 command=lambda: [WL.addToWhitelist(currentName, currentPath, conn),
-                                                 insertNew(currentName)])
-
-                labelAuto.pack()
-                pathAuto.pack()
-                nameAuto.pack()
-                valida.pack()
+                                                 insertNew(currentName), addPopup.destroy()])
+                annul = Button(frameAuto,  bg='#403E3E', fg='#DADADA', text="Annuler", font=("Space Ranger", 12), command=lambda: addPopup.destroy())
+                labelAuto.grid(row=0, column=0, columnspan=2)
+                pathAuto.grid(row=1, column=0, columnspan=2)
+                nameAuto.grid(row=2, column=0, columnspan=2)
+                valida.grid(row=3, column=0)
+                annul.grid(row=3, column=1)
                 frameAuto.pack(pady=10, padx=10)
             else:
                 return
@@ -329,7 +340,7 @@ white_list = Listbox(frameWL, bg='#E07B6A', fg='#1B2B4B',
                     bd=0, relief=GROOVE, borderwidth=4)
 white_list.pack()
 initWhiteList()
-
+print(white_list.get(0, END))
 # bouton ajouter whitelist
 ajout = Button(frameWL, text="Ajouter", font=("Space Ranger", 15),
             bg='#E07B6A', fg='#1B2B4B', command=lambda: ajoutWhiteList(0))
