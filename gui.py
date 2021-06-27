@@ -351,7 +351,6 @@ white_list = Listbox(frameWL, bg='#E07B6A', fg='#1B2B4B',
                     bd=0, relief=GROOVE, borderwidth=4)
 white_list.pack()
 initWhiteList()
-print(white_list.get(0, END))
 # bouton ajouter whitelist
 ajout = Button(frameWL, text="Ajouter", font=("Space Ranger", 15),
             bg='#E07B6A', fg='#1B2B4B', command=lambda: ajoutWhiteList(0))
