@@ -4,6 +4,7 @@ from tkinter.font import BOLD
 import sqlite3
 import whitelist as WL
 from sqlite3 import Error
+import keyboard 
 
 
 # class Logiciel(object):
@@ -290,6 +291,15 @@ def ajoutWhiteList(mode):
     centerPopup(popup)
     popup.mainloop()
 
+# fonction pour le masquage et le réaffichage
+def show():
+    window.update()
+    window.deiconify()
+
+def hide():
+    window.update()
+    window.withdraw()
+
 ####################################################
 
 # window
@@ -302,7 +312,7 @@ window.config(background='#1B2B4B')
 # menu
 menu_bar = Menu(window)
 file_menu = Menu(menu_bar, tearoff=0)
-file_menu.add_command(label="Masquer", command=window.quit)
+file_menu.add_command(label="Masquer", command=hide)
 prop_menu = Menu(menu_bar, tearoff=0)
 prop_menu.add_command(label="Noir et blanc", command=changeColorsNB)
 prop_menu.add_command(label="Couleurs", command=changeColors)
@@ -385,6 +395,14 @@ ajoutHist = Button(frameBL, text="Ajouter", font=("Space Ranger", 15),
 ajoutHist.pack(pady=10, padx=20)
 
 frameBL.grid(row=2, column=3)
+
+# raccourcis clavier
+keyboard.add_hotkey('ctrl+alt+s', show)
+keyboard.add_hotkey('ctrl+alt+h', hide)
+keyboard.add_hotkey('ctrl+alt+q', EXIT)
+
+# masquer avec la croix
+window.protocol("WM_DELETE_WINDOW", hide)
 
 # center
 # grid
