@@ -111,6 +111,14 @@ def insertNew(name):
     if(test == 0) :
         white_list.insert(END, name)
 
+# suppression du logiciel dans la white list
+def popNew(id):
+    selection = white_list.get(0, END)
+    for i in selection:
+        if i == id:
+            white_list.pop()
+        
+
 # initialisation de la whitelist
 def initHistory():
 
@@ -263,6 +271,44 @@ def validation(popup, id, passW, mode):
         finally:
             return
 
+def validationSupp(popup, id, passW, mode):
+    if(id.get() == "admin" and passW.get() == "admin"):
+        conn = sqlite3.connect("Ransomtion-Protecware.db")
+        try:
+            popup.destroy()
+            suppPopup = Toplevel()
+            centerPopup(suppPopup)
+            suppPopup.config(background="#DADADA")
+            suppPopup.attributes("-topmost", 1)
+            if mode == 0: # suppression manuel
+                newId = StringVar()
+                frameMA = Frame(suppPopup, background="#DADADA")
+                newWhite = Label(frameMA, text="Logiciel à supprimer", font=(
+                    "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
+                idS = Entry(frameMA, bg="white", textvariable= "ID à supprimer")
+                idS.insert(0, "Id")
+    
+                valida = Button(frameMA, bg='#403E3E', fg='#DADADA', text="Valider", font=("Space Ranger", 12),
+                                command=lambda: [WL.deleteFromWhitelist(idS.get(), conn), popNew(idS.get())])
+                newWhite.pack()
+                path.pack()
+                name.pack()
+                valida.pack()
+                frameMA.pack(pady=10, padx=10)
+
+            else:
+                return
+            centerPopup(suppPopup)
+            suppPopup.mainloop()
+        except sqlite3.Error as er:
+            print('SQLite error: %s' % (' '.join(er.args)))
+            print("Exception class is: ", er.__class__)
+            print('SQLite traceback: ')
+            exc_type, exc_value, exc_tb = sys.exc_info()
+            print(traceback.format_exception(exc_type, exc_value, exc_tb))
+        finally:
+            return
+
 def ajoutWhiteList(mode):
     #ajout à la white list depuis une entry
 
@@ -283,6 +329,36 @@ def ajoutWhiteList(mode):
         "Space Ranger", 10), bg='#DADADA', fg='#403E3E', pady=10, padx=5)
     valid = Button(framePop, bg='#403E3E', fg='#DADADA',
                    text="Valider", font=("Space Ranger", 12), command=lambda: validation(popup, id, passW, mode))
+    logi.grid(row=0, column=0, columnspan=2)
+    id.grid(row=1, column=1)
+    idLabel.grid(row=1, column=0, sticky=E)
+    passW.grid(row=2, column=1)
+    passLabel.grid(row=2, column=0, sticky=E)
+    valid.grid(row=3, column=0, columnspan=2)
+    framePop.pack(pady=10, padx=10)
+    centerPopup(popup)
+    popup.mainloop()
+
+def supprimerWhiteList(mode):
+    #ajout à la white list depuis une entry
+
+    popup = Toplevel()
+    mdp = StringVar()
+    iden = StringVar()
+
+    popup.config(background="#DADADA")
+    popup.attributes("-topmost", 1)
+    framePop = Frame(popup, background="#DADADA")
+    logi = Label(framePop, text="Logiciel bloqué", font=(
+        "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
+    id = Entry(framePop, bg="white", textvariable=iden)
+    idLabel = Label(framePop, text="Login :", font=(
+        "Space Ranger", 10), bg='#DADADA', fg='#403E3E', pady=10, padx=5)
+    passW = Entry(framePop, bg="white", textvariable=mdp, show='*')
+    passLabel = Label(framePop, text="Password :", font=(
+        "Space Ranger", 10), bg='#DADADA', fg='#403E3E', pady=10, padx=5)
+    valid = Button(framePop, bg='#403E3E', fg='#DADADA',
+                   text="Valider", font=("Space Ranger", 12), command=lambda: validationSupp(popup, id, passW, mode))
     logi.grid(row=0, column=0, columnspan=2)
     id.grid(row=1, column=1)
     idLabel.grid(row=1, column=0, sticky=E)
@@ -356,10 +432,16 @@ white_list = Listbox(frameWL, bg='#E07B6A', fg='#1B2B4B',
                     bd=0, relief=GROOVE, borderwidth=4)
 white_list.pack()
 initWhiteList()
+
 # bouton ajouter whitelist
 ajout = Button(frameWL, text="Ajouter", font=("Space Ranger", 15),
             bg='#E07B6A', fg='#1B2B4B', command=lambda: ajoutWhiteList(0))
 ajout.pack(pady=10, padx=20)
+
+# bouton supprimer whitelist
+supprimer = Button(frameWL, text="Supprimer", font=("Space Ranger", 15),
+            bg='#E07B6A', fg='#1B2B4B', command=lambda: supprimerWhiteList(0))
+supprimer.pack(pady=10)
 
 # frame number
 frameNB = Frame(window, background="#1B2B4B")
