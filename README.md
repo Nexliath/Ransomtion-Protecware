@@ -4,7 +4,9 @@ Projet pour contrer les ransomware de façon post-attaque
 ## Table des matières
 1. [Information générales](#information-generale)
 2. [Technologies](#technologies)
-3. [Installation] (#installation)
+3. [Installation](#installation)
+4. [Test](#test)
+5. [FAQs](#faqs)
 
 ## Informations générales
 ***
