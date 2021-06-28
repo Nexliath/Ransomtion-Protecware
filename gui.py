@@ -73,6 +73,8 @@ def changeColors():
     history["fg"] = '#1B2B4B'
     ajoutHist["bg"] = '#E07B6A'
     ajoutHist["fg"] = '#1B2B4B'
+    logo1["bg"] = '#1B2B4B'
+    logo2["bg"] = '#1B2B4B'
 
 # initialisation de la whitelist
 def initWhiteList():
