@@ -47,8 +47,7 @@ def deleteFromWhitelist(id, conn):
     cur = conn.cursor()
 
     if (verifId(id, conn)):
-        cur.execute("DELETE FROM whitelist(id) VALUES(?);",
-                    (id))
+        cur.execute("DELETE FROM whitelist WHERE id =?;",id)
         conn.commit()
     else:
         print("Error, not in the db")

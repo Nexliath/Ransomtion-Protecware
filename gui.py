@@ -115,10 +115,11 @@ def insertNew(name):
 
 # suppression du logiciel dans la white list
 def popNew(id):
+    cpt = 0
     selection = white_list.get(0, END)
     for i in selection:
         if i == id:
-            white_list.pop()
+            white_list.pop(id)
         
 
 # initialisation de la whitelist
@@ -287,14 +288,12 @@ def validationSupp(popup, id, passW, mode):
                 frameMA = Frame(suppPopup, background="#DADADA")
                 newWhite = Label(frameMA, text="Logiciel à supprimer", font=(
                     "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
-                idS = Entry(frameMA, bg="white", textvariable= "ID à supprimer")
-                idS.insert(0, "Id")
-    
+                idS = Entry(frameMA, bg="white", textvariable= newId)
+          
                 valida = Button(frameMA, bg='#403E3E', fg='#DADADA', text="Valider", font=("Space Ranger", 12),
                                 command=lambda: [WL.deleteFromWhitelist(idS.get(), conn), popNew(idS.get())])
                 newWhite.pack()
-                path.pack()
-                name.pack()
+                idS.pack()
                 valida.pack()
                 frameMA.pack(pady=10, padx=10)
 
@@ -342,7 +341,7 @@ def ajoutWhiteList(mode):
     popup.mainloop()
 
 def supprimerWhiteList(mode):
-    #ajout à la white list depuis une entry
+    #supprimer de la white list depuis une entry
 
     popup = Toplevel()
     mdp = StringVar()
