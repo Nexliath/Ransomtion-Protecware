@@ -2,6 +2,7 @@ import os
 import re
 
 import detector
+import decryptors
 
 def check_whitelist(proc):
 	return False # TODO
@@ -31,6 +32,8 @@ def block(proc):
 	ram_dump_path = dump_ram(proc)
 	# TODO: Store in database proc.pid, proc.name(), proc.exe()...
 	proc.kill()
+
+	decryptors.decrypt(ram_dump_path)
 
 if __name__ == "__main__":
 	os.nice(-39)
