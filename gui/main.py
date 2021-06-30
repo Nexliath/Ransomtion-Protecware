@@ -2,7 +2,7 @@ from tkinter import *
 from database import Database
 import whitelist
 import history
-import keyboard
+# import keyboard
 
 class App(Tk):
     themes = {
@@ -34,95 +34,95 @@ class App(Tk):
         file_menu = Menu(menu_bar, tearoff=0)
         file_menu.add_command(label="Masquer", command=self.hide)
         prop_menu = Menu(menu_bar, tearoff=0)
-        prop_menu.add_command(label="Couleurs", command=lambda: self.update_theme(themes['color']))
-        prop_menu.add_command(label="Noir et blanc", command=lambda: self.update_theme(themes['blackAndWhite']))
+        prop_menu.add_command(label="Couleurs", command=lambda: self.update_theme(self.themes['color']))
+        prop_menu.add_command(label="Noir et blanc", command=lambda: self.update_theme(self.themes['blackAndWhite']))
         menu_bar.add_cascade(label="Fichier", menu=file_menu)
         menu_bar.add_cascade(label="Thème", menu=prop_menu)
         self.config(menu=menu_bar)
 
         # Logo
         self.iconbitmap("./assets/logo.ico")
-        icon = PhotoImage(file = "./assets/logo_small.png")
+        icon = PhotoImage(file="./assets/logo_small.png")
 
-        logo1 = Canvas(self, width=100, height=100, bg=self.theme['background'], bd=0, highlightthickness=0)
-        logo1.create_image(50, 50, image=icon)
+        self.logo1 = Canvas(self, width=100, height=100, bg=self.theme['background'], bd=0, highlightthickness=0)
+        self.logo1.create_image(50, 50, image=icon)
 
-        logo2 = Canvas(self, width=100, height=100, bg=self.theme['background'], bd=0, highlightthickness=0)
-        logo2.create_image(50, 50, image=icon)
+        self.logo2 = Canvas(self, width=100, height=100, bg=self.theme['background'], bd=0, highlightthickness=0)
+        self.logo2.create_image(50, 50, image=icon)
 
         # Titre
-        label_title = Label(self, text="Ransomtion Protecware", font=("Space Ranger", 35), bg=self.theme['background'], fg=self.theme['foreground'], pady=20)
+        self.label_title = Label(self, text="Ransomtion Protecware", font=("Space Ranger", 35), bg=self.theme['background'], fg=self.theme['foreground'], pady=20)
 
         # Sous titre
-        label_subtitle = Label(self, text="Logiciel actif...", font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=15)
+        self.label_subtitle = Label(self, text="Logiciel actif...", font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=15)
 
         # Bouton éteindre
-        button = Button(self, text="eteindre", font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'], command=exit)
+        self.button = Button(self, text="eteindre", font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'], command=self.exit)
 
         # Frame whitlist
-        frameWL = Frame(self, background=self.theme['background'])
+        self.frameWL = Frame(self, background=self.theme['background'])
 
         # Titre white list
-        titreWL = Label(frameWL, text="WhiteList\n", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
-        titreWL.pack()
+        self.titreWL = Label(self.frameWL, text="WhiteList\n", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
+        self.titreWL.pack()
 
         # Whitelist
-        self.white_list = Listbox(frameWL, bg=self.theme['foreground'], fg=self.theme['background'], bd=0, relief=GROOVE, borderwidth=4)
+        self.white_list = Listbox(self.frameWL, bg=self.theme['foreground'], fg=self.theme['background'], bd=0, relief=GROOVE, borderwidth=4)
         self.white_list.pack()
 
         # Bouton ajouter whitelist
-        ajout = Button(frameWL, text="Ajouter", font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(lambda: self.add_whitelist(0)))
-        ajout.pack(pady=10, padx=20)
+        self.ajout = Button(self.frameWL, text="Ajouter", font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(lambda: self.add_whitelist(0)))
+        self.ajout.pack(pady=10, padx=20)
 
         # Bouton supprimer whitelist
-        supprimer = Button(frameWL, text="Supprimer", font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(self.remove_whitelist))
-        supprimer.pack(pady=10)
+        self.supprimer = Button(self.frameWL, text="Supprimer", font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(self.remove_whitelist))
+        self.supprimer.pack(pady=10)
 
         # Frame number
-        frameNB = Frame(self, background=self.theme['background'])
+        self.frameNB = Frame(self, background=self.theme['background'])
 
         # Logiciels bloqués
-        bloque = Label(frameNB, text="Nombre de malware bloqués", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
-        bloque.pack()
+        self.bloque = Label(self.frameNB, text="Nombre de malware bloqués", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
+        self.bloque.pack()
 
         # Nombre de ransom évités
         self.nb = StringVar()
-        nbLabel = Label(frameNB, textvariable=self.nb, font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
-        nbLabel.pack()
+        self.nbLabel = Label(self.frameNB, textvariable=self.nb, font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
+        self.nbLabel.pack()
 
-        frameNB.grid(row=2, column=1)
+        self.frameNB.grid(row=2, column=1)
 
         # Frame history
-        frameBL = Frame(self, background=self.theme['background'])
+        self.frameBL = Frame(self, background=self.theme['background'])
 
         # Titre liste bloqué
-        titreBL = Label(frameBL, text="Liste des\nlogiciels bloqués", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
-        titreBL.pack()
+        self.titreBL = Label(self.frameBL, text="Liste des\nlogiciels bloqués", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
+        self.titreBL.pack()
 
         # History
-        self.history = Listbox(frameBL, bg=self.theme['foreground'], fg=self.theme['background'], bd=0, relief=GROOVE, borderwidth=4)
+        self.history = Listbox(self.frameBL, bg=self.theme['foreground'], fg=self.theme['background'], bd=0, relief=GROOVE, borderwidth=4)
         self.history.pack()
 
         # Bouton ajouter whitelist depuis history
-        ajoutHist = Button(frameBL, text="Ajouter", font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(lambda: self.add_whitelist(1)))
-        ajoutHist.pack(pady=10, padx=20)
+        self.ajoutHist = Button(self.frameBL, text="Ajouter", font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(lambda: self.add_whitelist(1)))
+        self.ajoutHist.pack(pady=10, padx=20)
 
         # Raccourcis clavier
-        keyboard.add_hotkey("ctrl+alt+s", self.show)
-        keyboard.add_hotkey("ctrl+alt+h", self.hide)
-        keyboard.add_hotkey("ctrl+q", quit)
+        # keyboard.add_hotkey("ctrl+alt+s", self.show)
+        # keyboard.add_hotkey("ctrl+alt+h", self.hide)
+        # keyboard.add_hotkey("ctrl+q", quit)
 
         # Quitter avec la croix
         self.protocol("WM_DELETE_WINDOW", quit)
 
         # Grid
-        logo1.grid(row=0, column=0, rowspan=2)
-        logo2.grid(row=0, column=3, rowspan=2)
-        label_title.grid(row=0, column=1)
-        label_subtitle.grid(row=1, column=1)
-        button.grid(row=10, column=1)
-        frameWL.grid(row=2, column=0, padx=25, pady=10)
-        frameBL.grid(row=2, column=3)
+        self.logo1.grid(row=0, column=0, rowspan=2)
+        self.logo2.grid(row=0, column=3, rowspan=2)
+        self.label_title.grid(row=0, column=1)
+        self.label_subtitle.grid(row=1, column=1)
+        self.button.grid(row=10, column=1)
+        self.frameWL.grid(row=2, column=0, padx=25, pady=10)
+        self.frameBL.grid(row=2, column=3)
         self.center_window(self)
 
     def mainloop(self):
@@ -158,39 +158,38 @@ class App(Tk):
 
     def update_theme(self, new_theme=None):
         if new_theme is not None:
-            global theme
-            theme = new_theme
+            self.theme = new_theme
 
-        window.config(background=self.theme['background'])
-        button['fg'] = self.theme['background']
-        button['bg'] = self.theme['foreground']
-        label_title['bg'] = self.theme['background']
-        label_title['fg'] = self.theme['foreground']
-        label_subtitle['bg'] = self.theme['background']
-        label_subtitle['fg'] = self.theme['foreground']
-        white_list['bg'] = self.theme['background']
-        white_list['fg'] = self.theme['foreground']
-        ajout['fg'] = self.theme['background']
-        ajout['bg'] = self.theme['foreground']
-        frameWL['bg'] = self.theme['background']
-        nbLabel['bg'] = self.theme['background']
-        nbLabel['fg'] = self.theme['foreground']
-        frameNB['bg'] = self.theme['background']
-        bloque['bg'] = self.theme['background']
-        bloque['fg'] = self.theme['foreground']
-        frameBL['bg'] = self.theme['background']
-        history['bg'] = self.theme['background']
-        history['fg'] = self.theme['foreground']
-        ajoutHist['bg'] = self.theme['foreground']
-        ajoutHist['fg'] = self.theme['background']
-        titreWL['bg'] = self.theme['background']
-        titreWL['fg'] = self.theme['foreground']
-        titreBL['bg'] = self.theme['background']
-        titreBL['fg'] = self.theme['foreground']
-        logo1['bg'] = self.theme['background']
-        logo2['bg'] = self.theme['background']
-        supprimer['bg'] = self.theme['foreground']
-        supprimer['fg'] = self.theme['background']
+        self.config(background=self.theme['background'])
+        self.button['fg'] = self.theme['background']
+        self.button['bg'] = self.theme['foreground']
+        self.label_title['bg'] = self.theme['background']
+        self.label_title['fg'] = self.theme['foreground']
+        self.label_subtitle['bg'] = self.theme['background']
+        self.label_subtitle['fg'] = self.theme['foreground']
+        self.white_list['bg'] = self.theme['background']
+        self.white_list['fg'] = self.theme['foreground']
+        self.ajout['fg'] = self.theme['background']
+        self.ajout['bg'] = self.theme['foreground']
+        self.frameWL['bg'] = self.theme['background']
+        self.nbLabel['bg'] = self.theme['background']
+        self.nbLabel['fg'] = self.theme['foreground']
+        self.frameNB['bg'] = self.theme['background']
+        self.bloque['bg'] = self.theme['background']
+        self.bloque['fg'] = self.theme['foreground']
+        self.frameBL['bg'] = self.theme['background']
+        self.history['bg'] = self.theme['background']
+        self.history['fg'] = self.theme['foreground']
+        self.ajoutHist['bg'] = self.theme['foreground']
+        self.ajoutHist['fg'] = self.theme['background']
+        self.titreWL['bg'] = self.theme['background']
+        self.titreWL['fg'] = self.theme['foreground']
+        self.titreBL['bg'] = self.theme['background']
+        self.titreBL['fg'] = self.theme['foreground']
+        self.logo1['bg'] = self.theme['background']
+        self.logo2['bg'] = self.theme['background']
+        self.supprimer['bg'] = self.theme['foreground']
+        self.supprimer['fg'] = self.theme['background']
 
     def center_window(self, wantedWindow, offsetX=430, offsetY=200):
         windowWidth = wantedWindow.winfo_reqwidth()
@@ -202,6 +201,10 @@ class App(Tk):
         wantedWindow.geometry("+{}+{}".format(positionRight, positionDown))
 
     def exit(self):
+        def confirm(popup):
+            # TODO: Shutdown
+            popup.destroy()
+
         exitsure = Toplevel()
 
         exitsure.config(background=self.theme['background'])
@@ -210,7 +213,7 @@ class App(Tk):
         areyousure = Label(exitsure, text="Êtes vous sûr de vouloir quitter ?", bg=self.theme['background'], fg=self.theme['foreground'], font=("Arial", 12, "bold"))
         areyousure.grid(column=1, row=0, pady=10)
 
-        ExitYes = Button(exitsure, text="OUI", command=quit, font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
+        ExitYes = Button(exitsure, text="OUI", command=lambda: confirm(exitsure), font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
         ExitYes.grid(column=0, row=1, padx=10, pady=5)
 
         NoYes = Button(exitsure, text="NON", command=exitsure.destroy, font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
