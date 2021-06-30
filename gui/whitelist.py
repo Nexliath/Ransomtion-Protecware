@@ -1,84 +1,51 @@
-import sqlite3
-from sqlite3 import Error as Err
+def list(db, cursor=None):
+	if cursor is None:
+		cursor = db.cursor()
 
+	cursor.execute("SELECT `id`, `path`, `name` FROM whitelist")
+	for row in cursor.fetchall():
+		yield (row[0], row[1], row[2])
 
-def print_table_whitelist(conn):
-    c = conn.cursor()
-    req = c.execute('SELECT * FROM whitelist')
+def get(id, db, cursor=None):
+	if cursor is None:
+		cursor = db.cursor()
 
-    # print(req.fetchall())
-    print("Whitelist table : ")
-    for row in req.fetchall():
-        print(row)
-    print("\n")
+	cursor.execute("SELECT `id`, `path`, `name` FROM whitelist where `id` = ?;", [id])
 
+	row = cursor.fetchone()
+	if row:
+		return (row[0], row[1], row[2])
+	else:
+		return None
 
-def verifPath(path, conn):
-    cur = conn.cursor()
-    cur.execute("SELECT w.path FROM whitelist w where path = ?;", [path])
+def get_id(path, db, cursor=None):
+	if cursor is None:
+		cursor = db.cursor()
 
-    if cur.fetchone():
-        return True
-    else:
-        return False
+	cursor.execute("SELECT `id` FROM whitelist where `path` = ?;", [path])
 
+	row = cursor.fetchone()
+	if row:
+		return row[0]
+	else:
+		return None
 
-def verifId(id, conn):
-    cur = conn.cursor()
-    cur.execute("SELECT id FROM whitelist where id = ?;", id)
-    if cur.fetchone():
-        return True
-    else:
-        return False
+def add(path, name, db, cursor=None):
+	if cursor is None:
+		cursor = db.cursor()
 
+	if get_id(path, db, cursor) is not None:
+		return None
 
-def addToWhitelist(name, path, conn):
-    cur = conn.cursor()
-    if (verifPath(path, conn)):
-        print("Error add, alreay here")
+	cursor.execute("INSERT INTO whitelist (`path`, `name`) VALUES (?, ?);", [path, name])
+	db.commit()
 
-    else:
-        cur.execute("INSERT INTO whitelist(path,name) VALUES(?,?);",
-                    ((path), (name)))
-        conn.commit()
+	return cursor.lastrowid
 
+def remove(id, db, cursor=None):
+	if cursor is None:
+		cursor = db.cursor()
 
-def deleteFromWhitelist(id, conn):
-    cur = conn.cursor()
-
-    if (verifId(id, conn)):
-        cur.execute("DELETE FROM whitelist WHERE id =?;",id)
-        conn.commit()
-    else:
-        print("Error, not in the db")
-
-
-# TEST
-try:
-    # connect to the database
-    sqliteConnection = sqlite3.connect('Ransomtion-Protecware.db')
-    print("Database connection is established successfully!")
-
-    # connect a database connection to the
-    # database that resides in the memory
-    dest = sqlite3.connect(':memory:')
-    sqliteConnection.backup(dest)
-    print("Established database connection to a database that resides in the memory!")
-
-    print_table_whitelist(sqliteConnection)
-    print(verifPath("/usr/local/bin/test8", sqliteConnection))
-
-    addToWhitelist("test10", "/etc/bin/test10", sqliteConnection)
-
-    print_table_whitelist(sqliteConnection)  # db print
-
-except Err:
-    print(Err)
-
-finally:
-    sqliteConnection.close()
-
-
-# verify if a path is already in the db
-
-# add the name and the path of the desired process
+	cursor.execute("DELETE FROM whitelist WHERE `id` = ?;", [id])
+	db.commit()
+	return True
