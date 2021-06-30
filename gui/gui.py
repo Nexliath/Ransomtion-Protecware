@@ -1,90 +1,57 @@
-import traceback
 from tkinter import *
-from tkinter.font import BOLD
 import sqlite3
-import whitelist as WL
 from sqlite3 import Error
-import keyboard 
+import whitelist
+import keyboard
 
+themes = {
+    "color": {
+        "foreground": "#E07B6A",
+        "background": "#1B2B4B"
+    },
+    "blackAndWhite": {
+        "foreground": "#403E3E",
+        "background": "#DADADA"
+    }
+}
 
-# class Logiciel(object):
-#     path = ""
-#     name = ""
-#
-#     def __init__(self, newPath, newName):
-#         self.path = newPath
-#         self.name = newName
+theme = themes['color']
 
+def update_theme(new_theme=None):
+    if new_theme is not None:
+        global theme
+        theme = new_theme
 
-theme = 1
-
-def changeColorsNB():
-    global theme
-    theme = 0
-    window.config(background="#DADADA")
-    button["fg"] = '#DADADA'
-    button["bg"] = '#403E3E'
-    label_title["bg"] = '#DADADA'
-    label_title["fg"] = '#403E3E'
-    label_subtitle["bg"] = '#DADADA'
-    label_subtitle["fg"] = '#403E3E'
-    white_list["bg"] = "#DADADA"
-    white_list["fg"] = "#403E3E"
-    ajout["fg"] = '#DADADA'
-    ajout["bg"] = '#403E3E'
-    frameWL["bg"] = '#DADADA'
-    nbLabel["bg"] = '#DADADA'
-    nbLabel["fg"] = '#403E3E'
-    frameNB["bg"] = '#DADADA'
-    bloque["bg"] = '#DADADA'
-    bloque["fg"] = '#403E3E'
-    frameBL["bg"] = '#DADADA'
-    history["bg"] = '#DADADA'
-    history["fg"] = '#403E3E'
-    ajoutHist["bg"] = '#403E3E'
-    ajoutHist["fg"] = '#DADADA'
-    titreWL["bg"] = '#DADADA'
-    titreWL["fg"] = '#403E3E'
-    titreBL["bg"] = '#DADADA'
-    titreBL["fg"] = '#403E3E'
-    logo1["bg"] = '#DADADA'
-    logo2["bg"] = '#DADADA'
-    supprimer["bg"] = '#403E3E'
-    supprimer["fg"] = '#DADADA'
-
-def changeColors():
-    global theme
-    theme = 1
-    button["fg"] = '#1B2B4B'
-    button["bg"] = '#E07B6A'
-    label_title["bg"] = '#1B2B4B'
-    label_title["fg"] = '#E07B6A'
-    label_subtitle["bg"] = '#1B2B4B'
-    label_subtitle["fg"] = '#E07B6A'
-    window.config(background='#1B2B4B')
-    white_list["bg"] = "#E07B6A"
-    white_list["fg"] = "#1B2B4B"
-    ajout["fg"] = '#1B2B4B'
-    ajout["bg"] = '#E07B6A'
-    frameWL["bg"] = '#1B2B4B'
-    titreWL["bg"] = '#1B2B4B'
-    titreWL["fg"] = '#E07B6A'
-    titreBL["bg"] = '#1B2B4B'
-    titreBL["fg"] = '#E07B6A'
-    nbLabel["bg"] = '#1B2B4B'
-    nbLabel["fg"] = '#E07B6A'
-    frameNB["bg"] = '#1B2B4B'
-    bloque["bg"] = '#1B2B4B'
-    bloque["fg"] = '#E07B6A'
-    frameBL["bg"] = '#1B2B4B'
-    history["bg"] = '#E07B6A'
-    history["fg"] = '#1B2B4B'
-    ajoutHist["bg"] = '#E07B6A'
-    ajoutHist["fg"] = '#1B2B4B'
-    logo1["bg"] = '#1B2B4B'
-    logo2["bg"] = '#1B2B4B'
-    supprimer["bg"] = '#E07B6A'
-    supprimer["fg"] = '#1B2B4B'
+    window.config(background=theme['background'])
+    button["fg"] = theme['background']
+    button["bg"] = theme['foreground']
+    label_title["bg"] = theme['background']
+    label_title["fg"] = theme['foreground']
+    label_subtitle["bg"] = theme['background']
+    label_subtitle["fg"] = theme['foreground']
+    white_list["bg"] = theme['background']
+    white_list["fg"] = theme['foreground']
+    ajout["fg"] = theme['background']
+    ajout["bg"] = theme['foreground']
+    frameWL["bg"] = theme['background']
+    nbLabel["bg"] = theme['background']
+    nbLabel["fg"] = theme['foreground']
+    frameNB["bg"] = theme['background']
+    bloque["bg"] = theme['background']
+    bloque["fg"] = theme['foreground']
+    frameBL["bg"] = theme['background']
+    history["bg"] = theme['background']
+    history["fg"] = theme['foreground']
+    ajoutHist["bg"] = theme['foreground']
+    ajoutHist["fg"] = theme['background']
+    titreWL["bg"] = theme['background']
+    titreWL["fg"] = theme['foreground']
+    titreBL["bg"] = theme['background']
+    titreBL["fg"] = theme['foreground']
+    logo1["bg"] = theme['background']
+    logo2["bg"] = theme['background']
+    supprimer["bg"] = theme['foreground']
+    supprimer["fg"] = theme['background']
 
 # initialisation de la whitelist
 def initWhiteList():
@@ -101,11 +68,7 @@ def initWhiteList():
             i = i + 1
 
     except sqlite3.Error as er:
-        print('SQLite error: %s' % (' '.join(er.args)))
-        print("Exception class is: ", er.__class__)
-        print('SQLite traceback: ')
-        exc_type, exc_value, exc_tb = sys.exc_info()
-        print(traceback.format_exception(exc_type, exc_value, exc_tb))
+        print(er)
     finally:
         sqliteConnection.close()
 
@@ -130,7 +93,7 @@ def popNew(id):
     for i in selection:
         if i == id:
             white_list.pop(id)
-        
+
 
 # initialisation de la whitelist
 def initHistory():
@@ -147,11 +110,7 @@ def initHistory():
             i = i + 1
 
     except sqlite3.Error as er:
-        print('SQLite error: %s' % (' '.join(er.args)))
-        print("Exception class is: ", er.__class__)
-        print('SQLite traceback: ')
-        exc_type, exc_value, exc_tb = sys.exc_info()
-        print(traceback.format_exception(exc_type, exc_value, exc_tb))
+        print(er)
     finally:
         sqliteConnection.close()
 
@@ -192,24 +151,18 @@ def centerPopup(wantedWindow):
 def EXIT():
     exitsure = Toplevel()
 
-    if theme == 0:
-        bg = "#DADADA"
-        fg = "#403E3E"
-    else:
-        bg = "#1B2B4B"
-        fg = "#E07B6A"
-    exitsure.config(background=bg)
+    exitsure.config(background=theme['background'])
     centerPopup(exitsure)
 
-    areyousure = Label(exitsure, text="Êtes vous sûr de vouloir quitter ?", bg=bg, fg=fg, font=("Arial", 12, 'bold'))
+    areyousure = Label(exitsure, text="Êtes vous sûr de vouloir quitter ?", bg=theme['background'], fg=theme['foreground'], font=("Arial", 12, 'bold'))
     areyousure.grid(column=1, row=0, pady=10)
 
     ExitYes = Button(exitsure, text="OUI", command=quit, font=("Space Ranger", 12),
-                bg=fg, fg=bg)
+                bg=theme['foreground'], fg=theme['background'])
     ExitYes.grid(column=0, row=1, padx=10, pady=5)
 
     NoYes = Button(exitsure, text="NON", command=exitsure.destroy, font=("Space Ranger", 12),
-                bg=fg, fg=bg)
+                bg=theme['foreground'], fg=theme['background'])
     NoYes.grid(column=2, row=1, padx=10, pady=5)
 
 
@@ -227,34 +180,28 @@ def validation(popup, id, passW, mode):
         row = req.fetchone()
         currentPath = row[0]
         try:
-            if theme == 0:
-                bg = "#DADADA"
-                fg = "#403E3E"
-            else:
-                bg = "#1B2B4B"
-                fg = "#E07B6A"
             popup.destroy()
             addPopup = Toplevel()
             centerPopup(addPopup)
-            addPopup.config(background=bg)
+            addPopup.config(background=theme['background'])
             addPopup.attributes("-topmost", 1)
             if mode == 0: # ajout manuel
                 newPath = StringVar()
                 newName = StringVar()
-                frameMA = Frame(addPopup, background=bg)
+                frameMA = Frame(addPopup, background=theme['background'])
                 newWhite = Label(frameMA, text="Informations du logiciel", font=(
-                    "Space Ranger", 18), bg=bg, fg=fg, pady=10)
+                    "Space Ranger", 18), bg=theme['background'], fg=theme['foreground'], pady=10)
                 path = Entry(frameMA, bg="white", textvariable=newPath)
                 name = Entry(frameMA, bg="white", textvariable=newName)
-                valida = Button(frameMA, bg=fg, fg=bg, text="Valider", font=("Space Ranger", 12),
-                                command=lambda: [WL.addToWhitelist(name.get(), path.get(), conn), insertNew(name.get())])
-                annul = Button(frameMA,  bg=fg, fg=bg, text="Annuler", font=("Space Ranger", 12), command=lambda: addPopup.destroy())
+                valida = Button(frameMA, bg=theme['foreground'], fg=theme['background'], text="Valider", font=("Space Ranger", 12),
+                                command=lambda: [whitelist.add(path.get(), name.get(), conn), insertNew(name.get())])
+                annul = Button(frameMA,  bg=theme['foreground'], fg=theme['background'], text="Annuler", font=("Space Ranger", 12), command=lambda: addPopup.destroy())
 
                 pathLabel = Label(frameMA, text="Path : ", font=(
-                    "Space Ranger", 12), bg=bg, fg=fg, pady=5)
+                    "Space Ranger", 12), bg=theme['background'], fg=theme['foreground'], pady=5)
 
                 nameLabel = Label(frameMA, text="Name : ", font=(
-                    "Space Ranger", 12), bg=bg, fg=fg, pady=5)
+                    "Space Ranger", 12), bg=theme['background'], fg=theme['foreground'], pady=5)
                 frameMA.pack(pady=10, padx=10)
                 newWhite.grid(row=0, column=0, columnspan=2)
                 pathLabel.grid(row=1, column=0, sticky=E)
@@ -287,7 +234,7 @@ def validation(popup, id, passW, mode):
                 nameAuto = Label(frameAuto, textvariable=na, font=(
                     "Space Ranger", 12), bg=bg, fg=fg, pady=5)
                 valida = Button(frameAuto, bg=fg, fg=bg, text="Valider", font=("Space Ranger", 12),
-                                command=lambda: [WL.addToWhitelist(currentName, currentPath, conn),
+                                command=lambda: [whitelist.add(currentPath, currentName, conn),
                                                  insertNew(currentName), addPopup.destroy()])
                 annul = Button(frameAuto,  bg=fg, fg=bg, text="Annuler", font=("Space Ranger", 12), command=lambda: addPopup.destroy())
                 labelAuto.grid(row=0, column=0, columnspan=2)
@@ -301,11 +248,7 @@ def validation(popup, id, passW, mode):
             centerPopup(addPopup)
             addPopup.mainloop()
         except sqlite3.Error as er:
-            print('SQLite error: %s' % (' '.join(er.args)))
-            print("Exception class is: ", er.__class__)
-            print('SQLite traceback: ')
-            exc_type, exc_value, exc_tb = sys.exc_info()
-            print(traceback.format_exception(exc_type, exc_value, exc_tb))
+            print(er)
         finally:
             return
 
@@ -313,29 +256,23 @@ def validationSupp(popup, id, passW, mode):
     if(id.get() == "admin" and passW.get() == "admin"):
         conn = sqlite3.connect("Ransomtion-Protecware.db")
         try:
-            if theme == 0:
-                bg = "#DADADA"
-                fg = "#403E3E"
-            else:
-                bg = "#1B2B4B"
-                fg = "#E07B6A"
             popup.destroy()
             suppPopup = Toplevel()
             centerPopup(suppPopup)
-            suppPopup.config(background=bg)
+            suppPopup.config(background=theme['background'])
             suppPopup.attributes("-topmost", 1)
             if mode == 0: # suppression manuel
                 newId = StringVar()
-                frameMA = Frame(suppPopup, background=bg)
+                frameMA = Frame(suppPopup, background=theme['background'])
                 suppLabel = Label(frameMA, text="Logiciel à supprimer", font=(
-                    "Space Ranger", 18), bg=bg, fg=fg, pady=10)
+                    "Space Ranger", 18), bg=theme['background'], fg=theme['foreground'], pady=10)
                 idLabel = Label(frameMA, text="ID : ", font=(
-                    "Space Ranger", 12), bg=bg, fg=fg, pady=5)
+                    "Space Ranger", 12), bg=theme['background'], fg=theme['foreground'], pady=5)
                 idS = Entry(frameMA, bg="white", textvariable= newId)
-          
-                valida = Button(frameMA, bg=fg, fg=bg, text="Valider", font=("Space Ranger", 12),
-                                command=lambda: [WL.deleteFromWhitelist(idS.get(), conn), popNew(idS.get())])
-                annul = Button(frameMA,  bg=fg, fg=bg, text="Annuler", font=("Space Ranger", 12), command=lambda: suppPopup.destroy())
+
+                valida = Button(frameMA, bg=theme['foreground'], fg=theme['background'], text="Valider", font=("Space Ranger", 12),
+                                command=lambda: [whitelist.remove(idS.get(), conn), popNew(idS.get())])
+                annul = Button(frameMA,  bg=theme['foreground'], fg=theme['background'], text="Annuler", font=("Space Ranger", 12), command=lambda: suppPopup.destroy())
                 idLabel.grid(row=1, column=0, sticky=E)
                 suppLabel.grid(row=0, column=0, columnspan=2)
                 idS.grid(row=1, column=1)
@@ -348,11 +285,7 @@ def validationSupp(popup, id, passW, mode):
             centerPopup(suppPopup)
             suppPopup.mainloop()
         except sqlite3.Error as er:
-            print('SQLite error: %s' % (' '.join(er.args)))
-            print("Exception class is: ", er.__class__)
-            print('SQLite traceback: ')
-            exc_type, exc_value, exc_tb = sys.exc_info()
-            print(traceback.format_exception(exc_type, exc_value, exc_tb))
+            print(er)
         finally:
             return
 
@@ -362,24 +295,18 @@ def ajoutWhiteList(mode):
     popup = Toplevel()
     mdp = StringVar()
     iden = StringVar()
-    if theme == 0:  
-        bg = "#DADADA"
-        fg = "#403E3E"
-    else:
-        bg = "#1B2B4B"
-        fg = "#E07B6A"
-    popup.config(background=bg)
+    popup.config(background=theme['background'])
     popup.attributes("-topmost", 1)
-    framePop = Frame(popup, background=bg)
+    framePop = Frame(popup, background=theme['background'])
     logi = Label(framePop, text="Logiciel bloqué", font=(
-        "Space Ranger", 18), bg=bg, fg=fg, pady=10)
+        "Space Ranger", 18), bg=theme['background'], fg=theme['foreground'], pady=10)
     id = Entry(framePop, bg="white", textvariable=iden)
     idLabel = Label(framePop, text="Login :", font=(
-        "Space Ranger", 10), bg=bg, fg=fg, pady=10, padx=5)
+        "Space Ranger", 10), bg=theme['background'], fg=theme['foreground'], pady=10, padx=5)
     passW = Entry(framePop, bg="white", textvariable=mdp, show='*')
     passLabel = Label(framePop, text="Password :", font=(
-        "Space Ranger", 10), bg=bg, fg=fg, pady=10, padx=5)
-    valid = Button(framePop, bg=fg, fg=bg,
+        "Space Ranger", 10), bg=theme['background'], fg=theme['foreground'], pady=10, padx=5)
+    valid = Button(framePop, bg=theme['foreground'], fg=theme['background'],
                    text="Valider", font=("Space Ranger", 12), command=lambda: validation(popup, id, passW, mode))
     logi.grid(row=0, column=0, columnspan=2)
     id.grid(row=1, column=1)
@@ -397,24 +324,18 @@ def supprimerWhiteList(mode):
     popup = Toplevel()
     mdp = StringVar()
     iden = StringVar()
-    if theme == 0:
-        bg = "#DADADA"
-        fg = "#403E3E"
-    else:
-        bg = "#1B2B4B"
-        fg = "#E07B6A"
-    popup.config(background=bg)
+    popup.config(background=theme['background'])
     popup.attributes("-topmost", 1)
-    framePop = Frame(popup, background=bg)
+    framePop = Frame(popup, background=theme['background'])
     logi = Label(framePop, text="Logiciel bloqué", font=(
-        "Space Ranger", 18), bg=bg, fg=fg, pady=10)
+        "Space Ranger", 18), bg=theme['background'], fg=theme['foreground'], pady=10)
     id = Entry(framePop, bg="white", textvariable=iden)
     idLabel = Label(framePop, text="Login :", font=(
-        "Space Ranger", 10), bg=bg, fg=fg, pady=10, padx=5)
+        "Space Ranger", 10), bg=theme['background'], fg=theme['foreground'], pady=10, padx=5)
     passW = Entry(framePop, bg="white", textvariable=mdp, show='*')
     passLabel = Label(framePop, text="Password :", font=(
-        "Space Ranger", 10), bg=bg, fg=fg, pady=10, padx=5)
-    valid = Button(framePop, bg=fg, fg=bg,
+        "Space Ranger", 10), bg=theme['background'], fg=theme['foreground'], pady=10, padx=5)
+    valid = Button(framePop, bg=theme['foreground'], fg=theme['background'],
                    text="Valider", font=("Space Ranger", 12), command=lambda: validationSupp(popup, id, passW, mode))
     logi.grid(row=0, column=0, columnspan=2)
     id.grid(row=1, column=1)
@@ -449,8 +370,8 @@ menu_bar = Menu(window)
 file_menu = Menu(menu_bar, tearoff=0)
 file_menu.add_command(label="Masquer", command=hide)
 prop_menu = Menu(menu_bar, tearoff=0)
-prop_menu.add_command(label="Noir et blanc", command=changeColorsNB)
-prop_menu.add_command(label="Couleurs", command=changeColors)
+prop_menu.add_command(label="Noir et blanc", command=lambda: update_theme(themes.blackAndWhite))
+prop_menu.add_command(label="Couleurs", command=lambda: update_theme(themes.color))
 menu_bar.add_cascade(label="Fichier", menu=file_menu)
 menu_bar.add_cascade(label="Propriétés", menu=prop_menu)
 window.config(menu=menu_bar)
@@ -509,13 +430,11 @@ bloque = Label(frameNB, text="Nombre de malware bloqués", font=(
 bloque.pack()
 
 # nombre de ransom évités
-file = open("nb.txt", "r")
 nb = StringVar()
-nb.set(file.read())
+nb.set(3) # TODO
 nbLabel = Label(frameNB, textvariable=nb, font=(
     "Space Ranger", 18), bg='#1B2B4B', fg='#E07B6A', pady=5)
 nbLabel.pack()
-file.close()
 
 frameNB.grid(row=2, column=1)
 
