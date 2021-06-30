@@ -9,6 +9,10 @@ import decryptors
 def check_whitelist(proc):
 	return False # TODO
 
+def shutdown_network():
+	for interface in os.listdir("/sys/class/net"):
+		os.system("ip link set %s down" % interface)
+
 def dump_ram(proc):
 	with open("/proc/%s/maps" % proc.pid, "r") as maps:
 		for line in maps.readlines():
@@ -42,8 +46,12 @@ def main():
 
 	with daemon.DaemonContext():
 		while True:
-			for proc in detector.check():
-				block(proc)
+			detected = detector.check()
+			if detected:
+				shutdown_network()
+
+				for proc in detected:
+					block(proc)
 
 			time.sleep(60)
 
