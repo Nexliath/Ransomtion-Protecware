@@ -456,10 +456,10 @@ menu_bar.add_cascade(label="Propriétés", menu=prop_menu)
 window.config(menu=menu_bar)
 
 # Logo
-window.iconbitmap('Logo.ico')
+window.iconbitmap('./assets/logo.ico')
 
 logo1 = Canvas(window, width=100, height=100, bg='#1B2B4B', bd=0, highlightthickness=0)
-icon = PhotoImage(file = 'Logo_tres_petit.png')
+icon = PhotoImage(file = './assets/logo_small.png')
 logo1.create_image(50, 50, image = icon)
 
 logo2 = Canvas(window, width=100, height=100, bg='#1B2B4B', bd=0, highlightthickness=0)
