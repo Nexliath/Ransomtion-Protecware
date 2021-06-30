@@ -201,6 +201,16 @@ def EXIT():
 def validation(popup, id, passW, mode):
     if(id.get() == "admin" and passW.get() == "admin"):
         conn = sqlite3.connect("Ransomtion-Protecware.db")
+        currentName = history.get(ACTIVE)
+        dest = sqlite3.connect(':memory:')
+        conn.backup(dest)
+        c = conn.cursor()
+        print(currentName)
+        cmd = "SELECT path FROM history WHERE name='" + currentName + "'"
+        print(cmd)
+        req = c.execute(cmd)
+        row = req.fetchone()
+        currentPath = row[0]
         try:
             popup.destroy()
             addPopup = Toplevel()
@@ -214,22 +224,26 @@ def validation(popup, id, passW, mode):
                 newWhite = Label(frameMA, text="Informations du logiciel", font=(
                     "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
                 path = Entry(frameMA, bg="white", textvariable=newPath)
-                path.insert(0, "Path")
                 name = Entry(frameMA, bg="white", textvariable=newName)
-                name.insert(0, "Name")
                 valida = Button(frameMA, bg='#403E3E', fg='#DADADA', text="Valider", font=("Space Ranger", 12),
                                 command=lambda: [WL.addToWhitelist(name.get(), path.get(), conn), insertNew(name.get())])
-                newWhite.pack()
-                path.pack()
-                name.pack()
-                valida.pack()
+                annul = Button(frameMA,  bg='#403E3E', fg='#DADADA', text="Annuler", font=("Space Ranger", 12), command=lambda: addPopup.destroy())
+
+                pathLabel = Label(frameMA, text="Path : ", font=(
+                    "Space Ranger", 12), bg='#DADADA', fg='#403E3E', pady=5)
+
+                nameLabel = Label(frameMA, text="Name : ", font=(
+                    "Space Ranger", 12), bg='#DADADA', fg='#403E3E', pady=5)
                 frameMA.pack(pady=10, padx=10)
+                newWhite.grid(row=0, column=0, columnspan=2)
+                pathLabel.grid(row=1, column=0, sticky=E)
+                nameLabel.grid(row=2, column=0, sticky=E)
+                path.grid(row=1, column=1)
+                name.grid(row=2, column=1)
+                valida.grid(row=3, column=0)
+                annul.grid(row=3, column=1)
 
             elif mode == 1: # ajout automatique
-
-                dest = sqlite3.connect(':memory:')
-                conn.backup(dest)
-                c = conn.cursor()
 
                 currentName = history.get(ACTIVE)
                 print(currentName)
@@ -286,15 +300,20 @@ def validationSupp(popup, id, passW, mode):
             if mode == 0: # suppression manuel
                 newId = StringVar()
                 frameMA = Frame(suppPopup, background="#DADADA")
-                newWhite = Label(frameMA, text="Logiciel à supprimer", font=(
+                suppLabel = Label(frameMA, text="Logiciel à supprimer", font=(
                     "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
+                idLabel = Label(frameMA, text="ID : ", font=(
+                    "Space Ranger", 12), bg='#DADADA', fg='#403E3E', pady=5)
                 idS = Entry(frameMA, bg="white", textvariable= newId)
           
                 valida = Button(frameMA, bg='#403E3E', fg='#DADADA', text="Valider", font=("Space Ranger", 12),
                                 command=lambda: [WL.deleteFromWhitelist(idS.get(), conn), popNew(idS.get())])
-                newWhite.pack()
-                idS.pack()
-                valida.pack()
+                annul = Button(frameMA,  bg='#403E3E', fg='#DADADA', text="Annuler", font=("Space Ranger", 12), command=lambda: suppPopup.destroy())
+                idLabel.grid(row=1, column=0, sticky=E)
+                suppLabel.grid(row=0, column=0, columnspan=2)
+                idS.grid(row=1, column=1)
+                valida.grid(row=2, column=0)
+                annul.grid(row=2, column=1)
                 frameMA.pack(pady=10, padx=10)
 
             else:
