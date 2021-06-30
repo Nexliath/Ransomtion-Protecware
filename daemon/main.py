@@ -1,5 +1,7 @@
+import time
 import os
 import re
+import daemon
 
 import detector
 import decryptors
@@ -35,8 +37,15 @@ def block(proc):
 
 	decryptors.decrypt(ram_dump_path)
 
-if __name__ == "__main__":
+def main():
 	os.nice(-39)
 
-	for proc in detector.check():
-		block(proc)
+	with daemon.DaemonContext():
+		while True:
+			for proc in detector.check():
+				block(proc)
+
+			time.sleep(60)
+
+if __name__ == "__main__":
+	main()
