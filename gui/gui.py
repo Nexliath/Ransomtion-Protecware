@@ -198,18 +198,18 @@ def EXIT():
     else:
         bg = "#1B2B4B"
         fg = "#E07B6A"
-    exitsure.config(background="bg")
+    exitsure.config(background=bg)
     centerPopup(exitsure)
 
-    areyousure = Label(exitsure, text="Êtes vous sûr de vouloir quitter ?", bg='bg', fg=fg, font=("Arial", 12, 'bold'))
+    areyousure = Label(exitsure, text="Êtes vous sûr de vouloir quitter ?", bg=bg, fg=fg, font=("Arial", 12, 'bold'))
     areyousure.grid(column=1, row=0, pady=10)
 
     ExitYes = Button(exitsure, text="OUI", command=quit, font=("Space Ranger", 12),
-                bg=fg, fg='bg')
+                bg=fg, fg=bg)
     ExitYes.grid(column=0, row=1, padx=10, pady=5)
 
     NoYes = Button(exitsure, text="NON", command=exitsure.destroy, font=("Space Ranger", 12),
-                bg=fg, fg='bg')
+                bg=fg, fg=bg)
     NoYes.grid(column=2, row=1, padx=10, pady=5)
 
 
