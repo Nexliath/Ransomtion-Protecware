@@ -1,2 +1,2 @@
-psutil
-python-pidfile
+psutil==5.8.0
+python-pidfile==3.0.0
