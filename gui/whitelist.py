@@ -10,7 +10,7 @@ def get(id, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
 
-	cursor.execute("SELECT `id`, `path`, `name` FROM whitelist where `id` = ?;", [id])
+	cursor.execute("SELECT `id`, `path`, `name` FROM whitelist where `id` = ?", [id])
 
 	row = cursor.fetchone()
 	if row:
@@ -22,7 +22,7 @@ def get_id(path, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
 
-	cursor.execute("SELECT `id` FROM whitelist where `path` = ?;", [path])
+	cursor.execute("SELECT `id` FROM whitelist where `path` = ?", [path])
 
 	row = cursor.fetchone()
 	if row:
@@ -37,7 +37,7 @@ def add(path, name, db, cursor=None):
 	if get_id(path, db, cursor) is not None:
 		return None
 
-	cursor.execute("INSERT INTO whitelist (`path`, `name`) VALUES (?, ?);", [path, name])
+	cursor.execute("INSERT INTO whitelist (`path`, `name`) VALUES (?, ?)", [path, name])
 	db.commit()
 
 	return cursor.lastrowid
@@ -46,6 +46,6 @@ def remove(id, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
 
-	cursor.execute("DELETE FROM whitelist WHERE `id` = ?;", [id])
+	cursor.execute("DELETE FROM whitelist WHERE `id` = ?", [id])
 	db.commit()
 	return True

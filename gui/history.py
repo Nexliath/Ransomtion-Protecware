@@ -13,7 +13,7 @@ def get(id, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
 
-	cursor.execute("SELECT `id`, `path`, `name`, `reason`, `timestamp` FROM history where `id` = ?;", [id])
+	cursor.execute("SELECT `id`, `path`, `name`, `reason`, `timestamp` FROM history where `id` = ?", [id])
 
 	row = cursor.fetchone()
 	if row:
@@ -25,7 +25,7 @@ def get_id(path, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
 
-	cursor.execute("SELECT `id` FROM history where `path` = ?;", [path])
+	cursor.execute("SELECT `id` FROM history where `path` = ?", [path])
 
 	row = cursor.fetchone()
 	if row:
@@ -40,7 +40,7 @@ def add(path, name, reason, db, cursor=None):
 	if get_id(path, db, cursor) is not None:
 		return None
 
-	cursor.execute("INSERT INTO history (`path`, `name`, `reason`, `timestamp`) VALUES (?, ?);", [path, name, reason, time.time()])
+	cursor.execute("INSERT INTO history (`path`, `name`, `reason`, `timestamp`) VALUES (?, ?)", [path, name, reason, time.time()])
 	db.commit()
 
 	return cursor.lastrowid
@@ -49,6 +49,6 @@ def remove(id, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
 
-	cursor.execute("DELETE FROM history WHERE `id` = ?;", [id])
+	cursor.execute("DELETE FROM history WHERE `id` = ?", [id])
 	db.commit()
 	return True
