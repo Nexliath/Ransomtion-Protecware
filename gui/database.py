@@ -38,12 +38,12 @@ class Database():
         cursor = self.connection.cursor()
 
         try:
-            cursor.execute("CREATE TABLE history (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `path` VARCHAR(1024) NOT NULL, `name` TEXT NOT NULL, `reason` TEXT, `timestamp` INTEGER);")
+            cursor.execute("CREATE TABLE history (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `path` VARCHAR(1024) NOT NULL, `name` TEXT NOT NULL, `reason` TEXT, `timestamp` INTEGER)")
         except sqlite3.Error:
             pass
 
         try:
-            cursor.execute("CREATE TABLE whitelist (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `path` VARCHAR(1024) NOT NULL, `name` TEXT NOT NULL);")
+            cursor.execute("CREATE TABLE whitelist (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `path` VARCHAR(1024) NOT NULL, `name` TEXT NOT NULL)")
         except sqlite3.Error:
             pass
 

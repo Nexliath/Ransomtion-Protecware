@@ -78,7 +78,7 @@ def restoreBackup():
     result = shell.run(["ls", "/home/nas/old/"])
     backups = result.output.split()
     print(f"Pease choose a backup amongst")
-    cnt = 1;
+    cnt = 1
     for item in backups:
         print(cnt + ": " + item.decode('UTF-8'))
     print(f"\n")
