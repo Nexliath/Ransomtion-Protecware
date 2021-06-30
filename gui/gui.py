@@ -16,7 +16,11 @@ import keyboard
 #         self.name = newName
 
 
+theme = 1
+
 def changeColorsNB():
+    global theme
+    theme = 0
     window.config(background="#DADADA")
     button["fg"] = '#DADADA'
     button["bg"] = '#403E3E'
@@ -49,6 +53,8 @@ def changeColorsNB():
     supprimer["fg"] = '#DADADA'
 
 def changeColors():
+    global theme
+    theme = 1
     button["fg"] = '#1B2B4B'
     button["bg"] = '#E07B6A'
     label_title["bg"] = '#1B2B4B'
@@ -185,18 +191,25 @@ def centerPopup(wantedWindow):
 # Exit confirmation
 def EXIT():
     exitsure = Toplevel()
-    exitsure.config(background="#DADADA")
+
+    if theme == 0:
+        bg = "#DADADA"
+        fg = "#403E3E"
+    else:
+        bg = "#1B2B4B"
+        fg = "#E07B6A"
+    exitsure.config(background="bg")
     centerPopup(exitsure)
 
-    areyousure = Label(exitsure, text="Êtes vous sûr de vouloir quitter ?", bg='#DADADA', fg='#403E3E', font=("Arial", 12, 'bold'))
+    areyousure = Label(exitsure, text="Êtes vous sûr de vouloir quitter ?", bg='bg', fg=fg, font=("Arial", 12, 'bold'))
     areyousure.grid(column=1, row=0, pady=10)
 
     ExitYes = Button(exitsure, text="OUI", command=quit, font=("Space Ranger", 12),
-                bg='#403E3E', fg='#DADADA')
+                bg=fg, fg='bg')
     ExitYes.grid(column=0, row=1, padx=10, pady=5)
 
     NoYes = Button(exitsure, text="NON", command=exitsure.destroy, font=("Space Ranger", 12),
-                bg='#403E3E', fg='#DADADA')
+                bg=fg, fg='bg')
     NoYes.grid(column=2, row=1, padx=10, pady=5)
 
 
@@ -214,28 +227,34 @@ def validation(popup, id, passW, mode):
         row = req.fetchone()
         currentPath = row[0]
         try:
+            if theme == 0:
+                bg = "#DADADA"
+                fg = "#403E3E"
+            else:
+                bg = "#1B2B4B"
+                fg = "#E07B6A"
             popup.destroy()
             addPopup = Toplevel()
             centerPopup(addPopup)
-            addPopup.config(background="#DADADA")
+            addPopup.config(background=bg)
             addPopup.attributes("-topmost", 1)
             if mode == 0: # ajout manuel
                 newPath = StringVar()
                 newName = StringVar()
-                frameMA = Frame(addPopup, background="#DADADA")
+                frameMA = Frame(addPopup, background=bg)
                 newWhite = Label(frameMA, text="Informations du logiciel", font=(
-                    "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
+                    "Space Ranger", 18), bg=bg, fg=fg, pady=10)
                 path = Entry(frameMA, bg="white", textvariable=newPath)
                 name = Entry(frameMA, bg="white", textvariable=newName)
-                valida = Button(frameMA, bg='#403E3E', fg='#DADADA', text="Valider", font=("Space Ranger", 12),
+                valida = Button(frameMA, bg=fg, fg=bg, text="Valider", font=("Space Ranger", 12),
                                 command=lambda: [WL.addToWhitelist(name.get(), path.get(), conn), insertNew(name.get())])
-                annul = Button(frameMA,  bg='#403E3E', fg='#DADADA', text="Annuler", font=("Space Ranger", 12), command=lambda: addPopup.destroy())
+                annul = Button(frameMA,  bg=fg, fg=bg, text="Annuler", font=("Space Ranger", 12), command=lambda: addPopup.destroy())
 
                 pathLabel = Label(frameMA, text="Path : ", font=(
-                    "Space Ranger", 12), bg='#DADADA', fg='#403E3E', pady=5)
+                    "Space Ranger", 12), bg=bg, fg=fg, pady=5)
 
                 nameLabel = Label(frameMA, text="Name : ", font=(
-                    "Space Ranger", 12), bg='#DADADA', fg='#403E3E', pady=5)
+                    "Space Ranger", 12), bg=bg, fg=fg, pady=5)
                 frameMA.pack(pady=10, padx=10)
                 newWhite.grid(row=0, column=0, columnspan=2)
                 pathLabel.grid(row=1, column=0, sticky=E)
@@ -254,23 +273,23 @@ def validation(popup, id, passW, mode):
                 req = c.execute(cmd)
                 row = req.fetchone()
                 currentPath = row[0]
-                frameAuto = Frame(addPopup, background="#DADADA")
+                frameAuto = Frame(addPopup, background=bg)
                 labelAuto = Label(frameAuto, text="Informations du logiciel", font=(
-                    "Space Ranger", 15), bg='#DADADA', fg='#403E3E', pady=10)
+                    "Space Ranger", 15), bg=bg, fg=fg, pady=10)
                 pa = StringVar()
                 tmp = "Path : " + currentName
                 pa.set(tmp)
                 pathAuto = Label(frameAuto, textvariable=pa, font=(
-                    "Space Ranger", 12), bg='#DADADA', fg='#403E3E', pady=5)
+                    "Space Ranger", 12), bg=bg, fg=fg, pady=5)
                 na = StringVar()
                 tmp = "Name : " + currentPath
                 na.set(tmp)
                 nameAuto = Label(frameAuto, textvariable=na, font=(
-                    "Space Ranger", 12), bg='#DADADA', fg='#403E3E', pady=5)
-                valida = Button(frameAuto, bg='#403E3E', fg='#DADADA', text="Valider", font=("Space Ranger", 12),
+                    "Space Ranger", 12), bg=bg, fg=fg, pady=5)
+                valida = Button(frameAuto, bg=fg, fg=bg, text="Valider", font=("Space Ranger", 12),
                                 command=lambda: [WL.addToWhitelist(currentName, currentPath, conn),
                                                  insertNew(currentName), addPopup.destroy()])
-                annul = Button(frameAuto,  bg='#403E3E', fg='#DADADA', text="Annuler", font=("Space Ranger", 12), command=lambda: addPopup.destroy())
+                annul = Button(frameAuto,  bg=fg, fg=bg, text="Annuler", font=("Space Ranger", 12), command=lambda: addPopup.destroy())
                 labelAuto.grid(row=0, column=0, columnspan=2)
                 pathAuto.grid(row=1, column=0, columnspan=2)
                 nameAuto.grid(row=2, column=0, columnspan=2)
@@ -294,23 +313,29 @@ def validationSupp(popup, id, passW, mode):
     if(id.get() == "admin" and passW.get() == "admin"):
         conn = sqlite3.connect("Ransomtion-Protecware.db")
         try:
+            if theme == 0:
+                bg = "#DADADA"
+                fg = "#403E3E"
+            else:
+                bg = "#1B2B4B"
+                fg = "#E07B6A"
             popup.destroy()
             suppPopup = Toplevel()
             centerPopup(suppPopup)
-            suppPopup.config(background="#DADADA")
+            suppPopup.config(background=bg)
             suppPopup.attributes("-topmost", 1)
             if mode == 0: # suppression manuel
                 newId = StringVar()
-                frameMA = Frame(suppPopup, background="#DADADA")
+                frameMA = Frame(suppPopup, background=bg)
                 suppLabel = Label(frameMA, text="Logiciel à supprimer", font=(
-                    "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
+                    "Space Ranger", 18), bg=bg, fg=fg, pady=10)
                 idLabel = Label(frameMA, text="ID : ", font=(
-                    "Space Ranger", 12), bg='#DADADA', fg='#403E3E', pady=5)
+                    "Space Ranger", 12), bg=bg, fg=fg, pady=5)
                 idS = Entry(frameMA, bg="white", textvariable= newId)
           
-                valida = Button(frameMA, bg='#403E3E', fg='#DADADA', text="Valider", font=("Space Ranger", 12),
+                valida = Button(frameMA, bg=fg, fg=bg, text="Valider", font=("Space Ranger", 12),
                                 command=lambda: [WL.deleteFromWhitelist(idS.get(), conn), popNew(idS.get())])
-                annul = Button(frameMA,  bg='#403E3E', fg='#DADADA', text="Annuler", font=("Space Ranger", 12), command=lambda: suppPopup.destroy())
+                annul = Button(frameMA,  bg=fg, fg=bg, text="Annuler", font=("Space Ranger", 12), command=lambda: suppPopup.destroy())
                 idLabel.grid(row=1, column=0, sticky=E)
                 suppLabel.grid(row=0, column=0, columnspan=2)
                 idS.grid(row=1, column=1)
@@ -337,19 +362,24 @@ def ajoutWhiteList(mode):
     popup = Toplevel()
     mdp = StringVar()
     iden = StringVar()
-
-    popup.config(background="#DADADA")
+    if theme == 0:  
+        bg = "#DADADA"
+        fg = "#403E3E"
+    else:
+        bg = "#1B2B4B"
+        fg = "#E07B6A"
+    popup.config(background=bg)
     popup.attributes("-topmost", 1)
-    framePop = Frame(popup, background="#DADADA")
+    framePop = Frame(popup, background=bg)
     logi = Label(framePop, text="Logiciel bloqué", font=(
-        "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
+        "Space Ranger", 18), bg=bg, fg=fg, pady=10)
     id = Entry(framePop, bg="white", textvariable=iden)
     idLabel = Label(framePop, text="Login :", font=(
-        "Space Ranger", 10), bg='#DADADA', fg='#403E3E', pady=10, padx=5)
+        "Space Ranger", 10), bg=bg, fg=fg, pady=10, padx=5)
     passW = Entry(framePop, bg="white", textvariable=mdp, show='*')
     passLabel = Label(framePop, text="Password :", font=(
-        "Space Ranger", 10), bg='#DADADA', fg='#403E3E', pady=10, padx=5)
-    valid = Button(framePop, bg='#403E3E', fg='#DADADA',
+        "Space Ranger", 10), bg=bg, fg=fg, pady=10, padx=5)
+    valid = Button(framePop, bg=fg, fg=bg,
                    text="Valider", font=("Space Ranger", 12), command=lambda: validation(popup, id, passW, mode))
     logi.grid(row=0, column=0, columnspan=2)
     id.grid(row=1, column=1)
@@ -367,19 +397,24 @@ def supprimerWhiteList(mode):
     popup = Toplevel()
     mdp = StringVar()
     iden = StringVar()
-
-    popup.config(background="#DADADA")
+    if theme == 0:
+        bg = "#DADADA"
+        fg = "#403E3E"
+    else:
+        bg = "#1B2B4B"
+        fg = "#E07B6A"
+    popup.config(background=bg)
     popup.attributes("-topmost", 1)
-    framePop = Frame(popup, background="#DADADA")
+    framePop = Frame(popup, background=bg)
     logi = Label(framePop, text="Logiciel bloqué", font=(
-        "Space Ranger", 18), bg='#DADADA', fg='#403E3E', pady=10)
+        "Space Ranger", 18), bg=bg, fg=fg, pady=10)
     id = Entry(framePop, bg="white", textvariable=iden)
     idLabel = Label(framePop, text="Login :", font=(
-        "Space Ranger", 10), bg='#DADADA', fg='#403E3E', pady=10, padx=5)
+        "Space Ranger", 10), bg=bg, fg=fg, pady=10, padx=5)
     passW = Entry(framePop, bg="white", textvariable=mdp, show='*')
     passLabel = Label(framePop, text="Password :", font=(
-        "Space Ranger", 10), bg='#DADADA', fg='#403E3E', pady=10, padx=5)
-    valid = Button(framePop, bg='#403E3E', fg='#DADADA',
+        "Space Ranger", 10), bg=bg, fg=fg, pady=10, padx=5)
+    valid = Button(framePop, bg=fg, fg=bg,
                    text="Valider", font=("Space Ranger", 12), command=lambda: validationSupp(popup, id, passW, mode))
     logi.grid(row=0, column=0, columnspan=2)
     id.grid(row=1, column=1)
