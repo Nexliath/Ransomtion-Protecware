@@ -52,9 +52,10 @@ def initBackup():
     f.close()
 
     # add lines in crontab to automate
-    os.system("crontab -e")
+    cronFile = os.path.exists("/var/spool/cron/crontabs/root", "x")
     line = "0 4 * * 1   " + homedir + "/.backup.sh"
-    os.system("(crontab -u " + username + " -l; echo \"" + line + "\" ) | crontab -u " + username + " -") 
+    f.write(line)
+    f.close()
     os.system("sudo service cron reload")
 
 def restoreBackup():
