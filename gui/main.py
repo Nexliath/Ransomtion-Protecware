@@ -28,6 +28,7 @@ class App(Tk):
         self.title("Ransomtion Protecware")
         # self.geometry("1080x720")
         # self.minsize(1080,720)
+        self.resizable(False, False)
         self.config(background=self.theme['background'])
 
         # menu
@@ -42,13 +43,13 @@ class App(Tk):
         self.config(menu=menu_bar)
 
         # Logo
-        icon = PhotoImage(data=logo_base64)
+        self.icon = PhotoImage(data=logo_base64)
 
         self.logo1 = Canvas(self, width=100, height=100, bg=self.theme['background'], bd=0, highlightthickness=0)
-        self.logo1.create_image(50, 50, image=icon)
+        self.logo1.create_image(50, 50, image=self.icon)
 
         self.logo2 = Canvas(self, width=100, height=100, bg=self.theme['background'], bd=0, highlightthickness=0)
-        self.logo2.create_image(50, 50, image=icon)
+        self.logo2.create_image(50, 50, image=self.icon)
 
         # Titre
         self.label_title = Label(self, text="Ransomtion Protecware", font=("Space Ranger", 35), bg=self.theme['background'], fg=self.theme['foreground'], pady=20)
@@ -208,7 +209,7 @@ class App(Tk):
         exitsure.config(background=self.theme['background'])
         self.center_window(exitsure, 100, 50)
 
-        areyousure = Label(exitsure, text="Êtes vous sûr de vouloir quitter ?", bg=self.theme['background'], fg=self.theme['foreground'], font=("Arial", 12, "bold"))
+        areyousure = Label(exitsure, text="Êtes vous sûr de vouloir quitter ?", bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, "bold"))
         areyousure.grid(column=1, row=0, pady=10)
 
         ExitYes = Button(exitsure, text="OUI", command=lambda: confirm(exitsure), font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
@@ -229,7 +230,7 @@ class App(Tk):
                     popErreur = Toplevel()
                     popErreur.config(background=self.theme['background'])
                     popErreur.attributes("-topmost", 1)
-                    Label(popErreur, text="Déjà dans la whitelist", bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, 'bold'), pady=35, padx=35).pack()
+                    Label(popErreur, text="Déjà dans la whitelist", bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, "bold"), pady=35, padx=35).pack()
                     self.center_window(popErreur, 100, 50)
                     popErreur.mainloop()
 
@@ -271,7 +272,7 @@ class App(Tk):
                 popErreur = Toplevel()
                 popErreur.config(background=self.theme['background'])
                 popErreur.attributes("-topmost", 1)
-                Label(popErreur, text="Déjà dans la whitelist", bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, 'bold'), pady=35, padx=35).pack()
+                Label(popErreur, text="Déjà dans la whitelist", bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, "bold"), pady=35, padx=35).pack()
                 self.center_window(popErreur, 100, 50)
                 popErreur.mainloop()
 
@@ -299,7 +300,7 @@ class App(Tk):
         logi = Label(framePop, text="Authentification nécessaire", font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=10)
         id = Entry(framePop, bg="white", textvariable=iden)
         idLabel = Label(framePop, text="Login :", font=("Space Ranger", 10), bg=self.theme['background'], fg=self.theme['foreground'], pady=10, padx=5)
-        passW = Entry(framePop, bg="white", textvariable=mdp, show='*')
+        passW = Entry(framePop, bg="white", textvariable=mdp, show="*")
         passLabel = Label(framePop, text="Password :", font=("Space Ranger", 10), bg=self.theme['background'], fg=self.theme['foreground'], pady=10, padx=5)
         valid = Button(framePop, bg=self.theme['foreground'], fg=self.theme['background'], text="Valider", font=("Space Ranger", 12), command=lambda: self.check_credentials(popup, id.get(), passW.get(), callback))
         logi.grid(row=0, column=0, columnspan=2)
