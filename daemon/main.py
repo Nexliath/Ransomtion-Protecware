@@ -8,9 +8,8 @@ import pidfile
 
 import detector
 import decryptors
-
-def check_whitelist(proc):
-	return False # TODO
+import whitelist
+import history
 
 def shutdown_network():
 	for interface in os.listdir("/sys/class/net"):
@@ -34,13 +33,16 @@ def dump_ram(proc):
 
 				return ram_dump_path
 
-def block(proc):
-	if check_whitelist(proc):
+def block(proc, reason):
+	if whitelist.check(proc.exe()):
 		return
 
 	ram_dump_path = dump_ram(proc)
-	# TODO: Store in database proc.pid, proc.name(), proc.exe()...
+	with proc.oneshot():
+		path = proc.exe()
+		name = proc.name()
 	proc.kill()
+	history.add(path, name, reason, time.time())
 
 	decryptors.decrypt(ram_dump_path)
 
@@ -55,12 +57,12 @@ def main():
 		with pidfile.PIDFile("/var/lib/ransomtion-protecware/daemon.pid"):
 			while True:
 				try:
-					detected = detector.check()
+					detected = list(detector.check())
 					if detected:
 						shutdown_network()
 
-						for proc in detected:
-							block(proc)
+						for (proc, reason) in detected:
+							block(proc, reason)
 				except BaseException as e:
 					print(e)
 

@@ -21,26 +21,11 @@ def get(id, db, cursor=None):
 	else:
 		return None
 
-def get_id(path, db, cursor=None):
+def add(path, name, reason, timestamp, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
 
-	cursor.execute("SELECT `id` FROM history where `path` = ?", [path])
-
-	row = cursor.fetchone()
-	if row:
-		return row[0]
-	else:
-		return None
-
-def add(path, name, reason, db, cursor=None):
-	if cursor is None:
-		cursor = db.cursor()
-
-	if get_id(path, db, cursor) is not None:
-		return None
-
-	cursor.execute("INSERT INTO history (`path`, `name`, `reason`, `timestamp`) VALUES (?, ?)", [path, name, reason, time.time()])
+	cursor.execute("INSERT INTO history (`path`, `name`, `reason`, `timestamp`) VALUES (?, ?)", [path, name, reason, timestamp])
 	db.commit()
 
 	return cursor.lastrowid
