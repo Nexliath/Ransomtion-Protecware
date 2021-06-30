@@ -45,6 +45,8 @@ def changeColorsNB():
     titreBL["fg"] = '#403E3E'
     logo1["bg"] = '#DADADA'
     logo2["bg"] = '#DADADA'
+    supprimer["bg"] = '#403E3E'
+    supprimer["fg"] = '#DADADA'
 
 def changeColors():
     button["fg"] = '#1B2B4B'
@@ -75,6 +77,8 @@ def changeColors():
     ajoutHist["fg"] = '#1B2B4B'
     logo1["bg"] = '#1B2B4B'
     logo2["bg"] = '#1B2B4B'
+    supprimer["bg"] = '#E07B6A'
+    supprimer["fg"] = '#1B2B4B'
 
 # initialisation de la whitelist
 def initWhiteList():
@@ -179,8 +183,6 @@ def centerPopup(wantedWindow):
 
 
 # Exit confirmation
-
-
 def EXIT():
     exitsure = Toplevel()
     exitsure.config(background="#DADADA")
