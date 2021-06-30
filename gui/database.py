@@ -3,7 +3,7 @@ import sqlite3
 class Database():
     connection = None
 
-    def __init__(self, path="Ransomtion-Protecware.db"):
+    def __init__(self, path="/var/lib/ransomtion-protecware/processes.db"):
         self.path = path
 
     def __enter__(self):

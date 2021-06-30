@@ -46,9 +46,13 @@ def block(proc):
 
 def main():
 	os.nice(-39)
+	try:
+		os.makedirs("/var/lib/ransomtion-protecware")
+	except FileExistsError:
+		pass
 
 	try:
-		with pidfile.PIDFile("daemon.pid"):
+		with pidfile.PIDFile("/var/lib/ransomtion-protecware/daemon.pid"):
 			while True:
 				try:
 					detected = detector.check()

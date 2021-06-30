@@ -1,4 +1,5 @@
 from tkinter import *
+import os
 from database import Database
 import whitelist
 import history
@@ -328,4 +329,9 @@ class App(Tk):
         self.withdraw()
 
 if __name__ == "__main__":
+    try:
+        os.makedirs("/var/lib/ransomtion-protecware")
+    except FileExistsError:
+        pass
+
     App().mainloop()
