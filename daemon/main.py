@@ -1,7 +1,10 @@
 import time
+import sys
 import os
+import os.path
 import re
-import daemon
+import signal
+import pidfile
 
 import detector
 import decryptors
@@ -44,16 +47,25 @@ def block(proc):
 def main():
 	os.nice(-39)
 
-	with daemon.DaemonContext():
-		while True:
-			detected = detector.check()
-			if detected:
-				shutdown_network()
+	try:
+		with pidfile.PIDFile("daemon.pid"):
+			while True:
+				try:
+					detected = detector.check()
+					if detected:
+						shutdown_network()
 
-				for proc in detected:
-					block(proc)
+						for proc in detected:
+							block(proc)
+				except BaseException as e:
+					print(e)
 
-			time.sleep(60)
+				try:
+					time.sleep(60)
+				except BaseException as e:
+					pass
+	except pidfile.AlreadyRunningError:
+		pass
 
 if __name__ == "__main__":
 	main()
