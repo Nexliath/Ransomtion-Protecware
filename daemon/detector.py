@@ -4,8 +4,7 @@ import json
 import sys
 import os
 
-with open(os.path.join(os.path.dirname(sys.argv[0]), "extensions.json"), "r") as f:
-	extensions = json.load(f)
+from extensions import extensions
 
 def check():
 	processes = set(psutil.process_iter())

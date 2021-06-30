@@ -1,4 +1,4 @@
-[
+extensions = [
 	"1cbu1",
 	"73i87a",
 	"_airacropencrypted",
