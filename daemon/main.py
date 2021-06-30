@@ -67,7 +67,7 @@ def main():
 				try:
 					time.sleep(60)
 				except BaseException as e:
-					pass
+					break
 	except pidfile.AlreadyRunningError:
 		pass
 

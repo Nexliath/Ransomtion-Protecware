@@ -3,6 +3,7 @@ import os
 from database import Database
 import whitelist
 import history
+import daemon_controller
 from logo import base64 as logo_base64
 # import keyboard
 
@@ -21,6 +22,7 @@ class App(Tk):
     theme = themes['color']
     db = None
     authenticated = False
+    running = False
 
     def __init__(self):
         super().__init__()
@@ -56,10 +58,10 @@ class App(Tk):
         self.label_title = Label(self, text="Ransomtion Protecware", font=("Space Ranger", 35), bg=self.theme['background'], fg=self.theme['foreground'], pady=20)
 
         # Sous titre
-        self.label_subtitle = Label(self, text="Logiciel actif...", font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=15)
+        self.label_subtitle = Label(self, text="Chargement...", font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=15)
 
         # Bouton éteindre
-        self.button = Button(self, text="eteindre", font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'], command=self.exit)
+        self.button = Button(self, text="allumer", font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'], command=self.shutdown)
 
         # Frame whitlist
         self.frameWL = Frame(self, background=self.theme['background'])
@@ -138,9 +140,21 @@ class App(Tk):
             self.update_white_list()
             self.update_history()
 
+            daemon_controller.check_running(self.update_running)
+
             super().mainloop()
 
         self.db = None
+
+    def update_running(self, running):
+        self.running = running
+
+        if running:
+            self.label_subtitle.config(text="Logiciel actif...")
+            self.button.config(text="eteindre")
+        else:
+            self.label_subtitle.config(text="Logiciel inactif !")
+            self.button.config(text="allumer")
 
     def update_white_list(self):
         while self.white_list.get(0, END):
@@ -200,24 +214,29 @@ class App(Tk):
 
         wantedWindow.geometry("+{}+{}".format(positionRight, positionDown))
 
-    def exit(self):
+    def shutdown(self):
         def confirm(popup):
-            # TODO: Shutdown
             popup.destroy()
+            daemon_controller.stop()
+            self.update_running(False)
 
-        exitsure = Toplevel()
+        if self.running:
+            exitsure = Toplevel()
 
-        exitsure.config(background=self.theme['background'])
-        self.center_window(exitsure, 100, 50)
+            exitsure.config(background=self.theme['background'])
+            self.center_window(exitsure, 100, 50)
 
-        areyousure = Label(exitsure, text="Êtes vous sûr de vouloir quitter ?", bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, "bold"))
-        areyousure.grid(column=1, row=0, pady=10)
+            areyousure = Label(exitsure, text="Êtes vous sûr de vouloir quitter ?", bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, "bold"))
+            areyousure.grid(column=1, row=0, pady=10)
 
-        ExitYes = Button(exitsure, text="OUI", command=lambda: confirm(exitsure), font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
-        ExitYes.grid(column=0, row=1, padx=10, pady=5)
+            ExitYes = Button(exitsure, text="OUI", command=lambda: confirm(exitsure), font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
+            ExitYes.grid(column=0, row=1, padx=10, pady=5)
 
-        NoYes = Button(exitsure, text="NON", command=exitsure.destroy, font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
-        NoYes.grid(column=2, row=1, padx=10, pady=5)
+            NoYes = Button(exitsure, text="NON", command=exitsure.destroy, font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
+            NoYes.grid(column=2, row=1, padx=10, pady=5)
+        else:
+            daemon_controller.start()
+            self.update_running(True)
 
     def add_whitelist(self, mode):
         if mode == 0: # ajout manuel
