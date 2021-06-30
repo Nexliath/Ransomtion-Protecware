@@ -18,7 +18,7 @@ class App(Tk):
 
     theme = themes['color']
     db = None
-    authenticated = True # TODO: False
+    authenticated = False
 
     def __init__(self):
         super().__init__()
@@ -295,7 +295,7 @@ class App(Tk):
         popup.config(background=self.theme['background'])
         popup.attributes("-topmost", 1)
         framePop = Frame(popup, background=self.theme['background'])
-        logi = Label(framePop, text="Logiciel bloqué", font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=10)
+        logi = Label(framePop, text="Authentification nécessaire", font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=10)
         id = Entry(framePop, bg="white", textvariable=iden)
         idLabel = Label(framePop, text="Login :", font=("Space Ranger", 10), bg=self.theme['background'], fg=self.theme['foreground'], pady=10, padx=5)
         passW = Entry(framePop, bg="white", textvariable=mdp, show='*')
