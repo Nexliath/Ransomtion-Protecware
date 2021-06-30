@@ -26,7 +26,10 @@ def initBackup():
     if check == 'n':
         print(f"Enter the IP address of the nas (let blank if none): ")
         ip_address = input()
+    # If creation of backup is needed next time, the user will need to erase the ~/.backup.sh file
     if ip_address == "":
+        f = open(homedir + "/.backup.sh", "x")
+        f.close()
         return
     # get folder to backup
     print(f"Enter the folder for the backup (let blank for /): ")
