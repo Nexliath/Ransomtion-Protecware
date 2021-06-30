@@ -2,6 +2,7 @@ from tkinter import *
 from database import Database
 import whitelist
 import history
+from logo import base64 as logo_base64
 # import keyboard
 
 class App(Tk):
@@ -41,8 +42,7 @@ class App(Tk):
         self.config(menu=menu_bar)
 
         # Logo
-        self.iconbitmap("./assets/logo.ico")
-        icon = PhotoImage(file="./assets/logo_small.png")
+        icon = PhotoImage(data=logo_base64)
 
         self.logo1 = Canvas(self, width=100, height=100, bg=self.theme['background'], bd=0, highlightthickness=0)
         self.logo1.create_image(50, 50, image=icon)
@@ -113,7 +113,7 @@ class App(Tk):
         # keyboard.add_hotkey("ctrl+q", quit)
 
         # Quitter avec la croix
-        self.protocol("WM_DELETE_WINDOW", quit)
+        # self.protocol("WM_DELETE_WINDOW", quit)
 
         # Grid
         self.logo1.grid(row=0, column=0, rowspan=2)
@@ -133,8 +133,6 @@ class App(Tk):
             self.history.data = list(history.list(self.db))
             self.nb.set(len(self.history.data))
 
-            self.update_white_list()
-            self.update_history()
             self.update_white_list()
             self.update_history()
 
