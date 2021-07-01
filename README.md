@@ -15,10 +15,10 @@ Les différentes fonctions présentes sur le projet sont:
 1. Actions pré-attaque :
     * Blacklist de programmes via leur nom
     * Ajout d'un programme à la whitelist
-    * Sauvegarde automatique toutes les semaines [^1]
+    * Sauvegarde automatique toutes les semaines <sup>[1](#myfootnote1)</sup>
 2. Actions pendant une attaque :
-    * Détection de plus de 20Go réécrits dans les fichiers [^2]
-    * Arrêt du programme concerné [^3]
+    * Détection de plus de 20Go réécrits dans les fichiers <sup>[2](#myfootnote2)</sup>
+    * Arrêt du programme concerné <sup>[3](#myfootnote3)</sup>
     * Coupure des interfaces réseaux
 3. Actions post-attaque :
     * Récupération d'une sauvegarde
@@ -59,6 +59,6 @@ git clone https://github.com/Nexliath/Ransomtion-Protecware.git
 ***
 
 
-[^1]: La sauvegarde autommatique n'est pas obligatoire et nécessite un boitier (ici un disque dur branché sur une raspberry) ou un serveur en ligne.
-[^2]: Dans ce projet, nous ne nous occupons pas des ransomware couplés à des DOS sur la RAM.
-[^3]: Si le programme n'est pas une menace, il peut être ajouté à la whitelist par l'utilisateur pour permettre son action.
+<a name="myfootnote1">1</a>:: La sauvegarde autommatique n'est pas obligatoire et nécessite un boitier (ici un disque dur branché sur une raspberry) ou un serveur en ligne.
+<a name="myfootnote2">2</a>:: Dans ce projet, nous ne nous occupons pas des ransomware couplés à des DOS sur la RAM.
+<a name="myfootnote3">3</a>:: Si le programme n'est pas une menace, il peut être ajouté à la whitelist par l'utilisateur pour permettre son action.
