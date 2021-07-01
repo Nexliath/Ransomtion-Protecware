@@ -3,10 +3,13 @@ Projet pour contrer les ransomwares
 
 ## Table des matières
 1. [Informations générales](#informations-generale)
-2. [Technologies](#technologies)
+2. [Prérequis](#prerequis)
 3. [Installation](#installation)
 4. [Test](#test)
 5. [FAQs](#faqs)
+5. [Contributeurs](#contributeurs)
+6. [FAQs](#faqs)
+7. [Notes de bas de page](#notes-bas-de-page)
 
 ## Informations générales
 ***
@@ -44,6 +47,8 @@ git clone https://github.com/Nexliath/Ransomtion-Protecware.git
 ## Test
 ***
 
+## FAQs
+***
 
 ## Contributeurs
 ***
@@ -54,9 +59,6 @@ git clone https://github.com/Nexliath/Ransomtion-Protecware.git
 * MANGEARD  Philippe
 * MELINE    Stan
 * RECOURSE  Déborah
-
-## FAQs
-***
 
 
 ## Notes de bas de page
