@@ -61,6 +61,6 @@ git clone https://github.com/Nexliath/Ransomtion-Protecware.git
 
 ## Notes de bas de page
 ***
-<a id="myfootnote1"><br>1.</br>La sauvegarde autommatique n'est pas obligatoire et nécessite un boitier (ici un disque dur branché sur une raspberry) ou un serveur en ligne.</a>  
-<a id="myfootnote2"><br>2.</br>>Dans ce projet, nous ne nous occupons pas des ransomware couplés à des DOS sur la RAM.</a>   
-<a id="myfootnote3"><br>3.</br>>Si le programme n'est pas une menace, il peut être ajouté à la whitelist par l'utilisateur pour permettre son action.</a>  
+<a id="myfootnote1">**1.**</br>La sauvegarde autommatique n'est pas obligatoire et nécessite un boitier (ici un disque dur branché sur une raspberry) ou un serveur en ligne.</a>  
+<a id="myfootnote2">**2.**</br>Dans ce projet, nous ne nous occupons pas des ransomware couplés à des DOS sur la RAM.</a>   
+<a id="myfootnote3">**3.**</br>Si le programme n'est pas une menace, il peut être ajouté à la whitelist par l'utilisateur pour permettre son action.</a>  
