@@ -25,7 +25,7 @@ def add(path, name, reason, timestamp, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
 
-	cursor.execute("INSERT INTO history (`path`, `name`, `reason`, `timestamp`) VALUES (?, ?)", [path, name, reason, timestamp])
+	cursor.execute("INSERT INTO history (`path`, `name`, `reason`, `timestamp`) VALUES (?, ?, ?, ?)", [path, name, reason, timestamp])
 	db.commit()
 
 	return cursor.lastrowid
