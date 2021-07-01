@@ -24,3 +24,11 @@ Projet pour contrer les ransomware de façon post-attaque
 ## FAQs
 ***
 
+## Contributors
+
+* DUFOUR    Lucie
+* GARNIER   Aurélien
+* GARNIER   Victor
+* MANGEARD  Philippe
+* MELINE    Stan
+* RECOURSE  Déborah
