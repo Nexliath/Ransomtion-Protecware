@@ -8,8 +8,7 @@ Projet pour contrer les ransomwares
 4. [Test](#test)
 5. [FAQs](#faqs)
 5. [Contributeurs](#contributeurs)
-6. [FAQs](#faqs)
-7. [Notes de bas de page](#notes-bas-de-page)
+6. [Notes de bas de page](#notes-bas-de-page)
 
 ## Informations générales
 ***
