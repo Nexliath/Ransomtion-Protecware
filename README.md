@@ -10,7 +10,7 @@ Projet pour contrer les ransomware
 
 ## Informations générales
 ***
-Ransomtion Protecware est un programme python qui peut être couplé à un boitier. Ce projet permet à une petite entreprise de protéger ses ordinateurs contre les ransomware.
+Ransomtion Protecware est un programme python qui peut être couplé à un boitier. Ce projet permet à une petite entreprise de protéger ses ordinateurs contre les ransomwares.
 Les différentes fonctions présentes sur le projet sont:
 1. Actions pré-attaque :
     * Blacklist de programmes via leur nom
