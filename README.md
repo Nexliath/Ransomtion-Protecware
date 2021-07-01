@@ -1,8 +1,8 @@
 # Ransomtion-Protecware (Version 1)
-Projet pour contrer les ransomware
+Projet pour contrer les ransomwares
 
 ## Table des matières
-1. [Information générales](#information-generale)
+1. [Informations générales](#informations-generale)
 2. [Technologies](#technologies)
 3. [Installation](#installation)
 4. [Test](#test)
