@@ -7,9 +7,9 @@ import signal
 import pidfile
 
 import detector
-import decryptors
 import whitelist
 import history
+import decryptors
 
 def shutdown_network():
 	for interface in os.listdir("/sys/class/net"):
@@ -34,15 +34,23 @@ def dump_ram(proc):
 				return ram_dump_path
 
 def block(proc, reason):
-	if whitelist.check(proc.exe()):
-		return
+	try:
+		if whitelist.check(proc.exe()):
+			return
+	except:
+		pass # Ignore database errors when checking whitelist
 
 	ram_dump_path = dump_ram(proc)
 	with proc.oneshot():
 		path = proc.exe()
 		name = proc.name()
 	proc.kill()
-	history.add(path, name, reason, time.time())
+
+	try:
+		history.add(path, name, reason, time.time())
+	except:
+		# Ignore database errors when logging history, but write to standard error stream instead
+		print("Blocked process!\n\tName: %s\n\tPath: %s\n\tReason: %s\n\tTime: %d" % (name, path, reason, time.time()), file=sys.stderr)
 
 	decryptors.decrypt(ram_dump_path)
 
