@@ -1,71 +1,81 @@
-# Ransomtion-Protecware (Version 1)
-Projet pour contrer les ransomwares.
+# Ransomtion Protecware
+Application anti-virus spécialisée contre les ransomwares réalisée comme projet au sein d'Efrei Paris lors du Mastercamp L3 2021.
 
 ## Table des matières
-1. [Informations générales](#informations-generale)
-2. [Installation](#installation)
-3. [Test](#test)
-4. [FAQs](#faqs)
-5. [Contributeurs](#contributeurs)
-6. [Notes de bas de page](#notes-bas-de-page)
+1. [Informations générales](#informations-générales)
+2. [Compatibilité](#compatibilité)
+3. [Option de sauvegardes](#option-de-sauvegardes)
+4. [Installation](#installation)
+5. [Tests](#tests)
+6. [Contributeurs](#contributeurs)
 
 ## Informations générales
-***
-Ransomtion Protecware est un programme python qui peut être couplé à un boitier. Ce projet permet à une petite entreprise de protéger ses ordinateurs contre les ransomwares.
-Les différentes fonctions présentes sur le projet sont:
+Ransomtion Protecware est un programme développé en Python compatible Linux et pouvant être utilisé en parallèle d'un serveur de backup.\
+Ce projet permet à une entreprise PME, ou même un particulier, de protéger son infrastructure IT contre les ransomwares.
+
+Les différentes fonctionnalités présentes sont :
 1. Actions pré-attaque :
-    * Blacklist de programmes via leur nom
-    * Ajout d'un programme à la whitelist
-    * Sauvegarde automatique toutes les semaines <sup>[1](#myfootnote1)</sup>
-2. Actions pendant une attaque :
-    * Détection de plus de 20Go réécrits dans les fichiers <sup>[2](#myfootnote2)</sup>
-    * Arrêt du programme concerné <sup>[3](#myfootnote3)</sup>
-    * Coupure des interfaces réseaux
+    * Interface graphique de contrôle de l'application (lancement/désactivation)
+    * Whitelist d'un programme de confiance pour autoriser son exécution
+    * [Sauvegarde des données sensibles de l'utilisateur](#option-de-sauvegardes)
+2. Actions au cours d'une attaque :
+    * Détection de l'exécution d'un ransomware
+        - Volumes d'écriture suspects (> 10 Go lus et > 20 Go écrits)
+        - Création de fichiers reconnus comme utilisés par des ransomwares (extensions .WNNCRY etc.)
+        - Utilisation abusive des ressources (> 80% du CPU)
+    * Coupure des interfaces réseau
+    * Arrêt du programme concerné
 3. Actions post-attaque :
-    * Récupération d'une sauvegarde
+    * Tentative de déchiffrement automatique des fichiers chiffrés
+    * Restauration d'une sauvegarde
+    * Visibilité de l'historique des ransomwares bloqués
 
 ![startuml](http://www.plantuml.com/plantuml/png/TP91pjCm48NtFiLJsV17-YEnpOzGcmfM825G3-3QGsewiOizLYeXxiAMS_HYs7-hgfNIxNiltvjnPfb4HyaZgxHt_g2Z7f4J6Pq8lrMlpNw88Nkx3XmYLkmCzPn9zI5QYcVrYxFU3JjvDTGgnZ2TZU-Qn-2L-gCKqm-11CGQX7MHZBZgQICbcSMnIreeHxovjhomyzJTuCzAkmriNuIEqlLS9bIgqhGVcB3ufdqAOsNZQmn2PjAH5cKNeBjfwV3yZBUVm-3yqworkGWLP0dRqfCFDNhv26rTgVtmA8aEpXlEbcRngvyX2qv_mHhJpWaLM-xmzQKgVpvwnx_-iStw7NGgZq2ilQ48BZ3ZYB7by2kV_YcKTWKqpSUZa4zrvaDmNbBJ57csgkWBXOTpl6zjc7oBsjs1AjQcsPq_4TbwKI21TfQUwcKiIpoF_1y0)
 
-## Prérequis
-***
-Les machines pouvant faire tourner ce programme sont les machines Ubuntu.
-Le programme est installé sur chaque machine client.
-### Backup
-Pour le backup, un boîtier dois être fourni. Il est composé d'une raspberry paramétrée avec samba et un disque dur de la taille souhaitée
+## Compatibilité
+Ransomtion Protecware doit être installé sur chaque machine à protéger.\
+Il peut être installé sur un serveur en faisant appel uniquement au daemon.\
+Sur les ordinateurs clients, il est fortement recommandé d'utiliser le script d'installation et l'interface graphique fournie.
+
+L'application est (pour le moment) exclusivement compatible avec les systèmes d'exploitation Linux. Une version Windows et macOS est prévue.\
+Seule la version LTS la plus récente d'Ubuntu est supportée et testée.
+
+## Option de sauvegardes
+En faisant appel à nos services complémentaires, nous pouvons mettre en place un serveur sécurisé de sauvegardes au sein de votre réseau d'entreprise.\
+Des sauvegardes incrémentales (fichiers modifiés uniquement) des données utilisateur sensibles (dossier au choix) sont alors réalisés chaque semaine.\
+Un backup complet est réalisé chaque mois pour minimiser les risques de corruption des fichiers.
 
 ## Installation
-***
-Pour installer l'application, il est possible de cliquer sur le bouton Download ZIP sur Github ou d'écrire la ligne de commande suivante dans un terminal :
+Pour installer l'application depuis les sources, récupérez le répertoire de l'application :
 ```bash
 git clone https://github.com/Nexliath/Ransomtion-Protecware.git 
+cd Ransomtion-Protecware
 ```
 
-Il faut ensuite exécuter le fichier build.sh
+Puis exécutez le fichier `build.sh` en tant que super-utilisateur :
 ```bash
 sudo ./build.sh
 ```
 
-Le programme est alors prêt à être lancé.
+Deux exécutables binaires sont créés dans le dossier `dist`.\
+Pour lancer l'interface graphique, utilisez l'exécutable `RansomtionProtecware` :
+```bash
+sudo ./dist/RansomtionProtecware
+```
+Pour lancer le logiciel en head-less (daemon uniquement) sur un serveur par exemple, utilisez l'exécutable `RansomtionProtecware-daemon` :
+```bash
+sudo ./dist/RansomtionProtecware-daemon &
+```
 
-## Test
-***
+## Tests
 
-## FAQs
-***
+*Rédaction des tests en cours. Cette section sera mise à jour avec le contenu nécessaire pour exécuter les tests.*
 
 ## Contributeurs
-***
 
-* DUFOUR    Lucie
-* GARNIER   Aurélien
-* GARNIER   Victor
-* MANGEARD  Philippe
-* MELINE    Stan
-* RECOURSE  Déborah
-
-
-## Notes de bas de page
-***
-<a id="myfootnote1">**1.** La sauvegarde autommatique n'est pas obligatoire et nécessite un boitier (ici un disque dur branché sur une raspberry) ou un serveur en ligne.</a>  
-<a id="myfootnote2">**2.** Dans ce projet, nous ne nous occupons pas des ransomware couplés à des DOS sur la RAM.</a>   
-<a id="myfootnote3">**3.** Si le programme n'est pas une menace, il peut être ajouté à la whitelist par l'utilisateur pour permettre son action.</a>  
+* <img src="https://avatars.githubusercontent.com/u/66913204?s=64&v=4" width="48" alt="Loucye" /> [DUFOUR    Lucie](https://github.com/Loucye)
+* <img src="https://avatars.githubusercontent.com/u/6292584?s=64&v=4" width="48" alt="au2001" /> [GARNIER   Aurélien](https://github.com/au2001)
+* <img src="https://avatars.githubusercontent.com/u/49352273?s=64&v=4" width="48" alt="Nexliath" /> [GARNIER   Victor](https://github.com/Nexliath)
+* <img src="https://avatars.githubusercontent.com/u/56166579?s=64&v=4" width="48" alt="Malpaga" /> [MANGEARD  Philippe](https://github.com/Malpaga)
+* <img src="https://avatars.githubusercontent.com/u/58551445?s=64&v=4" width="48" alt="Scorr" /> [MÉLINE    Stan](https://github.com/Sccor)
+* <img src="https://avatars.githubusercontent.com/u/21981282?s=64&v=4" width="48" alt="Irraky" /> [RECOURSÉ  Déborah](https://github.com/Irraky)
