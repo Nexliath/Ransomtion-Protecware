@@ -84,8 +84,9 @@ sudo rm ~/.backup.sh
 sudo ./build.sh
 ```
 Puis suivre l'installation à partir de l'étape [d'installation du boitier].(#Si-le-boitier-de-backup-est-installé)  
-  
-  
+ <br>
+ <br> 
+
 Le reste de l'installation est fait automatiquement.  
 Deux exécutables binaires sont créés dans le dossier `dist`.\
 Pour lancer l'interface graphique, utilisez l'exécutable `RansomtionProtecware` :
