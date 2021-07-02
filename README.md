@@ -5,7 +5,7 @@ Application anti-virus spécialisée contre les ransomwares réalisée comme pro
 1. [Informations générales](#informations-générales)
 2. [Compatibilité](#compatibilité)
 3. [Option de sauvegardes](#option-de-sauvegardes)
-4. [Installation](#installation)
+4. [Installation et lancement](#installation-et-lancement)
 5. [Tests](#tests)
 6. [Contributeurs](#contributeurs)
 
@@ -45,7 +45,7 @@ En faisant appel à nos services complémentaires, nous pouvons mettre en place 
 Des sauvegardes incrémentales (fichiers modifiés uniquement) des données utilisateur sensibles (dossier au choix) sont alors réalisés chaque semaine.\
 Un backup complet est réalisé chaque mois pour minimiser les risques de corruption des fichiers.
 
-## Installation
+## Installation et lancement
 Pour installer l'application depuis les sources, récupérez le répertoire de l'application :
 ```bash
 git clone https://github.com/Nexliath/Ransomtion-Protecware.git 
@@ -65,12 +65,12 @@ Pour la connaitre, il faut suivre les étapes suivantes :
 2. Se connecter avec l'utilisateur dont le couple login:password est nas:123
 3. Ouvrir un terminal
 4. Entrer la commande "ip -c show enp0s3"
-5. Récupérer l'adresse ip affichée
+5. Récupérer l'adresse ip affichée  
 Il n'y a plus qu'à recopier cette adresse.  
 Une confirmation du choix est proposée.  
 Il faut vérifier que l'adresse ip a bien été remplie et valider.  
 Il faut ensuite choisir le répertoire à sauvegarder.  
-Il est conseillé de choisir soit le répertoire "/home", soit le répertoire de l'utilisateur "/home/YourLoginHere", soit la racine "/".  
+*Il est conseillé de choisir soit le répertoire "/home", soit le répertoire de l'utilisateur "/home/YourLoginHere", soit la racine "/".*  
 Une nouvelle confirmation permet de corriger les potentielles erreurs.  
 ### Sans présence de boitier
 Il suffit de ne rien entrer.  
@@ -78,11 +78,13 @@ Une confirmation du choix est proposée.
 Il faut alors appuyer à nouveau sur entrer.
 ### Ajouter le système de backup après une première installation
 Si le programme a déjà été configuré mais qu'un boitier de backup a été acquis, il est toujours possible de mettre en place le système de sauvegardes.  
-Pour cela, il se placer dans le dossier Ransomtion-Protecware puis lancer les commandes suivantes :
+Pour cela, il faut se placer dans le dossier Ransomtion-Protecware puis lancer les commandes suivantes :
 ``` bash
 sudo rm ~/.backup.sh
 sudo ./build.sh
 ```
+Puis suivre l'installation à partir de l'étape [d'installation du boitier].(#Si-le-boitier-de-backup-est-installé)  
+  
   
 Le reste de l'installation est fait automatiquement.  
 Deux exécutables binaires sont créés dans le dossier `dist`.\
