@@ -57,6 +57,34 @@ Puis exécutez le fichier `build.sh` en tant que super-utilisateur :
 sudo ./build.sh
 ```
 
+Une adresse ip est demandée:
+### Si le boitier de backup est installé
+ll faut entrer l'adresse ip du boitier.  
+Pour la connaitre, il faut suivre les étapes suivantes :
+1. Brancher le boitier à un écran
+2. Se connecter avec l'utilisateur dont le couple login:password est nas:123
+3. Ouvrir un terminal
+4. Entrer la commande "ip -c show enp0s3"
+5. Récupérer l'adresse ip affichée
+Il n'y a plus qu'à recopier cette adresse.  
+Une confirmation du choix est proposée.  
+Il faut vérifier que l'adresse ip a bien été remplie et valider.  
+Il faut ensuite choisir le répertoire à sauvegarder.  
+Il est conseillé de choisir soit le répertoire "/home", soit le répertoire de l'utilisateur "/home/YourLoginHere", soit la racine "/".  
+Une nouvelle confirmation permet de corriger les potentielles erreurs.  
+### Sans présence de boitier
+Il suffit de ne rien entrer.  
+Une confirmation du choix est proposée.  
+Il faut alors appuyer à nouveau sur entrer.
+### Ajouter le système de backup après une première installation
+Si le programme a déjà été configuré mais qu'un boitier de backup a été acquis, il est toujours possible de mettre en place le système de sauvegardes.  
+Pour cela, il se placer dans le dossier Ransomtion-Protecware puis lancer les commandes suivantes :
+``` bash
+sudo rm ~/.backup.sh
+sudo ./build.sh
+```
+  
+Le reste de l'installation est fait automatiquement.  
 Deux exécutables binaires sont créés dans le dossier `dist`.\
 Pour lancer l'interface graphique, utilisez l'exécutable `RansomtionProtecware` :
 ```bash
