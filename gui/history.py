@@ -1,6 +1,7 @@
 import time
 from datetime import datetime
 
+# list function of history (list of blocked software)
 def list(db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
@@ -9,6 +10,7 @@ def list(db, cursor=None):
 	for row in cursor.fetchall():
 		yield (row[0], row[1], row[2], row[3], datetime.fromtimestamp(row[4]))
 
+# # Get informations of a blocked software from its id
 def get(id, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
@@ -21,6 +23,7 @@ def get(id, db, cursor=None):
 	else:
 		return None
 
+# Add a new blocked software to the history
 def add(path, name, reason, timestamp, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
@@ -30,6 +33,7 @@ def add(path, name, reason, timestamp, db, cursor=None):
 
 	return cursor.lastrowid
 
+# Delete a blocked software from the history
 def remove(id, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()

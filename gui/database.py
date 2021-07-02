@@ -1,11 +1,12 @@
 import sqlite3
 
-class Database():
+class Database(): 
     connection = None
 
     def __init__(self, path="/var/lib/ransomtion-protecware/processes.db"):
         self.path = path
 
+    # Database connexion
     def __enter__(self):
         file = None
 
@@ -22,6 +23,7 @@ class Database():
 
         return self.connection
 
+    # Database deconnexion
     def __exit__(self, exc_type, exc_value, exc_traceback):
         file = None
 
@@ -34,6 +36,7 @@ class Database():
             if file is not None:
                 file.close()
 
+    # Database initialization
     def init_database(self):
         cursor = self.connection.cursor()
 
@@ -49,6 +52,7 @@ class Database():
 
         self.connection.commit()
 
+# History and Whitelist display tables
 if __name__ == "__main__":
     with Database() as db:
         cursor = db.cursor()

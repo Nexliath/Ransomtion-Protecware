@@ -1,3 +1,4 @@
+# list function of whitelist
 def list(db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
@@ -6,6 +7,7 @@ def list(db, cursor=None):
 	for row in cursor.fetchall():
 		yield (row[0], row[1], row[2])
 
+# Get the whitelist db to a list
 def get(id, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
@@ -18,6 +20,7 @@ def get(id, db, cursor=None):
 	else:
 		return None
 
+# Get id of a whitelisted software from its path
 def get_id(path, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
@@ -30,6 +33,7 @@ def get_id(path, db, cursor=None):
 	else:
 		return None
 
+# Add a software in the whitelist
 def add(path, name, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()
@@ -42,6 +46,7 @@ def add(path, name, db, cursor=None):
 
 	return cursor.lastrowid
 
+# Delete a software from the whitelist
 def remove(id, db, cursor=None):
 	if cursor is None:
 		cursor = db.cursor()

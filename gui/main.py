@@ -5,7 +5,6 @@ import whitelist
 import history
 import daemon_controller
 from logo import base64 as logo_base64
-# import keyboard
 
 class App(Tk):
     themes = {
@@ -24,20 +23,18 @@ class App(Tk):
     authenticated = False
     running = False
 
-    def __init__(self):
+    def __init__(self): # Interface configuration
         super().__init__()
 
-        # window
+        # window configuration
         self.title("Ransomtion Protecware")
-        # self.geometry("1080x720")
-        # self.minsize(1080,720)
         self.resizable(False, False)
         self.config(background=self.theme['background'])
 
-        # menu
+        # menu configuration
         menu_bar = Menu(self)
         file_menu = Menu(menu_bar, tearoff=0)
-        file_menu.add_command(label="Masquer", command=self.hide)
+        file_menu.add_command(label="Masquer", command=self.hide) 
         prop_menu = Menu(menu_bar, tearoff=0)
         prop_menu.add_command(label="Couleurs", command=lambda: self.update_theme(self.themes['color']))
         prop_menu.add_command(label="Noir et blanc", command=lambda: self.update_theme(self.themes['blackAndWhite']))
@@ -54,42 +51,41 @@ class App(Tk):
         self.logo2 = Canvas(self, width=100, height=100, bg=self.theme['background'], bd=0, highlightthickness=0)
         self.logo2.create_image(50, 50, image=self.icon)
 
-        # Titre
+        # Title
         self.label_title = Label(self, text="Ransomtion Protecware", font=("Space Ranger", 35), bg=self.theme['background'], fg=self.theme['foreground'], pady=20)
 
-        # Sous titre
+        # Subtitles
         self.label_subtitle = Label(self, text="Chargement...", font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=15)
 
-        # Bouton éteindre
+        # Shutdown button
         self.button = Button(self, text="allumer", font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'], command=self.shutdown)
 
-        # Frame whitlist
+        # Frame whitelist
         self.frameWL = Frame(self, background=self.theme['background'])
 
-        # Titre white list
+        # Whitelist title
         self.titreWL = Label(self.frameWL, text="WhiteList\n", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
         self.titreWL.pack()
 
-        # Whitelist
+        # Whitelist box
         self.white_list = Listbox(self.frameWL, bg=self.theme['foreground'], fg=self.theme['background'], bd=0, relief=GROOVE, borderwidth=4)
         self.white_list.pack()
 
-        # Bouton ajouter whitelist
+        # Whitelist's add button
         self.ajout = Button(self.frameWL, text="Ajouter", font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(lambda: self.add_whitelist(0)))
         self.ajout.pack(pady=10, padx=20)
 
-        # Bouton supprimer whitelist
+        # Whitelist's delete button
         self.supprimer = Button(self.frameWL, text="Supprimer", font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(self.remove_whitelist))
         self.supprimer.pack(pady=10)
 
         # Frame number
         self.frameNB = Frame(self, background=self.theme['background'])
 
-        # Logiciels bloqués
+        # Number of blocked software
         self.bloque = Label(self.frameNB, text="Nombre de malware bloqués", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
         self.bloque.pack()
 
-        # Nombre de ransom évités
         self.nb = StringVar()
         self.nbLabel = Label(self.frameNB, textvariable=self.nb, font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
         self.nbLabel.pack()
@@ -99,25 +95,17 @@ class App(Tk):
         # Frame history
         self.frameBL = Frame(self, background=self.theme['background'])
 
-        # Titre liste bloqué
-        self.titreBL = Label(self.frameBL, text="Liste des\nlogiciels bloqués", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
+        # Blocked list's title
+        self.titreBL = Label(self.frameBL, text="Logiciels bloqués\n", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
         self.titreBL.pack()
 
         # History
         self.history = Listbox(self.frameBL, bg=self.theme['foreground'], fg=self.theme['background'], bd=0, relief=GROOVE, borderwidth=4)
         self.history.pack()
 
-        # Bouton ajouter whitelist depuis history
-        self.ajoutHist = Button(self.frameBL, text="Ajouter", font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(lambda: self.add_whitelist(1)))
+        # Button to add from history to whitelist
+        self.ajoutHist = Button(self.frameBL, text="Whitelister", font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(lambda: self.add_whitelist(1)))
         self.ajoutHist.pack(pady=10, padx=20)
-
-        # Raccourcis clavier
-        # keyboard.add_hotkey("ctrl+alt+s", self.show)
-        # keyboard.add_hotkey("ctrl+alt+h", self.hide)
-        # keyboard.add_hotkey("ctrl+q", quit)
-
-        # Quitter avec la croix
-        # self.protocol("WM_DELETE_WINDOW", quit)
 
         # Grid
         self.logo1.grid(row=0, column=0, rowspan=2)
@@ -128,7 +116,8 @@ class App(Tk):
         self.frameWL.grid(row=2, column=0, padx=25, pady=10)
         self.frameBL.grid(row=2, column=3)
         self.center_window(self)
-
+    
+    # Frame history
     def mainloop(self):
         with Database() as db:
             self.db = db
@@ -146,6 +135,7 @@ class App(Tk):
 
         self.db = None
 
+    # State title update
     def update_running(self, running):
         self.running = running
 
@@ -156,12 +146,15 @@ class App(Tk):
             self.label_subtitle.config(text="Logiciel inactif !")
             self.button.config(text="allumer")
 
+    # Whitelist update
     def update_white_list(self):
         while self.white_list.get(0, END):
             self.white_list.delete(0)
 
         for id, path, name in self.white_list.data:
             self.white_list.insert(id, name)
+
+    # History update (blocked software)
 
     def update_history(self):
         while self.history.get(0, END):
@@ -214,6 +207,7 @@ class App(Tk):
 
         wantedWindow.geometry("+{}+{}".format(positionRight, positionDown))
 
+    # Shutdown 
     def shutdown(self):
         def confirm(popup):
             popup.destroy()
@@ -237,11 +231,12 @@ class App(Tk):
         else:
             daemon_controller.start()
             self.update_running(True)
-
+    
+    # add to whitelist function of a blocked 
     def add_whitelist(self, mode):
-        if mode == 0: # ajout manuel
-            def confirm(addPopup, path, name):
-                id = whitelist.add(path, name, self.db)
+        if mode == 0: # manual adding
+            def confirm(addPopup, path, name): # add confirmation
+                id = whitelist.add(path, name, self.db) # add in the whitelist db table
                 if id is not None:
                     self.white_list.data.append((id, path, name))
                     self.update_white_list()
@@ -254,6 +249,7 @@ class App(Tk):
                     self.center_window(popErreur, 100, 50)
                     popErreur.mainloop()
 
+            # add popup configuration
             addPopup = Toplevel()
             addPopup.config(background=self.theme['background'])
             addPopup.attributes("-topmost", 1)
@@ -278,17 +274,17 @@ class App(Tk):
             self.center_window(addPopup, 100, 50)
             addPopup.mainloop()
 
-        elif mode == 1: # ajout automatique
-            selection = self.history.curselection()
+        elif mode == 1: # automatique adding
+            selection = self.history.curselection() # add on cursor selection
             if not selection:
                 return
             id, path, name, reason, timestamp = self.history.data[selection[0]]
 
             id = whitelist.add(path, name, self.db)
-            if id is not None:
+            if id is not None: # if not exist in the whitelist table, add
                 self.white_list.data.append((id, path, name))
-                self.update_white_list()
-            else:
+                self.update_white_list() # update display of the new added software
+            else: # if already added, error message
                 popErreur = Toplevel()
                 popErreur.config(background=self.theme['background'])
                 popErreur.attributes("-topmost", 1)
@@ -296,6 +292,7 @@ class App(Tk):
                 self.center_window(popErreur, 100, 50)
                 popErreur.mainloop()
 
+    # Remove on cursor selection from the whitelist
     def remove_whitelist(self):
         selection = self.white_list.curselection()
         if not selection:
@@ -306,6 +303,7 @@ class App(Tk):
             self.white_list.data.pop(selection[0])
             self.update_white_list()
 
+    # Authentication security for adding and deleting a software from whitelist
     def login(self, callback):
         if self.authenticated:
             callback()
@@ -333,12 +331,14 @@ class App(Tk):
         self.center_window(popup, 100, 50)
         popup.mainloop()
 
+    # Credential checking, bcrypt to do 
     def check_credentials(self, popup, id, passW, callback):
         if id == "admin" and passW == "admin":
             self.authenticated = True
             popup.destroy()
             callback()
 
+    # show and hide function for background running
     def show(self):
         self.update()
         self.deiconify()
