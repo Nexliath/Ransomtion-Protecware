@@ -1,12 +1,11 @@
 # Ransomtion-Protecware (Version 1)
-Projet pour contrer les ransomwares
+Projet pour contrer les ransomwares.
 
 ## Table des matières
 1. [Informations générales](#informations-generale)
-2. [Prérequis](#prerequis)
-3. [Installation](#installation)
-4. [Test](#test)
-5. [FAQs](#faqs)
+2. [Installation](#installation)
+3. [Test](#test)
+4. [FAQs](#faqs)
 5. [Contributeurs](#contributeurs)
 6. [Notes de bas de page](#notes-bas-de-page)
 
@@ -34,14 +33,19 @@ Le programme est installé sur chaque machine client.
 ### Backup
 Pour le backup, un boîtier dois être fourni. Il est composé d'une raspberry paramétrée avec samba et un disque dur de la taille souhaitée
 
-Vérifiez que les éléments suivants sont bien présents sur votre machine Ubuntu pour utiliser ce programme :
-
 ## Installation
 ***
 Pour installer l'application, il est possible de cliquer sur le bouton Download ZIP sur Github ou d'écrire la ligne de commande suivante dans un terminal :
 ```bash
 git clone https://github.com/Nexliath/Ransomtion-Protecware.git 
 ```
+
+Il faut ensuite exécuter le fichier build.sh
+```bash
+sudo ./build.sh
+```
+
+Le programme est alors prêt à être lancé.
 
 ## Test
 ***
