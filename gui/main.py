@@ -4,7 +4,9 @@ from database import Database
 import whitelist
 import history
 import daemon_controller
+import json
 from logo import base64 as logo_base64
+
 
 class App(Tk):
     themes = {
@@ -18,14 +20,47 @@ class App(Tk):
         }
     }
 
+    languages = {
+        "english": {
+            "load" : "Loading...",
+            "start" : "Start",
+            "shutdown" : "Shutdown",
+            "add" : "Add",
+            "del" : "Delete",
+            "blocked" : "Number of blocked malwares",
+            "history" : "Blocked softwares",
+            "addHist" : "Whitelist",
+            "active" : "Software is active...",
+            "inactive" : "Software is inactive!"
+        },
+
+        "french": {
+            "load" : "Chargement...",
+            "start" : "Allumer",
+            "shutdown" : "éteindre",
+            "add" : "Ajouter",
+            "del" : "Supprimer",
+            "blocked" : "Nombre de malwares bloqués",
+            "history" : "Logiciels bloqués",
+            "addHist" : "Whitelister",
+            "active" : "Logiciel actif...",
+            "inactive" : "Logiciel inactif !"
+        }
+    }
+
+    """
+    with open("languages.json", "r") as json_file:
+        languages = json.load(json_file)
+    """
+    language = languages['french']
     theme = themes['color']
     db = None
     authenticated = False
     running = False
+    
 
     def __init__(self): # Interface configuration
         super().__init__()
-
         # window configuration
         self.title("Ransomtion Protecware")
         self.resizable(False, False)
@@ -38,8 +73,12 @@ class App(Tk):
         prop_menu = Menu(menu_bar, tearoff=0)
         prop_menu.add_command(label="Couleurs", command=lambda: self.update_theme(self.themes['color']))
         prop_menu.add_command(label="Noir et blanc", command=lambda: self.update_theme(self.themes['blackAndWhite']))
+        lang_menu = Menu(menu_bar, tearoff=0)
+        lang_menu.add_command(label="Français", command=lambda: self.update_language(self.languages['french']))
+        lang_menu.add_command(label="Anglais", command=lambda: self.update_language(self.languages['english']))
         menu_bar.add_cascade(label="Fichier", menu=file_menu)
         menu_bar.add_cascade(label="Thème", menu=prop_menu)
+        menu_bar.add_cascade(label="Langue", menu=lang_menu)
         self.config(menu=menu_bar)
 
         # Logo
@@ -140,11 +179,11 @@ class App(Tk):
         self.running = running
 
         if running:
-            self.label_subtitle.config(text="Logiciel actif...")
-            self.button.config(text="eteindre")
+            self.label_subtitle.config(text=self.language["active"])
+            self.button.config(text=self.language["shutdown"])
         else:
-            self.label_subtitle.config(text="Logiciel inactif !")
-            self.button.config(text="allumer")
+            self.label_subtitle.config(text=self.language["inactive"])
+            self.button.config(text=self.language["start"])
 
     # Whitelist update
     def update_white_list(self):
@@ -197,6 +236,17 @@ class App(Tk):
         self.logo2['bg'] = self.theme['background']
         self.supprimer['bg'] = self.theme['foreground']
         self.supprimer['fg'] = self.theme['background']
+
+    def update_language(self, new_language=None):
+        if new_language is not None:
+            self.language = new_language
+        self.label_subtitle['text'] = self.language["load"]
+        self.button['text'] = self.language["start"]
+        self.ajout['text'] = self.language["add"]
+        self.supprimer['text'] = self.language["del"]
+        self.bloque['text'] = self.language["blocked"]
+        self.titreBL['text'] = self.language["history"]
+        self.ajoutHist['text'] = self.language["addHist"]
 
     def center_window(self, wantedWindow, offsetX=430, offsetY=200):
         windowWidth = wantedWindow.winfo_reqwidth()

@@ -1,0 +1,19 @@
+import json
+
+{
+
+	"languages":[ 
+
+		"english": {
+			"load" : "Loading...",
+			"start" : "Start"
+		},
+
+		"french": {
+			"load" : "Chargement...",
+			"start" : "Allumer"
+		}
+
+	]
+
+}
