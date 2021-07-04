@@ -3,7 +3,7 @@ import json
 {
 
 	"languages":[ 
-	
+
         "english": {
             "load" : "Loading...",
             "start" : "Start",
@@ -45,8 +45,5 @@ import json
             "cancel" : "Annuler",
             "authenticate" : "Authentification nécessaire"
         }
-    }
-
 	]
-
 }
