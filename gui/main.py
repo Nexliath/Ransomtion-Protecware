@@ -31,7 +31,15 @@ class App(Tk):
             "history" : "Blocked softwares",
             "addHist" : "Whitelist",
             "active" : "Software is active...",
-            "inactive" : "Software is inactive!"
+            "inactive" : "Software is inactive!",
+            "quit" : "Are you sure you want to quit ?",
+            "yes" : "Yes",
+            "no" : "No",
+            "error_already" : "Already in whitelist",
+            "soft_info" : "Information about the software",
+            "validate" : "Validate",
+            "cancel" : "Cancel",
+            "authenticate" : "Authentication needed"
         },
 
         "french": {
@@ -44,7 +52,15 @@ class App(Tk):
             "history" : "Logiciels bloqués",
             "addHist" : "Whitelister",
             "active" : "Logiciel actif...",
-            "inactive" : "Logiciel inactif !"
+            "inactive" : "Logiciel inactif !",
+            "quit" : "Êtes vous sûr de vouloir quitter ?",
+            "yes" : "Oui",
+            "no" : "Non",
+            "error_already" : "Déjà dans la whitelist",
+            "soft_info" : "Informations du logiciel",
+            "validate" : "Valider",
+            "cancel" : "Annuler",
+            "authenticate" : "Authentification nécessaire"
         }
     }
 
@@ -270,13 +286,13 @@ class App(Tk):
             exitsure.config(background=self.theme['background'])
             self.center_window(exitsure, 100, 50)
 
-            areyousure = Label(exitsure, text="Êtes vous sûr de vouloir quitter ?", bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, "bold"))
+            areyousure = Label(exitsure, text=language["quit"], bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, "bold"))
             areyousure.grid(column=1, row=0, pady=10)
 
-            ExitYes = Button(exitsure, text="OUI", command=lambda: confirm(exitsure), font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
+            ExitYes = Button(exitsure, text=language["yes"], command=lambda: confirm(exitsure), font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
             ExitYes.grid(column=0, row=1, padx=10, pady=5)
 
-            NoYes = Button(exitsure, text="NON", command=exitsure.destroy, font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
+            NoYes = Button(exitsure, text=language["no"], command=exitsure.destroy, font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
             NoYes.grid(column=2, row=1, padx=10, pady=5)
         else:
             daemon_controller.start()
@@ -295,7 +311,7 @@ class App(Tk):
                     popErreur = Toplevel()
                     popErreur.config(background=self.theme['background'])
                     popErreur.attributes("-topmost", 1)
-                    Label(popErreur, text="Déjà dans la whitelist", bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, "bold"), pady=35, padx=35).pack()
+                    Label(popErreur, text=self.language["error_already"], bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, "bold"), pady=35, padx=35).pack()
                     self.center_window(popErreur, 100, 50)
                     popErreur.mainloop()
 
@@ -306,11 +322,11 @@ class App(Tk):
             newPath = StringVar()
             newName = StringVar()
             frameMA = Frame(addPopup, background=self.theme['background'])
-            newWhite = Label(frameMA, text="Informations du logiciel", font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=10)
+            newWhite = Label(frameMA, text=self.language["soft_info"], font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=10)
             path = Entry(frameMA, bg="white", textvariable=newPath)
             name = Entry(frameMA, bg="white", textvariable=newName)
-            valida = Button(frameMA, bg=self.theme['foreground'], fg=self.theme['background'], text="Valider", font=("Space Ranger", 12), command=lambda: confirm(addPopup, newPath.get(), newName.get()))
-            annul = Button(frameMA,  bg=self.theme['foreground'], fg=self.theme['background'], text="Annuler", font=("Space Ranger", 12), command=lambda: addPopup.destroy())
+            valida = Button(frameMA, bg=self.theme['foreground'], fg=self.theme['background'], text=self.language["validate"], font=("Space Ranger", 12), command=lambda: confirm(addPopup, newPath.get(), newName.get()))
+            annul = Button(frameMA,  bg=self.theme['foreground'], fg=self.theme['background'], text=self.language["cancel"], font=("Space Ranger", 12), command=lambda: addPopup.destroy())
             pathLabel = Label(frameMA, text="Path : ", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
             nameLabel = Label(frameMA, text="Name : ", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
             frameMA.pack(pady=10, padx=10)
@@ -365,12 +381,12 @@ class App(Tk):
         popup.config(background=self.theme['background'])
         popup.attributes("-topmost", 1)
         framePop = Frame(popup, background=self.theme['background'])
-        logi = Label(framePop, text="Authentification nécessaire", font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=10)
+        logi = Label(framePop, text=self.language["authenticate"], font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=10)
         id = Entry(framePop, bg="white", textvariable=iden)
         idLabel = Label(framePop, text="Login :", font=("Space Ranger", 10), bg=self.theme['background'], fg=self.theme['foreground'], pady=10, padx=5)
         passW = Entry(framePop, bg="white", textvariable=mdp, show="*")
         passLabel = Label(framePop, text="Password :", font=("Space Ranger", 10), bg=self.theme['background'], fg=self.theme['foreground'], pady=10, padx=5)
-        valid = Button(framePop, bg=self.theme['foreground'], fg=self.theme['background'], text="Valider", font=("Space Ranger", 12), command=lambda: self.check_credentials(popup, id.get(), passW.get(), callback))
+        valid = Button(framePop, bg=self.theme['foreground'], fg=self.theme['background'], text=self.language["validate"], font=("Space Ranger", 12), command=lambda: self.check_credentials(popup, id.get(), passW.get(), callback))
         logi.grid(row=0, column=0, columnspan=2)
         id.grid(row=1, column=1)
         idLabel.grid(row=1, column=0, sticky=E)
