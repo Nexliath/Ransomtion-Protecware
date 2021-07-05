@@ -48,11 +48,11 @@ class App(Tk):
         if bck.is_available():
             self.save_menu = Menu(self.menu_bar, tearoff=0)
             self.save_menu.add_command(label=self.language["restore"], command=lambda: self.restore())
+            self.menu_bar.add_cascade(label=self.language["backup"], menu=self.save_menu)
         
         self.menu_bar.add_cascade(label=self.language["file"], menu=self.file_menu)
         self.menu_bar.add_cascade(label=self.language["theme"], menu=self.prop_menu)
         self.menu_bar.add_cascade(label=self.language["language"], menu=self.lang_menu)
-        self.menu_bar.add_cascade(label=self.language["backup"], menu=self.save_menu)
         self.config(menu=self.menu_bar)
 
         # Logo
@@ -241,7 +241,9 @@ class App(Tk):
         self.menu_bar.entryconfigure(self.language["file"], label=new_language["file"])
         self.menu_bar.entryconfigure(self.language["theme"], label=new_language["theme"])
         self.menu_bar.entryconfigure(self.language["language"], label=new_language["language"])
-        self.menu_bar.entryconfigure(self.language["backup"], label=new_language["backup"])
+
+        if bck.is_available():
+            self.menu_bar.entryconfigure(self.language["backup"], label=new_language["backup"])
         if new_language is not None:
             self.language = new_language
         self.label_subtitle['text'] = self.language["load"]
@@ -254,7 +256,9 @@ class App(Tk):
         self.file_menu.entryconfigure(0, label=self.language["hide"])
         self.prop_menu.entryconfigure(0, label=self.language["colors"])
         self.prop_menu.entryconfigure(1, label=self.language["black&white"])
-        self.save_menu.entryconfigure(1, label=self.language["restore"])
+
+        if bck.is_available():
+            self.save_menu.entryconfigure(1, label=self.language["restore"])
         
     def center_window(self, wantedWindow, offsetX=430, offsetY=200):
         windowWidth = wantedWindow.winfo_reqwidth()
