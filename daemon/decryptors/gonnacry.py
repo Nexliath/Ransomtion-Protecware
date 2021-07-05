@@ -1,4 +1,5 @@
 import os
+import sys
 import base64
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
@@ -50,3 +51,9 @@ def decrypt(ram_dump_path):
 		pass # TODO
 
 	return True
+
+if __name__ == "__main__":
+	if len(sys.argv) >= 2:
+		decrypt(sys.argv[1])
+	else:
+		print("Usage: python3 decryptors <path to memory dump>")
