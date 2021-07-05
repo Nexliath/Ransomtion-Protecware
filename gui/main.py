@@ -6,6 +6,7 @@ import history
 import daemon_controller
 from languages import languages # languages for traduction, in languages.py
 from logo import base64 as logo_base64
+import backups as bck
 
 
 class App(Tk):
@@ -145,8 +146,10 @@ class App(Tk):
 
         self.db = None
 
+    
     # Restore a backup
     def restore(self):
+
         if self.authenticated:
             callback()
             return
@@ -154,10 +157,13 @@ class App(Tk):
         popup = Toplevel()
         popup.config(background=self.theme['background'])
         popup.attributes("-topmost", 1)
+        backu = StringVar(popup)
+        listOption = bck.list_backups()
+        backu.set(self.language["backup"]) 
         framePop = Frame(popup, background=self.theme['background'])
         listLabel = Label(framePop, text=self.language["restore_label"], font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=10)
-        backupList = OptionMenu(framePop, bg=self.theme['foreground'], fg=self.theme['background'], bd=0, relief=GROOVE, borderwidth=4)
-        valid = Button(framePop, bg=self.theme['foreground'], fg=self.theme['background'], text=self.language["validate"], font=("Space Ranger", 12))
+        backupList = OptionMenu(framePop, backu, *listOption) # , bg=self.theme['foreground'], fg=self.theme['background'], bd=0, relief=GROOVE, borderwidth=4
+        valid = Button(framePop, bg=self.theme['foreground'], fg=self.theme['background'], text=self.language["validate"], font=("Space Ranger", 12), command=lambda: bck.restore_backup(backu.get()))
         listLabel.grid(row=0, column=0, columnspan=2)
         backupList.grid(row=1, column=0, columnspan=2, pady=20)
         valid.grid(row=3, column=0, columnspan=2)
@@ -233,11 +239,12 @@ class App(Tk):
         self.menu_bar.entryconfigure(self.language["file"], label=new_language["file"])
         self.menu_bar.entryconfigure(self.language["theme"], label=new_language["theme"])
         self.menu_bar.entryconfigure(self.language["language"], label=new_language["language"])
+        self.menu_bar.entryconfigure(self.language["backup"], label=new_language["backup"])
         if new_language is not None:
             self.language = new_language
         self.label_subtitle['text'] = self.language["load"]
         self.button['text'] = self.language["start"]
-        self.ajout['text'] = self.language["add"]
+        self.ajout['text'] = self.language["add"]   
         self.supprimer['text'] = self.language["del"]
         self.bloque['text'] = self.language["blocked"]
         self.titreBL['text'] = self.language["history"]
@@ -245,6 +252,7 @@ class App(Tk):
         self.file_menu.entryconfigure(0, label=self.language["hide"])
         self.prop_menu.entryconfigure(0, label=self.language["colors"])
         self.prop_menu.entryconfigure(1, label=self.language["black&white"])
+        self.save_menu.entryconfigure(1, label=self.language["restore"])
         
     def center_window(self, wantedWindow, offsetX=430, offsetY=200):
         windowWidth = wantedWindow.winfo_reqwidth()

@@ -3,7 +3,7 @@ languages = {
 
     "english": {
         "restore_label": "Select a backup\n to restore",
-        "backup": "Backup",
+        "backup": "Backups",
         "restore": "Restore",
         "file": "File",
         "theme": "Theme",
@@ -38,7 +38,7 @@ languages = {
 
     "french": {
         "restore_label": "Selectionnez une sauvegarde\n à restaurer",
-        "backup": "Sauvegarde",
+        "backup": "Sauvegardes",
         "restore": "Restaurer",
         "file": "Fichier",
         "theme": "Thème",
