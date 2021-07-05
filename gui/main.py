@@ -4,7 +4,7 @@ from database import Database
 import whitelist
 import history
 import daemon_controller
-import json
+from languages import languages # languages for traduction, in languages.py
 from logo import base64 as logo_base64
 
 
@@ -20,54 +20,6 @@ class App(Tk):
         }
     }
 
-    languages = {
-        "english": {
-            "load" : "Loading...",
-            "start" : "Start",
-            "shutdown" : "Shutdown",
-            "add" : "Add",
-            "del" : "Delete",
-            "blocked" : "Number of blocked malwares",
-            "history" : "Blocked softwares",
-            "addHist" : "Whitelist",
-            "active" : "Software is active...",
-            "inactive" : "Software is inactive!",
-            "quit" : "Are you sure you want to quit ?",
-            "yes" : "Yes",
-            "no" : "No",
-            "error_already" : "Already in whitelist",
-            "soft_info" : "Information about the software",
-            "validate" : "Validate",
-            "cancel" : "Cancel",
-            "authenticate" : "Authentication needed"
-        },
-
-        "french": {
-            "load" : "Chargement...",
-            "start" : "Allumer",
-            "shutdown" : "éteindre",
-            "add" : "Ajouter",
-            "del" : "Supprimer",
-            "blocked" : "Nombre de malwares bloqués",
-            "history" : "Logiciels bloqués",
-            "addHist" : "Whitelister",
-            "active" : "Logiciel actif...",
-            "inactive" : "Logiciel inactif !",
-            "quit" : "Êtes vous sûr de vouloir quitter ?",
-            "yes" : "Oui",
-            "no" : "Non",
-            "error_already" : "Déjà dans la whitelist",
-            "soft_info" : "Informations du logiciel",
-            "validate" : "Valider",
-            "cancel" : "Annuler",
-            "authenticate" : "Authentification nécessaire"
-        }
-    }
-
-    """
-    with open("languages.json", "r") as json_file:
-        languages = json.load(json_file)
-    """
     language = languages['french']
     theme = themes['color']
     db = None
@@ -83,19 +35,19 @@ class App(Tk):
         self.config(background=self.theme['background'])
 
         # menu configuration
-        menu_bar = Menu(self)
-        file_menu = Menu(menu_bar, tearoff=0)
-        file_menu.add_command(label="Masquer", command=self.hide) 
-        prop_menu = Menu(menu_bar, tearoff=0)
-        prop_menu.add_command(label="Couleurs", command=lambda: self.update_theme(self.themes['color']))
-        prop_menu.add_command(label="Noir et blanc", command=lambda: self.update_theme(self.themes['blackAndWhite']))
-        lang_menu = Menu(menu_bar, tearoff=0)
-        lang_menu.add_command(label="Français", command=lambda: self.update_language(self.languages['french']))
-        lang_menu.add_command(label="Anglais", command=lambda: self.update_language(self.languages['english']))
-        menu_bar.add_cascade(label="Fichier", menu=file_menu)
-        menu_bar.add_cascade(label="Thème", menu=prop_menu)
-        menu_bar.add_cascade(label="Langue", menu=lang_menu)
-        self.config(menu=menu_bar)
+        self.menu_bar = Menu(self)
+        self.file_menu = Menu(self.menu_bar, tearoff=0)
+        self.file_menu.add_command(label=self.language["hide"], command=self.hide) 
+        self.prop_menu = Menu(self.menu_bar, tearoff=0)
+        self.prop_menu.add_command(label=self.language["colors"], command=lambda: self.update_theme(self.themes['color']))
+        self.prop_menu.add_command(label=self.language["black&white"], command=lambda: self.update_theme(self.themes['blackAndWhite']))
+        self.lang_menu = Menu(self.menu_bar, tearoff=0)
+        self.lang_menu.add_command(label="Français", command=lambda: self.update_language(languages['french']))
+        self.lang_menu.add_command(label="English", command=lambda: self.update_language(languages['english']))
+        self.menu_bar.add_cascade(label=self.language["file"], menu=self.file_menu)
+        self.menu_bar.add_cascade(label=self.language["theme"], menu=self.prop_menu)
+        self.menu_bar.add_cascade(label=self.language["language"], menu=self.lang_menu)
+        self.config(menu=self.menu_bar)
 
         # Logo
         self.icon = PhotoImage(data=logo_base64)
@@ -110,16 +62,16 @@ class App(Tk):
         self.label_title = Label(self, text="Ransomtion Protecware", font=("Space Ranger", 35), bg=self.theme['background'], fg=self.theme['foreground'], pady=20)
 
         # Subtitles
-        self.label_subtitle = Label(self, text="Chargement...", font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=15)
+        self.label_subtitle = Label(self, text=self.language["load"], font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=15)
 
         # Shutdown button
-        self.button = Button(self, text="allumer", font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'], command=self.shutdown)
+        self.button = Button(self, text=self.language["start"], font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'], command=self.shutdown)
 
         # Frame whitelist
         self.frameWL = Frame(self, background=self.theme['background'])
 
         # Whitelist title
-        self.titreWL = Label(self.frameWL, text="\nWhiteList\n", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
+        self.titreWL = Label(self.frameWL, text=self.language["whitelist"], font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
         self.titreWL.pack()
 
         # Whitelist box
@@ -127,18 +79,18 @@ class App(Tk):
         self.white_list.pack()
 
         # Whitelist's add button
-        self.ajout = Button(self.frameWL, text="Ajouter", font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(lambda: self.add_whitelist(0)))
+        self.ajout = Button(self.frameWL, text=self.language["add"], font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(lambda: self.add_whitelist(0)))
         self.ajout.pack(pady=10, padx=20)
 
         # Whitelist's delete button
-        self.supprimer = Button(self.frameWL, text="Supprimer", font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(self.remove_whitelist))
+        self.supprimer = Button(self.frameWL, text=self.language["del"], font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(self.remove_whitelist))
         self.supprimer.pack(pady=10)
 
         # Frame number
         self.frameNB = Frame(self, background=self.theme['background'])
 
         # Number of blocked software
-        self.bloque = Label(self.frameNB, text="Nombre de malware bloqués", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
+        self.bloque = Label(self.frameNB, text=self.language["blocked"], font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
         self.bloque.pack()
 
         self.nb = StringVar()
@@ -151,7 +103,7 @@ class App(Tk):
         self.frameBL = Frame(self, background=self.theme['background'])
 
         # Blocked list's title
-        self.titreBL = Label(self.frameBL, text="Logiciels bloqués\n", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
+        self.titreBL = Label(self.frameBL, text=self.language["history"], font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
         self.titreBL.pack()
 
         # History
@@ -159,7 +111,7 @@ class App(Tk):
         self.history.pack()
 
         # Button to add from history to whitelist
-        self.ajoutHist = Button(self.frameBL, text="Whitelister", font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(lambda: self.add_whitelist(1)))
+        self.ajoutHist = Button(self.frameBL, text=self.language["addHist"], font=("Space Ranger", 15), bg=self.theme['foreground'], fg=self.theme['background'], command=lambda: self.login(lambda: self.add_whitelist(1)))
         self.ajoutHist.pack(pady=10, padx=20)
 
         # Grid
@@ -254,6 +206,9 @@ class App(Tk):
         self.supprimer['fg'] = self.theme['background']
 
     def update_language(self, new_language=None):
+        self.menu_bar.entryconfigure(self.language["file"], label=new_language["file"])
+        self.menu_bar.entryconfigure(self.language["theme"], label=new_language["theme"])
+        self.menu_bar.entryconfigure(self.language["language"], label=new_language["language"])
         if new_language is not None:
             self.language = new_language
         self.label_subtitle['text'] = self.language["load"]
@@ -263,7 +218,10 @@ class App(Tk):
         self.bloque['text'] = self.language["blocked"]
         self.titreBL['text'] = self.language["history"]
         self.ajoutHist['text'] = self.language["addHist"]
-
+        self.file_menu.entryconfigure(0, label=self.language["hide"])
+        self.prop_menu.entryconfigure(0, label=self.language["colors"])
+        self.prop_menu.entryconfigure(1, label=self.language["black&white"])
+        
     def center_window(self, wantedWindow, offsetX=430, offsetY=200):
         windowWidth = wantedWindow.winfo_reqwidth()
         windowHeight = wantedWindow.winfo_reqheight()
@@ -327,8 +285,8 @@ class App(Tk):
             name = Entry(frameMA, bg="white", textvariable=newName)
             valida = Button(frameMA, bg=self.theme['foreground'], fg=self.theme['background'], text=self.language["validate"], font=("Space Ranger", 12), command=lambda: confirm(addPopup, newPath.get(), newName.get()))
             annul = Button(frameMA,  bg=self.theme['foreground'], fg=self.theme['background'], text=self.language["cancel"], font=("Space Ranger", 12), command=lambda: addPopup.destroy())
-            pathLabel = Label(frameMA, text="Path : ", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
-            nameLabel = Label(frameMA, text="Name : ", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
+            pathLabel = Label(frameMA, text=self.language["path"], font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
+            nameLabel = Label(frameMA, text=self.language["name"], font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
             frameMA.pack(pady=10, padx=10)
             newWhite.grid(row=0, column=0, columnspan=2)
             pathLabel.grid(row=1, column=0, sticky=E)
@@ -354,7 +312,7 @@ class App(Tk):
                 popErreur = Toplevel()
                 popErreur.config(background=self.theme['background'])
                 popErreur.attributes("-topmost", 1)
-                Label(popErreur, text="Déjà dans la whitelist", bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, "bold"), pady=35, padx=35).pack()
+                Label(popErreur, text=self.language["error_already"], bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, "bold"), pady=35, padx=35).pack()
                 self.center_window(popErreur, 100, 50)
                 popErreur.mainloop()
 
@@ -383,9 +341,9 @@ class App(Tk):
         framePop = Frame(popup, background=self.theme['background'])
         logi = Label(framePop, text=self.language["authenticate"], font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=10)
         id = Entry(framePop, bg="white", textvariable=iden)
-        idLabel = Label(framePop, text="Login :", font=("Space Ranger", 10), bg=self.theme['background'], fg=self.theme['foreground'], pady=10, padx=5)
+        idLabel = Label(framePop, text=self.language["login"], font=("Space Ranger", 10), bg=self.theme['background'], fg=self.theme['foreground'], pady=10, padx=5)
         passW = Entry(framePop, bg="white", textvariable=mdp, show="*")
-        passLabel = Label(framePop, text="Password :", font=("Space Ranger", 10), bg=self.theme['background'], fg=self.theme['foreground'], pady=10, padx=5)
+        passLabel = Label(framePop, text=self.language["password"], font=("Space Ranger", 10), bg=self.theme['background'], fg=self.theme['foreground'], pady=10, padx=5)
         valid = Button(framePop, bg=self.theme['foreground'], fg=self.theme['background'], text=self.language["validate"], font=("Space Ranger", 12), command=lambda: self.check_credentials(popup, id.get(), passW.get(), callback))
         logi.grid(row=0, column=0, columnspan=2)
         id.grid(row=1, column=1)
