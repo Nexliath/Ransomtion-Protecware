@@ -45,8 +45,10 @@ class App(Tk):
         self.lang_menu = Menu(self.menu_bar, tearoff=0)
         self.lang_menu.add_command(label="Français", command=lambda: self.update_language(languages['french']))
         self.lang_menu.add_command(label="English", command=lambda: self.update_language(languages['english']))
-        self.save_menu = Menu(self.menu_bar, tearoff=0)
-        self.save_menu.add_command(label=self.language["restore"], command=lambda: self.restore())
+        if bck.is_available():
+            self.save_menu = Menu(self.menu_bar, tearoff=0)
+            self.save_menu.add_command(label=self.language["restore"], command=lambda: self.restore())
+        
         self.menu_bar.add_cascade(label=self.language["file"], menu=self.file_menu)
         self.menu_bar.add_cascade(label=self.language["theme"], menu=self.prop_menu)
         self.menu_bar.add_cascade(label=self.language["language"], menu=self.lang_menu)
