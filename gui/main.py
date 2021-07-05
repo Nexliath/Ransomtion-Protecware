@@ -119,7 +119,7 @@ class App(Tk):
         self.frameWL = Frame(self, background=self.theme['background'])
 
         # Whitelist title
-        self.titreWL = Label(self.frameWL, text="WhiteList\n", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
+        self.titreWL = Label(self.frameWL, text="\nWhiteList\n", font=("Space Ranger", 12), bg=self.theme['background'], fg=self.theme['foreground'], pady=5)
         self.titreWL.pack()
 
         # Whitelist box
@@ -167,9 +167,9 @@ class App(Tk):
         self.logo2.grid(row=0, column=3, rowspan=2)
         self.label_title.grid(row=0, column=1)
         self.label_subtitle.grid(row=1, column=1)
-        self.button.grid(row=10, column=1)
+        self.button.grid(row=10, column=1, pady=10)
         self.frameWL.grid(row=2, column=0, padx=25, pady=10)
-        self.frameBL.grid(row=2, column=3)
+        self.frameBL.grid(row=2, column=3, padx=25, pady=10)
         self.center_window(self)
     
     # Frame history
@@ -229,8 +229,8 @@ class App(Tk):
         self.label_title['fg'] = self.theme['foreground']
         self.label_subtitle['bg'] = self.theme['background']
         self.label_subtitle['fg'] = self.theme['foreground']
-        self.white_list['bg'] = self.theme['background']
-        self.white_list['fg'] = self.theme['foreground']
+        self.white_list['bg'] = self.theme['foreground']
+        self.white_list['fg'] = self.theme['background']
         self.ajout['fg'] = self.theme['background']
         self.ajout['bg'] = self.theme['foreground']
         self.frameWL['bg'] = self.theme['background']
@@ -240,8 +240,8 @@ class App(Tk):
         self.bloque['bg'] = self.theme['background']
         self.bloque['fg'] = self.theme['foreground']
         self.frameBL['bg'] = self.theme['background']
-        self.history['bg'] = self.theme['background']
-        self.history['fg'] = self.theme['foreground']
+        self.history['bg'] = self.theme['foreground']
+        self.history['fg'] = self.theme['background']
         self.ajoutHist['bg'] = self.theme['foreground']
         self.ajoutHist['fg'] = self.theme['background']
         self.titreWL['bg'] = self.theme['background']
