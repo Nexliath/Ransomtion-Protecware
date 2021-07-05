@@ -11,10 +11,13 @@ aes_encrypted_keys_path = os.path.join(ransomware_path, "AES_encrypted_keys.txt"
 client_public_key_path = os.path.join(ransomware_path, "client_public_key.PEM")
 
 bit_len = 2048
-pem_len = 380
-pem_prefix = "ssh-rsa "
-pem_prefix_len = len("ssh-rsa ")
+pem_max_len = 1800
+pem_prefix = "-----BEGIN RSA PRIVATE KEY-----\n"
+pem_prefix_len = len(pem_prefix)
 pem_prefix_bytes = bytes(pem_prefix, "ascii")
+pem_suffix = "\n-----END RSA PRIVATE KEY-----"
+pem_suffix_len = len(pem_suffix)
+pem_suffix_bytes = bytes(pem_suffix, "ascii")
 
 def test_key(data):
 	try:
@@ -40,7 +43,8 @@ def find_key(ram_dump_path):
 		while True:
 			i = ram_dump.index(pem_prefix_bytes, i)
 			try:
-				found_key = ram_dump[i:i + pem_len].decode("ascii")
+				j = ram_dump.index(pem_suffix_bytes, i + pem_prefix_len, i + pem_prefix_len + pem_max_len + pem_suffix_len)
+				found_key = ram_dump[i:j + pem_suffix_len].decode("ascii")
 				if test_key(found_key):
 					return found_key
 			except:
