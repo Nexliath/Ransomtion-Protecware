@@ -69,7 +69,7 @@ def decrypt(ram_dump_path):
 	rsa_key = RSA.importKey(private_key)
 	cipher = PKCS1_OAEP.new(rsa_key)
 	for encrypted_aes_key, path in keys:
-		aes_key = cipher.decrypt(encrypted_aes_key)
+		aes_key = cipher.decrypt(base64.b64decode(encrypted_aes_key))
 
 		print(aes_key, path) # TODO: Decrypt file
 
