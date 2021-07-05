@@ -44,9 +44,12 @@ class App(Tk):
         self.lang_menu = Menu(self.menu_bar, tearoff=0)
         self.lang_menu.add_command(label="Français", command=lambda: self.update_language(languages['french']))
         self.lang_menu.add_command(label="English", command=lambda: self.update_language(languages['english']))
+        self.save_menu = Menu(self.menu_bar, tearoff=0)
+        self.save_menu.add_command(label=self.language["restore"], command=lambda: self.restore())
         self.menu_bar.add_cascade(label=self.language["file"], menu=self.file_menu)
         self.menu_bar.add_cascade(label=self.language["theme"], menu=self.prop_menu)
         self.menu_bar.add_cascade(label=self.language["language"], menu=self.lang_menu)
+        self.menu_bar.add_cascade(label=self.language["backup"], menu=self.save_menu)
         self.config(menu=self.menu_bar)
 
         # Logo
@@ -142,6 +145,26 @@ class App(Tk):
 
         self.db = None
 
+    # Restore a backup
+    def restore(self):
+        if self.authenticated:
+            callback()
+            return
+
+        popup = Toplevel()
+        popup.config(background=self.theme['background'])
+        popup.attributes("-topmost", 1)
+        framePop = Frame(popup, background=self.theme['background'])
+        listLabel = Label(framePop, text=self.language["restore_label"], font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=10)
+        backupList = OptionMenu(framePop, bg=self.theme['foreground'], fg=self.theme['background'], bd=0, relief=GROOVE, borderwidth=4)
+        valid = Button(framePop, bg=self.theme['foreground'], fg=self.theme['background'], text=self.language["validate"], font=("Space Ranger", 12))
+        listLabel.grid(row=0, column=0, columnspan=2)
+        backupList.grid(row=1, column=0, columnspan=2, pady=20)
+        valid.grid(row=3, column=0, columnspan=2)
+        framePop.pack(pady=10, padx=10)
+        self.center_window(popup, 100, 50)
+        popup.mainloop()
+
     # State title update
     def update_running(self, running):
         self.running = running
@@ -162,7 +185,6 @@ class App(Tk):
             self.white_list.insert(id, name)
 
     # History update (blocked software)
-
     def update_history(self):
         while self.history.get(0, END):
             self.history.delete(0)
@@ -170,6 +192,7 @@ class App(Tk):
         for id, path, name, reason, timestamp in self.history.data:
             self.history.insert(id, name)
 
+    # Update color scheme of the software
     def update_theme(self, new_theme=None):
         if new_theme is not None:
             self.theme = new_theme
@@ -205,6 +228,7 @@ class App(Tk):
         self.supprimer['bg'] = self.theme['foreground']
         self.supprimer['fg'] = self.theme['background']
 
+    # Update the language of the software
     def update_language(self, new_language=None):
         self.menu_bar.entryconfigure(self.language["file"], label=new_language["file"])
         self.menu_bar.entryconfigure(self.language["theme"], label=new_language["theme"])
