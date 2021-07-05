@@ -12,7 +12,7 @@ aes_encrypted_keys_path = os.path.join(ransomware_path, "AES_encrypted_keys.txt"
 client_public_key_path = os.path.join(ransomware_path, "client_public_key.PEM")
 
 def find_key(ram_dump_path):
-	decrypted_test = "Hello, World!"
+	decrypted_test = "Hello, World!".encode("utf-8")
 
 	with open(client_public_key_path, "r") as f:
 		public_key = RSA.importKey(f.read())

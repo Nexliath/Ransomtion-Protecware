@@ -19,7 +19,7 @@ def dump_ram(proc):
 	with open("/proc/%s/maps" % proc.pid, "r") as maps:
 		for line in maps.readlines():
 			m = re.match(r"([0-9A-Fa-f]+)-([0-9A-Fa-f]+) [-r][-w][-x][-p] [0-9A-Fa-f]+ [0-9A-Fa-f]+:[0-9A-Fa-f]+ [0-9]+\s+(.*)", line)
-			if m and m.group(3) == "[stack]":
+			if m and m.group(3) == "[heap]":
 				start = int(m.group(1), 16)
 				end = int(m.group(2), 16)
 
