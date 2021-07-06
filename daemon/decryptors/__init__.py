@@ -1,4 +1,4 @@
-import decryptors.gonnacry
+from decryptors import gonnacry
 
 def decrypt(ram_dump_path):
 	try:

@@ -85,7 +85,7 @@ def decrypt(ram_dump_path):
 			with open(original_path, "w") as f:
 				f.write(decrypted_content)
 
-        	os.remove(path)
+			os.remove(path)
 
 	return True
 
