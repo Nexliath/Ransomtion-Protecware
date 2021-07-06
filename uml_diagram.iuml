@@ -7,21 +7,44 @@ ArrowColor Salmon
 
 left to right direction
 
-actor utilisateur #AliceBlue;line:MidnightBlue;line.bold;text:Black
+utilisateur #AliceBlue;line:MidnightBlue;line.bold;text:Black
+administrateur #AliceBlue;line:MidnightBlue;line.bold;text:Black
+utilisateur <.right. administrateur : extends
 
 rectangle "Ransomtion Protecware" {
-  :utilisateur: -- (Login)
-  :utilisateur: -- (Utilisation de backup)
-  (Login) .left.> (Utilisation de backup) : include
-  :utilisateur: -- (Ajout à la whitelist)
-  (Login) .right.> (Ajout à la whitelist) : include
+  :utilisateur: -- (Changer langue)
+  (Login) .up.> (Changer langue) : include
+  :utilisateur: -- (Voir l'historique des ransomwares bloqués)
+  (Login) .up.> (Voir l'historique des ransomwares bloqués) : include
+  :utilisateur: -- (Changer couleur)
+  (Login) .up.> (Changer couleur) : include
+  :utilisateur: -- (Restaurer un backup)
+  (Login) .up.> (Restaurer un backup) : include
+  (Restaurer un backup) <.down. (Backup hebdomadaire) : include
+
+  :administrateur: -- (Activer/Desactiver le logiciel)
+  (Login) .up.> (Activer/Desactiver le logiciel) : include
+  :administrateur: -- (Ajouter à la blacklist)
+  (Login) .up.> (Ajouter à la blacklist) : include
   usecase UC1 as "Relancer logiciel bloqué
   --
   **Extension points**
-  Ajout à la whitelist
+  Ajouter à la whitelist
   "
-  (Ajout à la whitelist) <.down. UC1 : extends
-  :utilisateur: -- (FeedBack et aide)
+  (Ajouter à la whitelist) <.down. UC1 : extends
+  (Login) .up.> (Ajouter à la whitelist) : include
+  :administrateur: -- (Ajouter à la whitelist)
+
+  (Détecter l'éxécution d'un ransomware) .left.> (Coupure des interfaces réseaux) : include
+  (Détecter l'éxécution d'un ransomware) .left.> (Arrêt du programme concerné) : include
+  (Détecter l'éxécution d'un ransomware) .left.> (Tentative de déchiffrement) : include
+  usecase UC2 as "Restaurer une sauvegarde
+  --
+  **Extension points**
+  Tentative de déchiffrement
+  "
+  (Tentative de déchiffrement) <.down. UC2 : extends: tentative échouée
+
 
 }
 @enduml
