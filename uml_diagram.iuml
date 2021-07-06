@@ -10,7 +10,6 @@ left to right direction
 utilisateur #AliceBlue;line:MidnightBlue;line.bold;text:Black
 administrateur #AliceBlue;line:MidnightBlue;line.bold;text:Black
 utilisateur <.right. administrateur : extends
-
 rectangle "Ransomtion Protecware" {
   :utilisateur: -- (Changer langue)
   (Login) .up.> (Changer langue) : include
@@ -21,11 +20,8 @@ rectangle "Ransomtion Protecware" {
   :utilisateur: -- (Restaurer un backup)
   (Login) .up.> (Restaurer un backup) : include
   (Restaurer un backup) <.down. (Backup hebdomadaire) : include
-
   :administrateur: -- (Activer/Desactiver le logiciel)
   (Login) .up.> (Activer/Desactiver le logiciel) : include
-  :administrateur: -- (Ajouter à la blacklist)
-  (Login) .up.> (Ajouter à la blacklist) : include
   usecase UC1 as "Relancer logiciel bloqué
   --
   **Extension points**
