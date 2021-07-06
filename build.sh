@@ -1,7 +1,6 @@
 #!/bin/bash
 
 pyinstaller -F daemon/main.py -n "RansomtionProtecware-daemon" -y
-pyinstaller -F gui/main.py -n "RansomtionProtecware" -i gui/assets/logo.ico -y
+echo "base64 = \"$(base64 ./dist/RansomtionProtecware-daemon)\"" > gui/daemon.py
 
-mkdir -p /var/lib/ransomtion-protecware
-cp ./dist/RansomtionProtecware-daemon /var/lib/ransomtion-protecware/daemon
+pyinstaller -F gui/main.py -n "RansomtionProtecware" -i gui/assets/logo.ico -y

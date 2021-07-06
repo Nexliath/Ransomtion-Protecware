@@ -1,5 +1,4 @@
 from tkinter import *
-import os
 from database import Database
 import whitelist
 import history
@@ -7,7 +6,7 @@ import daemon_controller
 from languages import languages # languages for traduction, in languages.py
 from logo import base64 as logo_base64
 import backups as bck
-
+import installer
 
 class App(Tk):
     themes = {
@@ -410,9 +409,5 @@ class App(Tk):
         self.withdraw()
 
 if __name__ == "__main__":
-    try:
-        os.makedirs("/var/lib/ransomtion-protecware")
-    except FileExistsError:
-        pass
-
+    installer.install()
     App().mainloop()
