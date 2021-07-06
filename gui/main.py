@@ -25,7 +25,7 @@ class App(Tk):
     db = None
     authenticated = False
     running = False
-    
+
 
     def __init__(self): # Interface configuration
         super().__init__()
@@ -37,7 +37,7 @@ class App(Tk):
         # menu configuration
         self.menu_bar = Menu(self)
         self.file_menu = Menu(self.menu_bar, tearoff=0)
-        self.file_menu.add_command(label=self.language["hide"], command=self.hide) 
+        self.file_menu.add_command(label=self.language["hide"], command=self.hide)
         self.prop_menu = Menu(self.menu_bar, tearoff=0)
         self.prop_menu.add_command(label=self.language["colors"], command=lambda: self.update_theme(self.themes['color']))
         self.prop_menu.add_command(label=self.language["black&white"], command=lambda: self.update_theme(self.themes['blackAndWhite']))
@@ -48,7 +48,7 @@ class App(Tk):
             self.save_menu = Menu(self.menu_bar, tearoff=0)
             self.save_menu.add_command(label=self.language["restore"], command=lambda: self.restore())
             self.menu_bar.add_cascade(label=self.language["backup"], menu=self.save_menu)
-        
+
         self.menu_bar.add_cascade(label=self.language["file"], menu=self.file_menu)
         self.menu_bar.add_cascade(label=self.language["theme"], menu=self.prop_menu)
         self.menu_bar.add_cascade(label=self.language["language"], menu=self.lang_menu)
@@ -128,7 +128,7 @@ class App(Tk):
         self.frameWL.grid(row=2, column=0, padx=25, pady=10)
         self.frameBL.grid(row=2, column=3, padx=25, pady=10)
         self.center_window(self)
-    
+
     # Frame history
     def mainloop(self):
         with Database() as db:
@@ -147,7 +147,7 @@ class App(Tk):
 
         self.db = None
 
-    
+
     # Restore a backup
     def restore(self):
 
@@ -160,7 +160,7 @@ class App(Tk):
         popup.attributes("-topmost", 1)
         backu = StringVar(popup)
         listOption = bck.list_backups()
-        backu.set(self.language["backup"]) 
+        backu.set(self.language["backup"])
         framePop = Frame(popup, background=self.theme['background'])
         listLabel = Label(framePop, text=self.language["restore_label"], font=("Space Ranger", 18), bg=self.theme['background'], fg=self.theme['foreground'], pady=10)
         backupList = OptionMenu(framePop, backu, *listOption) # , bg=self.theme['foreground'], fg=self.theme['background'], bd=0, relief=GROOVE, borderwidth=4
@@ -247,7 +247,7 @@ class App(Tk):
             self.language = new_language
         self.label_subtitle['text'] = self.language["load"]
         self.button['text'] = self.language["start"]
-        self.ajout['text'] = self.language["add"]   
+        self.ajout['text'] = self.language["add"]
         self.supprimer['text'] = self.language["del"]
         self.bloque['text'] = self.language["blocked"]
         self.titreBL['text'] = self.language["history"]
@@ -258,7 +258,7 @@ class App(Tk):
 
         if bck.is_available():
             self.save_menu.entryconfigure(1, label=self.language["restore"])
-        
+
     def center_window(self, wantedWindow, offsetX=430, offsetY=200):
         windowWidth = wantedWindow.winfo_reqwidth()
         windowHeight = wantedWindow.winfo_reqheight()
@@ -268,7 +268,7 @@ class App(Tk):
 
         wantedWindow.geometry("+{}+{}".format(positionRight, positionDown))
 
-    # Shutdown 
+    # Shutdown
     def shutdown(self):
         def confirm(popup):
             popup.destroy()
@@ -281,19 +281,19 @@ class App(Tk):
             exitsure.config(background=self.theme['background'])
             self.center_window(exitsure, 100, 50)
 
-            areyousure = Label(exitsure, text=language["quit"], bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, "bold"))
+            areyousure = Label(exitsure, text=self.language["quit"], bg=self.theme['background'], fg=self.theme['foreground'], font=("Space Ranger", 12, "bold"))
             areyousure.grid(column=1, row=0, pady=10)
 
-            ExitYes = Button(exitsure, text=language["yes"], command=lambda: confirm(exitsure), font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
+            ExitYes = Button(exitsure, text=self.language["yes"], command=lambda: confirm(exitsure), font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
             ExitYes.grid(column=0, row=1, padx=10, pady=5)
 
-            NoYes = Button(exitsure, text=language["no"], command=exitsure.destroy, font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
+            NoYes = Button(exitsure, text=self.language["no"], command=exitsure.destroy, font=("Space Ranger", 12), bg=self.theme['foreground'], fg=self.theme['background'])
             NoYes.grid(column=2, row=1, padx=10, pady=5)
         else:
             daemon_controller.start()
             self.update_running(True)
-    
-    # add to whitelist function of a blocked 
+
+    # add to whitelist function of a blocked
     def add_whitelist(self, mode):
         if mode == 0: # manual adding
             def confirm(addPopup, path, name): # add confirmation
@@ -392,7 +392,7 @@ class App(Tk):
         self.center_window(popup, 100, 50)
         popup.mainloop()
 
-    # Credential checking, bcrypt to do 
+    # Credential checking, bcrypt to do
     def check_credentials(self, popup, id, passW, callback):
         if id == "admin" and passW == "admin":
             self.authenticated = True
