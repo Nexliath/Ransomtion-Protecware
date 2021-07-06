@@ -1,6 +1,7 @@
 import os
 import sys
 import base64
+import hashlib
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
 
@@ -14,10 +15,10 @@ bit_len = 2048
 pem_max_len = 1800
 pem_prefix = "-----BEGIN RSA PRIVATE KEY-----\n"
 pem_prefix_len = len(pem_prefix)
-pem_prefix_bytes = bytes(pem_prefix, "ascii")
+pem_prefix_bytes = pem_prefix.encode("ascii")
 pem_suffix = "\n-----END RSA PRIVATE KEY-----"
 pem_suffix_len = len(pem_suffix)
-pem_suffix_bytes = bytes(pem_suffix, "ascii")
+pem_suffix_bytes = pem_suffix.encode("ascii")
 
 def test_key(data):
 	try:
@@ -59,19 +60,32 @@ def decrypt(ram_dump_path):
 	if private_key is None:
 		return False
 
-	keys = []
+	rsa_key = RSA.importKey(private_key)
+	cipher = PKCS1_OAEP.new(rsa_key)
 	with open(aes_encrypted_keys_path, "r") as f:
 		for line in f.readlines():
 			encrypted_aes_key, base64_path = line.split()
 			path = base64.b64decode(base64_path).decode("utf-8")
 			keys.append((encrypted_aes_key, path))
 
-	rsa_key = RSA.importKey(private_key)
-	cipher = PKCS1_OAEP.new(rsa_key)
-	for encrypted_aes_key, path in keys:
-		aes_key = cipher.decrypt(base64.b64decode(encrypted_aes_key))
+			aes_key = cipher.decrypt(base64.b64decode(encrypted_aes_key))
+			aes_key = hashlib.sha256(aes_key).digest()
 
-		print(aes_key, path) # TODO: Decrypt file
+			with open(path, "rb") as f:
+				encrypted_content = f.read()
+
+			encrypted_content = base64.b64decode(encrypted_content)
+			iv = encrypted_content[:AES.block_size]
+
+			cipher = AES.new(aes_key, AES.MODE_CBC, iv)
+			decrypted_content = cipher.decrypt(encrypted_content[AES.block_size:])
+			decrypted_content = decrypted_content[:-ord(decrypted_content.decode('utf-8')[len(decrypted_content)-1:])]
+
+			original_path = path.replace(".GNNCRY", "")
+			with open(original_path, "w") as f:
+				f.write(decrypted_content)
+
+        	os.remove(path)
 
 	return True
 
@@ -79,4 +93,4 @@ if __name__ == "__main__":
 	if len(sys.argv) >= 2:
 		decrypt(sys.argv[1])
 	else:
-		print("Usage: python3 decryptors <path to memory dump>")
+		print("Usage: python3 decryptors/gonnacry.py <path to memory dump>")
