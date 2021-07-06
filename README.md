@@ -66,6 +66,7 @@ Pour la connaitre, il faut suivre les étapes suivantes :
 3. Ouvrir un terminal
 4. Entrer la commande "ip -c show enp0s3"
 5. Récupérer l'adresse ip affichée  
+
 Il n'y a plus qu'à recopier cette adresse.  
 Une confirmation du choix est proposée.  
 Il faut vérifier que l'adresse ip a bien été remplie et valider.  
