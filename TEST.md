@@ -36,6 +36,7 @@ cd ~
 mkdir test
 for i in {1..10}; do
 	dd if=/dev/urandom of=test/$i.txt bs=1024 count=10240
+	md5 test/$i.txt >> test/md5sums
 done
 ```
 

