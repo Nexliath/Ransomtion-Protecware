@@ -4,10 +4,11 @@ Application anti-virus spécialisée contre les ransomwares réalisée comme pro
 
 ## Table des matières
 1. [Informations générales](#informations-générales)
-2. [Compatibilité](#compatibilité)
-3. [Option de sauvegardes](#option-de-sauvegardes)
-4. [Installation et lancement](#installation-et-lancement)
-5. [Contributeurs](#contributeurs)
+2. [Prévention](#prévention)
+3. [Compatibilité](#compatibilité)
+4. [Option de sauvegardes](#option-de-sauvegardes)
+5. [Installation et lancement](#installation-et-lancement)
+6. [Contributeurs](#contributeurs)
 
 ## Informations générales
 Ransomtion Protecware est un programme développé en Python compatible Linux et pouvant être utilisé en parallèle d'un serveur de backup.\
@@ -31,6 +32,12 @@ Les différentes fonctionnalités présentes sont :
     * Visibilité de l'historique des ransomwares bloqués
 
 ![startuml](http://www.plantuml.com/plantuml/png/fPFFRXCn4CRlVefHERIDr21wJ15gqd832PK_TyUUP4szzdRiQIgXlWlNy1hxOemtObcL3K55Yf9e_Cqtttf-UvcofiorL-dMXKQJhe4J6fqGlgc5DhThYXpiLVIHOEwTmOLdL8j85cbNVUziSEigTmTpehZPrJzgNyUW7fNokCgG8r2HWNM49ZivKfoTTqbdP88NlVk5Tm5dGzkkCbr6RoyoFkJPmaiofMtjWakPdcim7FzwsgMRmXFN6OWUWqsgfDPXxH6ERdH8iIxF01yePZGRJNWaDmOm6vZEuEmCJgugwK82Bp-Cfw8vUHVNBfp2b9lfcpy4Cj85uzdYgDsNw4HwN4d4IEwE4Imce2vHYP5WwUCTjziqCkhVcm_4w4ERo5wA8xEUA0uPtc3AcaaQEC1IriFDYEcOQcWyhf3jshW9KpXPT0MeS6bZhQrszFJ2-_qFiis5rtkabzUOzEulU0GloOn3FnBpGCDmOl--VRvw1Je9NEXrC4Yz_DTE54WO-PfCtXOaKy6lYIxaD9b8UVurSfQszZju3PlAPVGkPJavAW7t7FTtqytlQHzvfF7-WxUtlrEL8TVjDgF9MB1ijm_jrd3tNjbZ3WCm9OR7LUwuYjmmxSXrGJfNsXI81LhK_308z3p_EL7x8uDbQ2YkITSrWebb8w7T_hVx9mnP5oB0oaSQAhTQ4TPIteV5UOV5a6k4fFaUrvei7g1Y_xoUZBz8XdIS_wPZ1hdlAVeeTA9Iwb5ToZ7N_YS0)
+
+## Prévention
+Avant même d'installer un logiciel pour se protéger, rappelons nous que c'est surtout le facteur humain qui engendre des risques.\
+Une documentation accessible à tous est donc disponible avec notre projet.\
+![Documentation](https://github.com/Nexliath/Ransomtion-Protecware/blob/main/documentation/RANSOMTION%20PROTECWARE%20Pr%C3%A9vention%20employ%C3%A9.pdf)
+Elle rappelle les sources d'attaque, le facteur humain, les actions à éviter, les bonnes pratiques mais aussi comment réagir.
 
 ## Compatibilité
 Ransomtion Protecware doit être installé sur chaque machine à protéger.\
