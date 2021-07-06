@@ -1,5 +1,6 @@
 # Ransomtion Protecware
 Application anti-virus spécialisée contre les ransomwares réalisée comme projet au sein d'Efrei Paris lors du Mastercamp L3 2021.
+![interface graphique](https://github.com/Nexliath/Ransomtion-Protecware/blob/main/interface.png)
 
 ## Table des matières
 1. [Informations générales](#informations-générales)
