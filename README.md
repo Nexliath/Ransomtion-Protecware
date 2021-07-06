@@ -35,8 +35,7 @@ Les différentes fonctionnalités présentes sont :
 
 ## Prévention
 Avant même d'installer un logiciel pour se protéger, rappelons nous que c'est surtout le facteur humain qui engendre des risques.\
-Une documentation accessible à tous est donc disponible avec notre projet.\
-![Documentation](https://github.com/Nexliath/Ransomtion-Protecware/blob/main/documentation/RANSOMTION%20PROTECWARE%20Pr%C3%A9vention%20employ%C3%A9.pdf)
+Une [Documentation](https://github.com/Nexliath/Ransomtion-Protecware/blob/main/documentation/RANSOMTION%20PROTECWARE%20Pr%C3%A9vention%20employ%C3%A9.pdf) accessible à tous est donc disponible avec notre projet.\
 Elle rappelle les sources d'attaque, le facteur humain, les actions à éviter, les bonnes pratiques mais aussi comment réagir.
 
 ## Compatibilité
