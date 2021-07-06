@@ -36,7 +36,7 @@ def main():
     os.chmod(backup_script, st.st_mode | stat.S_IEXEC | stat.S_IXGRP)
 
     with open("/var/spool/cron/crontabs/root", "a") as f:
-        f.write("0 4 * * 1\t%s" % backup_script)
+        f.write("\n0 4 * * 1\t%s\n" % backup_script)
 
     os.system("service cron reload")
 

