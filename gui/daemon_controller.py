@@ -4,7 +4,7 @@ import os
 import signal
 import subprocess
 
-# State controller 
+# State controller
 def check_running(callback):
 	def run():
 		while True:

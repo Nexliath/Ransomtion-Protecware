@@ -1,6 +1,6 @@
 import sqlite3
 
-class Database(): 
+class Database():
     connection = None
 
     def __init__(self, path="/var/lib/ransomtion-protecware/processes.db"):

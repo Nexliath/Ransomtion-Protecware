@@ -16,22 +16,26 @@ def shutdown_network():
 		os.system("ip link set %s down" % interface)
 
 def dump_ram(proc):
+	ram_dump_path = "/var/lib/ransomtion-protecware/%s.bin" % proc.pid
 	with open("/proc/%s/maps" % proc.pid, "r") as maps:
-		for line in maps.readlines():
-			m = re.match(r"([0-9A-Fa-f]+)-([0-9A-Fa-f]+) [-r][-w][-x][-p] [0-9A-Fa-f]+ [0-9A-Fa-f]+:[0-9A-Fa-f]+ [0-9]+\s+(.*)", line)
-			if m and m.group(3) == "[stack]":
-				start = int(m.group(1), 16)
-				end = int(m.group(2), 16)
+		with open("/proc/%s/mem" % proc.pid, "rb") as mem:
+			with open(ram_dump_path, "wb") as dump:
+				for line in maps.readlines():
+					m = re.match(r"^([0-9A-Fa-f]+)-([0-9A-Fa-f]+) ([-r][-w][-x][-p]) ([0-9A-Fa-f]+) ([0-9A-Fa-f]+):([0-9A-Fa-f]+) ([0-9]+)\s+(.*)$", line)
+					if not m or not m.group(3).startswith("rw"):
+						continue
 
-				with open("/proc/%s/mem" % proc.pid, "rb") as mem:
-					mem.seek(start)
-					chunk = mem.read(end - start)
+					start = int(m.group(1), 16)
+					end = int(m.group(2), 16)
 
-				ram_dump_path = "%s.bin" % proc.pid
-				with open(ram_dump_path, "wb") as dump:
-					dump.write(chunk)
+					try:
+						mem.seek(start)
+						chunk = mem.read(end - start)
+						dump.write(chunk)
+					except:
+						pass
 
-				return ram_dump_path
+	return ram_dump_path
 
 def block(proc, reason):
 	try:
