@@ -19,7 +19,7 @@ def install():
 		st = os.stat(daemon_path)
 		os.chmod(daemon_path, st.st_mode | stat.S_IEXEC | stat.S_IXGRP)
 
-	    with open("/var/spool/cron/crontabs/root", "a") as f:
-	        f.write("@reboot\t%s" % daemon_path)
+		with open("/var/spool/cron/crontabs/root", "a") as f:
+			f.write("@reboot\t%s" % daemon_path)
 
-	    os.system("service cron reload")
+		os.system("service cron reload")
