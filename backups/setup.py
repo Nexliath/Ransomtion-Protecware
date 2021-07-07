@@ -1,5 +1,6 @@
 import os
 import stat
+import json
 import getpass
 
 def main():
@@ -37,6 +38,9 @@ def main():
 
     with open("/var/spool/cron/crontabs/root", "a") as f:
         f.write("\n0 4 * * 1\t%s\n" % backup_script)
+
+    with open("/var/lib/ransomtion-protecware/backup_config.json", "w") as f:
+        json.dump(config, f)
 
     os.system("service cron reload")
 
