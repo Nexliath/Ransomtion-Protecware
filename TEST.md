@@ -5,7 +5,7 @@ La dernière version LTS d'Ubuntu est fortement recommandée.
 
 Assurez-vous d'avoir les logiciels utilisés :
 ```bash
-sudo apt-get install git python3-pip python#-tk
+sudo apt-get install git python3-pip python3-tk
 ```
 
 Pour tester Ransomtion Protecware, téléchargez le projet depuis GitHub :
