@@ -62,7 +62,7 @@ cd GonnaCry/src
 
 Installez les dépendances :
 ```bash
-pip3 install -r requeriments.txt
+pip3 install -r requirements.txt
 ```
 
 Compilez depuis les sources :
